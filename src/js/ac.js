@@ -313,9 +313,13 @@
 
                 break;
             case 6:
-                if (this.params.onlytrim) break;
-
                 aclib.log("> Encode/Mux");
+
+                if (this.params.onlytrim) {
+                    aclib.log(">> make Video Index");
+                    if (!this.mkVindex()) return false;
+                    break
+                };
 
                 switch (this.preset.audio.type) {
                     case "none":
@@ -642,10 +646,10 @@
 
         // Trim
         if (this.params.onlytrim) {
-            if (this.params.trim === "none" && !this.params.edittrim) {
-                aclib.log("No trim params.", 1);
-                return false;
-            }
+            // if (this.params.trim === "none" && !this.params.edittrim) {
+            //    aclib.log("No trim params.", 1);
+            //    return false;
+            // }
             this.params.caption2ass = false;
             this.params.autovfr = false;
         }
@@ -2536,6 +2540,53 @@
             }
 
             this.options.mux.audio.push(fakeaacwav_ext.path());
+        }
+
+        return true;
+    };
+
+    AutoConvert.prototype.mkVindex = function() {
+        var avspmod_avs = new File(this.options.temp + ".avspmod.avs");
+        var template_avs = new File(this.path.avspmod_avs);
+        var trim = this.options.avs.trim;
+
+        var script = template_avs.read("Shift-JIS");
+
+        if (script === null) {
+            aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
+            return false;
+        }
+
+        // Replace
+        script = script.replace(/__path__/g, aclib.path());
+        script = script.replace(/__video__/g, this.options.avs.video[0]);
+        script = script.replace(/__audio__/g, this.options.avs.audio[0]);
+        script = script.replace(/__delay__/g, this.options.avs.delay[0]);
+
+        if (trim.length !== 0) {
+            var trim_str = trim.map(function(value) {
+                return "Trim(" + value.start + ", " + value.end + ")";
+            }).join(" ++ ");
+            script = script.replace(/#__trim__/g, trim_str);
+        }
+
+        if (!avspmod_avs.write(script, "Shift-JIS")) {
+            aclib.log("Can't write file. [" + avspmod_avs.path() + "]", 1);
+            return false;
+        }
+
+        // Run process
+        var proc = new Process('"${avs2pipemod}" ${mode} "${input}"');
+
+        proc.prepare({
+            avs2pipemod: this.path.avs2pipemod,
+            mode: "-info",
+            input: avspmod_avs.path()
+        }, {window: this.settings.window, debug: this.options.debug});
+
+        if (!proc.run()) {
+            aclib.log("Process failed.", 1);
+            return false;
         }
 
         return true;
