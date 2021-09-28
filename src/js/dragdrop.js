@@ -35,7 +35,7 @@ if ("SetText" in objOLEDragDrop) {
         $("#list").hide();
         $("#objOLEDragDrop").show();
     });
-    
+
     $("#objOLEDragDrop").bind("dragleave", function() {
         $("#list").show();
         $("#objOLEDragDrop").hide();
