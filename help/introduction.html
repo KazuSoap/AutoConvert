@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AutoConvert</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="title">AutoConvert</a>
+      <ul>
+        <li><a href="index.html">概要</a></li>
+        <li><a href="introduction.html" class="active">導入</a></li>
+        <li><a href="settings.html">設定</a></li>
+        <li><a href="usage.html">使い方</a></li>
+        <li><a href="versions.html">更新履歴</a></li>
+      </ul>
+    </header>
+    <main>
+      <h1>導入</h1>
+      <p>Avisynthのプラグインは標準のプラグインフォルダではなく、AutoConvertのpluginsフォルダに入れてください。また、Avisynth関連のソフトウェア・プラグインはすべて32bitで揃えてください。</p>
+      
+      <h2>ソフトウェア</h2>
+      <div class="section">
+        <h3><a href="http://sourceforge.net/projects/avisynth2/">Avisynth</a></h3>
+        <p>動画編集ソフトウェア(フレームサーバ)</p>
+        <p>Avisynth_258.exeまたはalpha版をダウンロード</p>
+        <p>インストーラに従ってインストール</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://github.com/chikuzen/avs2pipemod/releases">avs2pipemod</a></h3>
+        <p>avsファイルを標準出力に出力</p>
+        <p>設定の AutoConvert -> パス -> avs2pipemod に avs2pipemod.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www3.wazoku.net/2sen/dtvup/">TsSplitter</a></h3>
+        <p>MPEG-2 TSの分割など</p>
+        <p>設定の AutoConvert -> パス -> TsSplitter に TsSplitter.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://ffmpeg.zeranoe.com/builds/">ffprobe</a></h3>
+        <p>MPEG-2 TSを解析</p>
+        <p>正しいPIDが取得できないなどの場合に使用してください</p>
+        <p>設定の AutoConvert -> パス -> ffprobe に ffprobe.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://rationalqm.us/dgmpgdec/dgmpgdec.html">DGMPGDec</a></h3>
+        <p>MPEG-2 TSからAACを分離, MPEG-2 Videoのデコード</p>
+        <p>設定の AutoConvert -> パス -> DGIndex に DGIndex.exe へのパスを記述</p>
+        <p>DGDecode.dll -> plugins\DGDecode.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://rationalqm.us/dgdecnv/dgdecnv.html">DGDecNV</a></h3>
+        <p>DGMPGDecのCUDA版(有料)</p>
+        <p>設定の AutoConvert -> パス -> DGIndexNV に DGIndexNV.exe へのパスを記述</p>
+        <p>DGDecodeNV.dll -> plugins\DGDecodeNV.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www3.wazoku.net/2sen/dtvup/">ts2aac</a></h3>
+        <p>MPEG-2 TSからAACを分離</p>
+        <p>設定の AutoConvert -> パス -> ts2aac に ts2aac.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://onedrive.live.com/?cid=8658EC275D9699D5&id=8658EC275D9699D5!1696">ts_parser</a></h3>
+        <p>MPEG-2 TSからAACを分離</p>
+        <p>設定の AutoConvert -> パス -> ts_parser に ts_parser.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www.kaashoek.com/comskip/">Comskip</a></h3>
+        <p>CMカット</p>
+        <!--<p>logoフォルダに ロゴ名.logo.txt、ロゴ.ini が存在する場合、自動的に読み込みます。</p>
+        <p>通常は、設定の AutoConvert -> パス -> comskip - ini に存在するiniを読み込みます。</p>-->
+        <p>設定の AutoConvert -> パス -> Comskip に comskip.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://loggialogic.blogspot.jp/">logoGuillo</a></h3>
+        <p>CMカット</p>
+        <p>設定の AutoConvert -> パス -> logoGuillo に logoGuillo.exe へのパスを記述</p>
+        <p>logoフォルダに ロゴ名.lgd、ロゴ名.lgd.autoTune.param を配置</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www1.axfc.net/u/3458102.zip">join_logo_scp</a></h3>
+        <p>CMカット</p>
+        <p>本来3つのソフトですが、AutoConvert上ではjoin_logo_scpとひとくくりで扱います。</p>
+        <!--<p>logoフォルダに ロゴ名.joinlogoscp.txt が存在する場合、自動的に読み込みます。</p>-->
+        <p>設定の AutoConvert -> パス -> logoframe に logoframe.exe へのパスを記述</p>
+        <p>設定の AutoConvert -> パス -> chapter_exe に chapter_exe.exe へのパスを記述</p>
+        <p>設定の AutoConvert -> パス -> join_logo_scp に join_logo_scp.exe へのパスを記述</p>
+        <p>logoフォルダに ロゴ名.lgd を配置</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://github.com/AvsPmod/AvsPmod/releases">AvsPmod</a></h3>
+        <p>avsファイル編集</p>
+        <p>設定の AutoConvert -> パス -> AvsPmod に AvsPmod.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://onedrive.live.com/?id=8658EC275D9699D5!1640&cid=8658EC275D9699D5">Caption2Ass</a></h3>
+        <p>字幕の抽出</p>
+        <p>設定の AutoConvert -> パス -> Caption2Ass に Caption2Ass_PCR.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://putin999.blog.fc2.com/">AutoVfr</a></h3>
+        <p>自動可変フレームレート</p>
+        <p>設定の AutoConvert -> パス -> AutoVfr に AutoVfr.exe へのパスを記述</p>
+        <p>Its.dll -> plugins\Its.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://sites.google.com/site/qaacpage/">qaac</a></h3>
+        <p>AACのエンコーダ</p>
+        <p>設定の プリセット -> (qaacを使用するプリセット) -> 音声 -> エンコーダーのパス に qaac.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="#">neroAacEnc</a></h3>
+        <p>AACのエンコーダ</p>
+        <p>設定の プリセット -> (neroAacEncを使用するプリセット) -> 音声 -> エンコーダーのパス に neroAacEnc.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://x264.nl/">x264</a></h3>
+        <p>H.264のエンコーダ</p>
+        <p>設定の プリセット -> (x264を使用するプリセット) -> 映像 -> エンコーダーのパス に x264.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://rigaya34589.blog135.fc2.com/">QSVEnc</a></h3>
+        <p>H.264のエンコーダ</p>
+        <p>設定の プリセット -> (QSVEncを使用するプリセット) -> 映像 -> エンコーダーのパス に QSVEncC.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://rigaya34589.blog135.fc2.com/">NVEnc</a></h3>
+        <p>H.264のエンコーダ</p>
+        <p>設定の プリセット -> (NVEncを使用するプリセット) -> 映像 -> エンコーダーのパス に NVEncC.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://ffmpeg.zeranoe.com/builds/">FFmpeg</a></h3>
+        <p>エンコーダ</p>
+        <p>設定の プリセット -> (FFmpegを使用するプリセット) -> 映像 -> エンコーダーのパス に ffmpeg.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://pop.4-bit.jp/">L-SMASH</a></h3>
+        <p>MP4のMuxer</p>
+        <p>設定の AutoConvert -> パス -> L-SMASH muxer に muxer.exe へのパスを記述</p>
+        <p>設定の AutoConvert -> パス -> L-SMASH remuxer に remuxer.exe へのパスを記述</p>
+        <p>設定の AutoConvert -> パス -> L-SMASH timelineeditor に timelineeditor.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://sada5.sakura.ne.jp/files/index.php?folder=TVA0Qm94">MP4Box</a></h3>
+        <p>MP4のMuxer</p>
+        <p>設定の AutoConvert -> パス -> MP4Box に MP4Box.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www.fosshub.com/MKVToolNix.html">mkvmerge</a></h3>
+        <p>MatroskaのMuxer</p>
+        <p>設定の AutoConvert -> パス -> mkvmerge に mkvmerge.exe へのパスを記述</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://saysaysay.net/rplstool/rplsinfo/">rplsinfo</a></h3>
+        <p>MPEG-2 TSから番組情報等を取得</p>
+        <p>EpgDataCapBonが作成する".program.txt"がない場合(TvTestなどで録画したときなど)に使用してください</p>
+        <p>設定の AutoConvertUtility -> 全般 -> rplsinfo に rplsinfo.exe へのパスを記述</p>
+        <p>設定の AutoConvertUtility -> 全般 -> rplsinfo使用 を チェック</p>
+      </div>
+      <div class="section">
+        <h3><a href="#">SCRename</a></h3>
+        <p>しょぼいカレンダーから情報を取得</p>
+        <p>設定の AutoConvertUtility -> 全般 -> SCRename に SCRename.vbs へのパスを記述</p>
+        <p>設定の AutoConvertUtility -> 全般 -> SCRename使用 を チェック</p>
+      </div>
+      
+      <h2>Avisynthプラグイン</h2>
+      <div class="section">
+        <h3><a href="http://web.archive.org/web/20151125175557/http://bengal.missouri.edu/~kes25c/">TDeint</a></h3>
+        <p>インターレース解除</p>
+        <p>TDeint.dll -> plugins\TDeint.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://web.archive.org/web/20151125175557/http://bengal.missouri.edu/~kes25c/">TIVTC</a></h3>
+        <p>逆テレシネ</p>
+        <p>TIVTC.dll -> plugins\TIVTC.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://web.archive.org/web/20151125175557/http://bengal.missouri.edu/~kes25c/">nnedi3</a></h3>
+        <p>インターレース解除</p>
+        <p>nnedi3.dll -> plugins\nnedi3.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://avisynth.org.ru/mvtools/mvtools2.html">MVTools v2</a></h3>
+        <p>動きベクトルの解析</p>
+        <p>mvtools2.dll -> plugins\mvtools2.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="https://github.com/makiuchi-d/delogo-avisynth/releases">delogo</a></h3>
+        <p>ロゴ除去</p>
+        <p>delogo.dll -> plugins\delogo.dll</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://www.rutice.net/">aacfaw</a></h3>
+        <p>faw読み込み</p>
+        <p>aacfaw.aui -> plugins\aacfaw.aui</p>
+      </div>
+      <div class="section">
+        <h3><a href="http://pop.4-bit.jp/">L-SMASH Works</a></h3>
+        <p>メディア読み込み</p>
+        <p>LSMASHSource.dll -> plugins\LSMASHSource.dll</p>
+      </div>
+    </main>
+  </body>
+</html>

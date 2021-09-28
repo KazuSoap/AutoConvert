@@ -1,0 +1,15 @@
+{
+    "video": {
+        "type": "specific",
+        "extension": "264",
+        "encoder": "${path}\\bin\\x264\\x264.r2409_win32.exe",
+        "option": "${video} --demuxer y4m --bframes 6 --b-adapt 2 --ref 4 --deblock 0:0 --crf 21 --rc-lookahead 60 --qpstep 8 --aq-mode 2 --aq-strength 0.8 --qcomp 0.7 --direct auto --me umh --merange 24 --subme 10 --psy-rd 1.0:0.15 --trellis 2 -o ${output}"
+    },
+    "audio": {
+        "type": "normal",
+        "extension": "m4a",
+        "encoder": "neroAacEnc.exeへのパス",
+        "option": "-q 1 -if ${wav} -of ${output}"
+    },
+    "muxer": "lsmuxer"
+}

@@ -1,0 +1,241 @@
+/* AutoConvert readme css */
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #444;
+  background: #fff;
+  font-family: "メイリオ", sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: #03a679;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  text-align: center;
+}
+
+h1 {
+  margin: 50px 0;
+  font-size: 40px;
+}
+
+h2 {
+  margin: 40px 0;
+  color: #666;
+  font-size: 30px;
+}
+
+h3 {
+  margin: 30px 0;
+  color: #666;
+  font-size: 20px;
+}
+
+ul, dl {
+  margin: 0 0 30px;
+}
+
+dt {
+  display: inline-block;
+  width: 100px;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+
+dd {
+  display: inline-block;
+  position: relative;
+  width: calc(100% - 200px);
+  margin: 0;
+  padding: 0 0 0 20px;
+  border-left: 1px solid #ccc;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+dd ul {
+  margin-bottom: 0;
+}
+
+ul.tree, ul.tree ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.tree ul {
+  margin-left: 20px; 
+  position: relative;
+}
+
+ul.tree ul:before {
+  content: "";
+  display: block;
+  width: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-left: 1px solid #888;
+}
+
+ul.tree li  {
+  margin: 0;
+  padding: 3px 0;
+  position: relative;
+}
+
+ul.tree li li {
+  padding-left: 20px;
+}
+
+ul.tree ul li:before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 0;
+  border-top: 1px solid #888;
+  position: absolute;
+  top: 15px;
+  left: 0;
+}
+
+ul.tree ul li:last-child:before {
+  background: #fff; 
+  height: auto;
+  top: 15px; 
+  bottom: 0;
+}
+
+ul.tree li span {
+  position: absolute;
+  left: 240px;
+  top: 0;
+  color: #888;
+}
+
+ul.tree li li span {
+  left: 200px;
+}
+
+ul.tree li li li span {
+  left: 160px;
+}
+
+ul.tree li li li li span {
+  left: 120px;
+}
+
+header, main {
+  margin: 0 auto;
+  padding: 0 40px;
+  max-width: 1000px;
+}
+
+header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+header a:hover {
+  text-decoration: none;
+}
+
+header .title {
+  display: block;
+  float: left;
+  color: #666;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  line-height: 40px;
+}
+
+header .title:before {
+  display: inline-block;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  background-image: url("../svg/ac.svg");
+  background-size: cover;
+  vertical-align: middle;
+  content: "";
+}
+
+header ul {
+  float: right;
+  margin: 0;
+}
+
+header ul li {
+  display: block;
+  float: left;
+}
+
+header ul a {
+  display: block;
+  padding: 0 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+header ul a:hover {
+  background: #eee;
+}
+
+header ul a.active {
+  color: #fff;
+  background: #03a679;
+}
+
+main {
+  padding-bottom: 40px;
+  max-width: 800px;
+}
+
+.section {
+  display: inline-block;
+  width: calc(50% - 30px);
+  margin: 0 10px 20px;
+  padding: 30px 20px 20px;
+  color: #666;
+  background: #eee;
+  font-size: 14px;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+.section p {
+  margin-bottom: 6px;
+}
+
+.section h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.clr:after,
+header:after,
+header ul:after {
+  display: block;
+  clear: both;
+  content: "";
+}

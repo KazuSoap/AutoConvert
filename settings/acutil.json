@@ -1,0 +1,40 @@
+{
+    "path": {
+        "output": "",
+        "move": "",
+        "rplsinfo": "${path}\\bin\\rplsinfo\\rplsinfo.exe",
+        "screname": "${path}\\bin\\SCRename\\SCRename.vbs"
+    },
+    "args": {
+        "avs": "720p",
+        "preset": "x264_fakeaacwav"
+    },
+    "params": {
+        "reset": false,
+        "clean": true,
+        "onlytrim": false,
+        "tssplitter": false,
+        "ffprobe": false,
+        "source": "lssource",
+        "demuxer": "tsparser",
+        "trim": "none",
+        "edittrim": false,
+        "caption2ass": false,
+        "autovfr": false,
+        "eraselogo": false,
+        "editavs": false
+    },
+    "macro": {
+        "dir": "${title2}",
+        "file": "${title2}(( ${part}))(( 第${number2}話))(( 「${subtitle}」))"
+    },
+    "settings": {
+        "log": true,
+        "pause": true,
+        "move": false,
+        "programtxt": true,
+        "rplsinfo": true,
+        "screname": true,
+        "checkdrop": false
+    }
+}

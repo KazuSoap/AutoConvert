@@ -1,0 +1,15 @@
+{
+    "video": {
+        "type": "general",
+        "extension": "mp4",
+        "encoder": "${path}\\bin\\ffmpeg\\bin\\ffmpeg.exe",
+        "option": "-i ${video} -i ${audio} -vcodec libx264 -bf 6 -b_strategy 2 -refs 4 -deblock 0:0 -crf 21 -qdiff 8 -qcomp 0.7 -direct-pred auto -me_method umh -me_range 24 -subq 10 -trellis 2 -x264opts rc-lookahead=60:aq-mode=2:aq-strength=0.8:psy-rd=1.0,0.15 -acodec aac -strict experimental -ab 384k -ac 2 -ar 48000 -f mp4 ${output}"
+    },
+    "audio": {
+        "type": "none",
+        "extension": "",
+        "encoder": "",
+        "option": ""
+    },
+    "muxer": "none"
+}

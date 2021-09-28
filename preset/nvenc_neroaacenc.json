@@ -1,0 +1,15 @@
+{
+    "video": {
+        "type": "specific",
+        "extension": "264",
+        "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x86\\NVEncC.exe",
+        "option": "--y4m --cqp 21:23:23 -i ${video} -o ${output}"
+    },
+    "audio": {
+        "type": "normal",
+        "extension": "m4a",
+        "encoder": "neroAacEnc.exeへのパス",
+        "option": "-q 1 -if ${wav} -of ${output}"
+    },
+    "muxer": "lsmuxer"
+}

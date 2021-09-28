@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job id="AutoConvert">
+    <script language="JScript" src="lib/es5-shim.js" />
+    <script language="JScript" src="lib/json2.js" />
+    <script language="JScript" src="js/aclib.js" />
+    <script language="JScript" src="js/ac.js" />
+    <script language="JScript">
+    <![CDATA[
+        (function() {
+            var args = [];
+            var objArgs = WScript.Arguments;
+            for (var i = 0; i < objArgs.length; i++) {
+                args.push(objArgs(i));
+            }
+            if (/wscript\.exe$/i.test(WScript.FullName)) {
+                for (var i = 0; i < args.length; i++) {
+                    args[i] = ' "' + args[i] + '"';
+                }
+                WScript.Quit(aclib.shell.Run('cscript //nologo "' + WScript.ScriptFullName + '"' + args.join(), 7, true));
+            } else {
+                var ac = new AutoConvert(args);
+                var ret;
+                try {
+                    ret = ac.execute();
+                } catch(e) {
+                    aclib.log(e.message, 1);
+                    ret = -1;
+                }
+                WScript.Sleep(5000);
+                WScript.Quit(ret);
+            }
+        })();
+    ]]>
+    </script>
+</job>

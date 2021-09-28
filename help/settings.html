@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AutoConvert</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="title">AutoConvert</a>
+      <ul>
+        <li><a href="index.html">概要</a></li>
+        <li><a href="introduction.html">導入</a></li>
+        <li><a href="settings.html" class="active">設定</a></li>
+        <li><a href="usage.html">使い方</a></li>
+        <li><a href="versions.html">更新履歴</a></li>
+      </ul>
+    </header>
+    <main>
+      <h1>設定</h1>
+      <p>設定にはAutoConvertSettingsを使用します。Settings.batで起動できます。</p>
+      <h2>AutoConvert</h2>
+      <h3>パス</h3>
+      <p>各アプリケーションへのパスを指定します。AutoConvertフォルダは${path}マクロに置換されます。</p>
+      <h3>引数</h3>
+      <p>各アプリケーションに使用する引数を指定します。</p>
+      <h3>その他</h3>
+      <p>AutoConvertに関するその他の設定です。</p>
+      <p>"ポーズ"は失敗した際にリトライできるように中断できます。</p>
+      <p>"ウィンドウモード"は各アプリケーションを起動する際のウィンドウ状態を指定します。</p>
+      <h2>AutoConvertUtility</h2>
+      <h3>全般</h3>
+      <p>AutoConvertUtilityに関する全般の設定です。</p>
+      <p>ディレクトリ名とファイル名にはマクロが使用できます。マクロは二重括弧 (( )) で囲むと、括弧内のマクロが空白だった場合、括弧ごと削除されます。</p>
+      <ul>
+        <li>${original} - 入力ファイル名</li>
+        <li>${service} - サービス名</li>
+        <li>${title} - タイトル</li>
+        <li>${title2} - タイトル(しょぼいカレンダーから取得)</li>
+        <li>${subtitle} - サブタイトル</li>
+        <li>${genre} - 親ジャンル</li>
+        <li>${genre2} - 子ジャンル</li>
+        <li>${part} - パート</li>
+        <li>${number} - 話数</li>
+        <li>${number2} - 話数(2桁)</li>
+        <li>${number3} - 話数(3桁)</li>
+        <li>${number4} - 話数(4桁)</li>
+        <li>${YY} - 開始年(2桁)</li>
+        <li>${YYYY} - 開始年</li>
+        <li>${M} - 開始月</li>
+        <li>${MM} - 開始月(2桁)</li>
+        <li>${D} - 開始日</li>
+        <li>${DD} - 開始日(2桁)</li>
+        <li>${W} - 開始曜日</li>
+        <li>${h} - 開始時</li>
+        <li>${hh} - 開始時(2桁)</li>
+        <li>${m} - 開始分</li>
+        <li>${mm} - 開始分(2桁)</li>
+        <li>${s} - 開始秒</li>
+        <li>${ss} - 開始秒(2桁)</li>
+        <li>${_YY} - 終了年(2桁)</li>
+        <li>${_YYYY} - 終了年</li>
+        <li>${_M} - 終了月</li>
+        <li>${_MM} - 終了月(2桁)</li>
+        <li>${_D} - 終了日</li>
+        <li>${_DD} - 終了日(2桁)</li>
+        <li>${_W} - 終了曜日</li>
+        <li>${_h} - 終了時</li>
+        <li>${_hh} - 終了時(2桁)</li>
+        <li>${_m} - 終了分</li>
+        <li>${_mm} - 終了分(2桁)</li>
+        <li>${_s} - 終了秒</li>
+        <li>${_ss} - 終了秒(2桁)</li>
+        
+      </ul>
+      <h3>パラメータ</h3>
+      <p>AutoConvertUtilityのパラメータの初期値です。</p>
+      <img src="./img/settings_parameter.png" style="width: 100%;">
+      <p>"avsファイル"と"プリセット"は、使用するavsファイルとプリセットを選択します。それぞれavsフォルダとpresetフォルダに入っているものが選択できます。</p>
+      <p>"リセット"は、前回の処理データを使用せずに処理します。<br>"クリーン"は、正常に終了した場合に処理データを削除します。<br>"CMカットのみ"は、CMカットの処理データを保存するだけで、エンコードはしません。<br>"TsSplitter"は、TsSplitterを使用したあとにエンコードを行います。<br>"ffprobe"は、ffprobeを使用して正確に映像と音声を指定できます。<br>"avsファイル編集"は、エンコード前にavsファイルを編集できます。</p>
+      <p>"ソースの読み込み"は、TSの読み込みに使用するデコーダーを選択します。</p>
+      <p>"Demuxer"は、音声ファイルの分離に使用するDemuxerを選択します。L-SMASH Sourceで直接読み込みたい場合や、DGIndexで分離された音声ファイルを使用したい場合などは、"分離しない"を選択することも出来ます</p>
+      <p>"CMカット"は、CMカットに使用するツールを選択します。logoGuilloやjoin_logo_scpなどはロゴデータが必要になります。ロゴデータはaviutlの"透過性ロゴフィルタプラグイン"で作成出来ます。また、AvsPmodを使用した"手動CMカット"も出来ます。</p>
+      <p>"Caption2Ass"は、字幕がついている場合に、字幕を分離して使用することが出来ます。<br>"AutoVfr"は、可変フレームレートを使用できます。<br>"Erase_LOGO"は、ロゴデータがある場合にロゴを消去することが出来ます。</p>
+      <h2>その他</h2>
+      <h3>コンフィグ</h3>
+      <p>サービスやタイトルなどに含まれる文字列によって、AutoConvertUtilityのパラメータを変更します。コンフィグは上から順に実行されます。</p>
+      <p>親リストは、ターゲットとなる種類を選択します。追加するには、リストを何も選択しない状態で、追加ボタンをクリックします。変更するには、リストを選択した状態で、編集ボタンをクリックします。</p>
+      <p>子リストは、ターゲットに含まれる文字列を記述します。追加するには、リストを何も選択しない状態で、含まれる文字列とパラメータを記入して追加ボタンをクリックします。変更するには、リストを選択した状態で、含まれる文字列とパラメータを記入します。また、設定をコピーするには、リストを選択した状態で、コピーボタンをクリックします。</p>
+      <img src="./img/settings_config.png" style="width: 100%;">
+      <p>上記の例では、タイトルにアンパンマンが含まれていた場合、"avsファイル"を"1080_ivtc"にして、"クリーン"はせず、"CMカット"を"join_logo_scp"に変更します。</p>
+      <h3>プリセット</h3>
+      <p>エンコードで使われるプリセットです。各プリセットはファイル毎に分かれています。プリセットファイルを切り替えることによって、エンコーダーとその設定を変更することができます。</p>
+    </main>
+  </body>
+</html>

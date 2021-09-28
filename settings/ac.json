@@ -1,0 +1,49 @@
+{
+    "path": {
+        "temp": "${path}\\temp",
+        "avs2pipemod": "${path}\\bin\\avs2pipemod\\avs2pipemod.exe",
+        "tssplitter": "${path}\\bin\\tssplitter\\TsSplitter.exe",
+        "ffprobe": "${path}\\bin\\ffmpeg\\bin\\ffprobe.exe",
+        "dgindex": "${path}\\bin\\dgmpgdec\\DGIndex.exe",
+        "dgindexnv": "",
+        "dgindexim": "",
+        "tsparser": "${path}\\bin\\MPEG-API_Utils\\bin\\x86\\ts_parser.exe",
+        "ts2aac": "${path}\\bin\\ts2aac\\ts2aac.exe",
+        "comskip": "",
+        "comskip_ini": "${path}\\others\\comskip.ini",
+        "logoguillo": "",
+        "logoguillo_avs": "${path}\\others\\logoguillo.avs",
+        "logoframe": "${path}\\bin\\logoframe\\logoframe.exe",
+        "chapterexe": "${path}\\bin\\chapter_exe\\chapter_exe.exe",
+        "joinlogoscp": "${path}\\bin\\join_logo_scp\\join_logo_scp.exe",
+        "joinlogoscp_avs": "${path}\\others\\joinlogoscp.avs",
+        "joinlogoscp_cmd": "${path}\\others\\joinlogoscp.txt",
+        "avspmod": "${path}\\bin\\AvsPmod\\AvsPmod.exe",
+        "avspmod_avs": "${path}\\others\\avspmod.avs",
+        "caption2ass": "${path}\\bin\\Caption2Ass_PCR\\bin\\Win32\\Caption2Ass_PCR.exe",
+        "autovfr": "${path}\\bin\\AutoVfr\\AutoVfr.exe",
+        "autovfr_avs": "${path}\\others\\autovfr.avs",
+        "autovfr_ini": "${path}\\others\\autovfr.ini",
+        "lsmuxer": "${path}\\bin\\l-smash\\muxer.exe",
+        "lsremuxer": "${path}\\bin\\l-smash\\remuxer.exe",
+        "timelineeditor": "${path}\\bin\\l-smash\\timelineeditor.exe",
+        "mp4box": "${path}\\bin\\MP4Box\\MP4Box.exe",
+        "mkvmerge": "${path}\\bin\\mkvtoolnix\\mkvmerge.exe"
+    },
+    "command": {
+        "tssplitter": "-EIT -ECM -EMM -SD -1SEG",
+        "dgindex": "-hide",
+        "dgindexnv": "-h",
+        "dgindexim": "-h",
+        "comskip": "",
+        "logoguillo": "",
+        "logoframe": "",
+        "chapterexe": "-m 15",
+        "joinlogoscp": "",
+        "autovfr": "-skip 1 -ref 150"
+    },
+    "settings": {
+        "pause": false,
+        "window": 7
+    }
+}

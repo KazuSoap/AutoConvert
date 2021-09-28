@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job id="AutoConvert">
+    <script language="JScript" src="lib/dotnetbuilder.js" />
+    <script language="JScript">
+    <![CDATA[
+        var args = [];
+        var objArgs = WScript.Arguments;
+        for (var i = 0; i < objArgs.length; i++) {
+            args.push(objArgs(i));
+        }
+        if (/wscript\.exe$/i.test(WScript.FullName)) {
+            var shell = new ActiveXObject("WScript.Shell");
+            for (var i = 0; i < args.length; i++) {
+                args[i] = ' "' + args[i] + '"';
+            }
+            WScript.Quit(shell.Run('cscript //nologo "' + WScript.ScriptFullName + '"' + args.join(), 1, true));
+        } else {
+            var path = WScript.ScriptFullName.split(WScript.ScriptName).join("");
+            var dnb = new DotNetBuilder({framework: 32});
+            WScript.Echo("Prepare...")
+            if (!dnb.prepare()) {
+                WScript.Echo("Failed.");
+                WScript.Quit(1);
+            }
+            WScript.Echo("Successful.");
+            WScript.Echo("Build dialog.cs");
+            if (!dnb.build(path + "\\cs\\dialog.cs")) {
+                WScript.Echo("Failed.");
+                WScript.Quit(1);
+            }
+            WScript.Echo("Successful.");
+            WScript.Echo("Build dragdrop.cs");
+            if (!dnb.build(path + "\\cs\\dragdrop.cs", true, true)) {
+                WScript.Echo("Failed.");
+                WScript.Quit(1);
+            }
+            WScript.Echo("Successful.");
+            WScript.Sleep(5000);
+        }
+    ]]>
+    </script>
+</job>

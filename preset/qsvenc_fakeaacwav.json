@@ -1,0 +1,15 @@
+{
+    "video": {
+        "type": "specific",
+        "extension": "264",
+        "encoder": "${path}\\bin\\QSVEnc\\QSVEncC\\x86\\QSVEncC.exe",
+        "option": "--y4m --cqp 21:23:23 --scenechange -i ${video} -o ${output}"
+    },
+    "audio": {
+        "type": "fakeaacwav",
+        "extension": "aac",
+        "encoder": "${path}\\bin\\FakeAacWav\\fawcl.exe",
+        "option": "${wav} ${output}"
+    },
+    "muxer": "lsmuxer"
+}
