@@ -1,4 +1,4 @@
-SetMemoryMax(1024)
+#SetMemoryMax(1024)
 
 global Plugins = "__path__\plugins\"
 global Scripts = "__path__\avs\"
