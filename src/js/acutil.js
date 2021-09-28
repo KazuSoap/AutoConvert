@@ -874,10 +874,10 @@
         }
 
         if (this.params.onlytrim) {
-            if (this.params.trim === "none" && !this.params.edittrim) {
-                this.log("No trim params.", 1);
-                return false;
-            }
+            //if (this.params.trim === "none" && !this.params.edittrim) {
+            //    this.log("No trim params.", 1);
+            //    return false;
+            //}
 
             if (this.params.caption2ass ||
                 this.params.autovfr ||

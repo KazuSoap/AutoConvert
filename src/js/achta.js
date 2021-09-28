@@ -122,7 +122,7 @@ $(function() {
             var json = file.read();
 
             if (json === null) {
-                aclib.log("設定の読み込みに失敗しました [" + file.path() + "]");
+                // aclib.log("設定の読み込みに失敗しました [" + file.path() + "]");
                 return null;
             }
 
@@ -130,7 +130,7 @@ $(function() {
             try {
                 obj = JSON.parse(json);
             } catch (e) {
-                aclib.log("設定の読み込みに失敗しました [" + file.path() + "]");
+                // aclib.log("設定の読み込みに失敗しました [" + file.path() + "]");
                 return null;
             }
 
