@@ -1,9 +1,9 @@
 {
     "video": {
         "type": "specific",
-        "extension": "264",
-        "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x86\\NVEncC.exe",
-        "option": "--y4m --cqp 21:23:23 -i ${video} -o ${output}"
+        "extension": "265",
+        "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x64\\NVEncC64.exe",
+        "option": "--avhw --y4m --vbrhq 0 --vbr-quality 25 --lookahead 32 -i ${video} -o ${output}"
     },
     "audio": {
         "type": "fakeaacwav",
