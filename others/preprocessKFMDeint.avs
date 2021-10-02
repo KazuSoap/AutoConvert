@@ -20,7 +20,7 @@ __video__
 
 OnCPU(2) # CPUˆ—‚±‚±‚Ü‚Å
 
-KFMDeint(mode=0, pass=__times__, preset="Faster", ucf=true, filepath=__kfmprefix__, cuda=true)
+KFMDeint(mode=0, pass=__times__, preset="Slower", thswitch=-1, ucf=true, filepath=__kfmprefix__, cuda=true)
 
 AssumeBFF()
 

@@ -19,7 +19,7 @@ __video__
 
 OnCPU(2)
 # deint
-KFMDeint(mode=0, pass=3, preset="Faster", ucf=true, filepath=__kfmprefix__, cuda=true)
+KFMDeint(mode=0, pass=3, preset="Slower", thswitch=-1, ucf=true, filepath=__kfmprefix__, cuda=true)
 
 # trim for video
 ##__trim2__
