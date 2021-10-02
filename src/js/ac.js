@@ -76,7 +76,8 @@ var nsAC = nsAC || {};
                 video: [],
                 audio: [],
                 timecode: [],
-                subtitle: []
+                subtitle: [],
+                chapter: []
             },
             move: "",
             clean: [],
