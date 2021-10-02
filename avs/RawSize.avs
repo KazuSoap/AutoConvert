@@ -1,4 +1,5 @@
-#SetMemoryMax(1024)
+SetMemoryMax(4096)
+SetMemoryMax(2048, type=DEV_TYPE_CUDA)
 SetDeviceOpt(DEV_CUDA_PINNED_HOST) # CUDAデータ転送最適化
 
 global Plugins = "__path__\plugins64\"
@@ -15,18 +16,32 @@ Import(Scripts + "function.avsi")
 Import(Scripts + "KFMDeint.avsi")
 Import(Scripts + "KTGMC.avsi")
 
-video = __video__
+videotmp = __videotmp__
 audio = __audio__
-AudioDub(video, audio)
+AudioDub(videotmp, audio)
 DelayAudio(last, __delay__)
+
+OnCPU(2)
+# trim for audio
+#__trim1__
+OnCUDA(2)
+
+KillVideo()
+audio = last
+
+__video__
 #__eraselogo__
 
-OnCPU(2) # CPU処理ここまで
+OnCPU(2)
+# deint
+KFMDeint(mode=0, pass=3, preset="Slower", ucf=true, filepath=__kfmprefix__, cuda=true)
 
-#__trim__
+# trim for video
+#__trim2__
 
-KFMDeint(mode=0, pass=3, preset="Faster", ucf=true, filepath=__kfmfilepath__, cuda=true)
-#AssumeBFF()
+AssumeBFF()
+OnCUDA(2)
 
-OnCUDA(2) # GPU処理ここまで
+AudioDubEx(last, audio)
+
 return last
