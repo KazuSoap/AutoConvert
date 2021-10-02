@@ -189,11 +189,8 @@ var nsAC = nsAC || {};
     nsAC.AutoConvert.prototype.timelineeditor = function() {
         var timelineeditor_mp4 = new File(this.options.temp + ".timelineeditor.mp4");
 
-        if (this.preset.muxer === "lsmuxer") {
-            // Nothing
-        } else {
+        if (this.preset.muxer !== "lsmuxer") {
             var mp4box_mp4 = new File(this.options.temp + ".timelineeditor.mp4box.mp4");
-
             var args = "";
             this.options.mux.video.forEach(function(value, index) {
                 args += ' -add "' + value + '"#video' + (index === 0 ? '' : ':disable');
