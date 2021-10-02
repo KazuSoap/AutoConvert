@@ -1,4 +1,5 @@
-#SetMemoryMax(1024)
+SetMemoryMax(4096)
+SetMemoryMax(2048, type=DEV_TYPE_CUDA)
 SetDeviceOpt(DEV_CUDA_PINNED_HOST) # CUDAデータ転送最適化
 
 global Plugins = "__path__\plugins64\"
@@ -19,10 +20,9 @@ __video__
 
 OnCPU(2) # CPU処理ここまで
 
-#__trim__
+KFMDeint(mode=0, pass=__times__, preset="Faster", ucf=true, filepath=__kfmprefix__, cuda=true)
 
-KFMDeint(mode=0, pass=__times__, preset="Faster", ucf=true, filepath=__kfmfilepath__, cuda=true)
-#AssumeBFF()
+AssumeBFF()
 
 OnCUDA(2) # GPU処理ここまで
 
