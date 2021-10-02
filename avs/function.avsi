@@ -3,7 +3,8 @@ function LWLibavVideoSource_(string source, int "stream_index", int "fpsnum", in
 
     stream_index = default(stream_index, -1)
 
-    clip = LWLibavVideoSource(source=source, stream_index=stream_index, repeat=true, fpsnum=fpsnum, fpsden=fpsden, format=format).AssumeFPS(30000, 1001)
+
+    clip = LWLibavVideoSource(source=source, stream_index=stream_index, repeat=true, fpsnum=fpsnum, fpsden=fpsden, format=format).AssumeFPS(Default(fpsnum, 30000), Default(fpsden, 1001))
     return clip
 }
 
