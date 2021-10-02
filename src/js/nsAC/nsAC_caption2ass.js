@@ -3,11 +3,7 @@ var nsAC = nsAC || {};
 (function() {
     nsAC.AutoConvert.prototype.caption2ass = function() {
         var caption2ass_srt = new File(this.options.temp + ".caption2ass.srt");
-        var caption2ass_trim = new File(this.options.temp + ".caption2ass.trim.srt");
-
-        // Run process
         var proc = new Process('"${caption2ass}" -format srt "${input}" "${output}"');
-
         proc.prepare({
             caption2ass: this.path.caption2ass,
             input: this.args.input,
@@ -25,11 +21,11 @@ var nsAC = nsAC || {};
             return true;
         }
 
-        if (this.options.avs.trim.length === 0) {
+        if (Object.keys(this.options.avs.trim).length === 0) {
             this.options.mux.subtitle.push(caption2ass_srt.path());
         } else {
+            var caption2ass_trim = new File(this.options.temp + ".caption2ass.trim.srt");
             var proc2 = new Process('cscript //nologo "${srttrim}" -i "${input}" -a "${avs}" -o "${output}" -e');
-
             proc2.prepare({
                 srttrim: new Folder(aclib.path()).childFolder("src").childFolder("lib").childFile("srttrim.js").path(),
                 input: caption2ass_srt.path(),

@@ -3,7 +3,7 @@ var nsAC = nsAC || {};
 (function() {
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.joinlogoscp = function() {
-        if (this.options.avs.trim.length !== 0) return true;
+        if (Object.keys(this.options.avs.trim).length !== 0) return true;
 
         var input = new File(this.args.input);
         var joinlogoscp_avs = new File(this.options.temp + ".joinlogoscp.avs");
@@ -84,20 +84,18 @@ var nsAC = nsAC || {};
 
         // Read
         var trim_script = output_avs.read("Shift-JIS");
-
         if (trim_script === null) {
             aclib.log("Can't read file. [" + output_avs.path() + "]", 1);
             return false;
         }
 
-        var trim_arr = nsAC.getTrim(trim_script);
-
-        if (trim_arr.length === 0) {
+        var trim_obj = nsAC.getTrim(trim_script);
+        if (Object.keys(trim_obj).length === 0) {
             aclib.log("Can't get trim.", 1);
             return false;
         }
 
-        this.options.avs.trim = trim_arr;
+        this.options.avs.trim = trim_obj;
 
         if (!this.params.reset && eraselogo_json.exists()) return true;
 
@@ -105,7 +103,6 @@ var nsAC = nsAC || {};
         var obj = null;
         var reg = /^ *(\d+) *(S|E) *(\d+) *(ALL|TOP|BTM) *\d+ *\d+$/;
         var logoframe_out = logoframe_txt.read();
-
         if (logoframe_out === null) {
             aclib.log("Can't read file. [" + logoframe_txt.path() + "]", 1);
             return false;
@@ -146,7 +143,7 @@ var nsAC = nsAC || {};
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.comskip = function() {
-        if (this.options.avs.trim.length !== 0) return true;
+        if (Object.keys(this.options.avs.trim).length !== 0) return true;
 
         var input = new File(this.args.input);
         var comskip_avs = new File(this.args.input + ".avs");
@@ -185,27 +182,25 @@ var nsAC = nsAC || {};
 
         // Read
         var trim_script = comskip_avs.read("Shift-JIS");
-
         if (trim_script === null) {
             aclib.log("Can't read file. [" + comskip_avs.path() + "]", 1);
             return false;
         }
 
-        var trim_arr = nsAC.getTrim(trim_script);
-
-        if (trim_arr.length === 0) {
+        var trim_obj = nsAC.getTrim(trim_script);
+        if (Object.keys(trim_obj).length === 0) {
             aclib.log("Can't get trim.", 1);
             return false;
         }
 
-        this.options.avs.trim = trim_arr;
+        this.options.avs.trim = trim_obj;
 
         return true;
     };
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.logoguillo = function() {
-        if (this.options.avs.trim.length !== 0) return true;
+        if (Object.keys(this.options.avs.trim).length !== 0) return true;
 
         var logoguillo_avs = new File(this.options.temp + ".logoguillo.avs");
         var template_avs = new File(this.path.logoguillo_avs);
@@ -249,20 +244,18 @@ var nsAC = nsAC || {};
 
         // Read
         var trim_script = output_avs.read("Shift-JIS");
-
         if (trim_script === null) {
             aclib.log("Can't read file. [" + output_avs.path() + "]", 1);
             return false;
         }
 
-        var trim_arr = nsAC.getTrim(trim_script);
-
-        if (trim_arr.length === 0) {
+        var trim_obj = nsAC.getTrim(trim_script);
+        if (Object.keys(trim_obj).length === 0) {
             aclib.log("Can't get trim.", 1);
             return false;
         }
 
-        this.options.avs.trim = trim_arr;
+        this.options.avs.trim = trim_obj;
 
         return true;
     };
