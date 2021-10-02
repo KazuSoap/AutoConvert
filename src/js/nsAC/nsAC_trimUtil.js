@@ -83,6 +83,47 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
+    nsAC.ms2neroChaptFmt = function(msec, idx) {
+        var date = new Date(msec);
+        var hhmmss_sss = ( "00" + date.getUTCHours()       ).slice(-2) + ":"
+                       + ( "00" + date.getUTCMinutes()     ).slice(-2) + ":"
+                       + ( "00" + date.getUTCSeconds()     ).slice(-2) + "."
+                       + ("000" + date.getUTCMilliseconds()).slice(-3);
+        var chpt_idx = ("00" + idx).slice(-2);
+        var ncfmt = "CHAPTER" + chpt_idx + "=" + hhmmss_sss + "\r\n"
+                  + "CHAPTER" + chpt_idx + "NAME=Chapt" + chpt_idx + "\r\n";
+
+        return ncfmt;
+    }
+
+    // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.genNeroChapter = function() {
+        var trim_obj = this.options.avs.trim;
+        if (Object.keys(trim_obj).length === 0)  return true;
+        if (this.params.autovfr) return true;
+
+        var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
+        var tmbase = 1001.0, tmscale = 30000.0;
+
+        var nchptr_obj = trim_obj.trim1.reduce(function(acc,xobj,idx,ary) {
+            if (ary.length === idx+1) return acc;
+            acc.bound += xobj.end - xobj.start + 1;
+            acc.str += nsAC.ms2neroChaptFmt(Math.round(1000 * acc.bound * tmbase / tmscale), idx+2);
+
+            return acc;
+        },{bound:0, str:"CHAPTER01=00:00:00.000\r\nCHAPTER01NAME=Chapt01\r\n"});
+
+        if (!nero_chapter.write(nchptr_obj.str, "Shift-JIS")) {
+            aclib.log("Can't write file. [" + nero_chapter.path() + "]", 1);
+            return false;
+        }
+
+        this.options.mux.chapter.push(nero_chapter.path());
+
+        return true;
+    };
+
+    // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.writeTrim = function() {
         if (Object.keys(this.options.avs.trim).length === 0) return true;
 
@@ -125,6 +166,8 @@ var nsAC = nsAC || {};
                 aclib.log("Can't write file. [" + avs.path() + "]", 1);
                 return false;
             }
+
+            this.options.avs.trim = trim;
         }
 
         return true;

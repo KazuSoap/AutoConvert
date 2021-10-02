@@ -8,6 +8,7 @@ var nsAC = nsAC || {};
 
         // Run process
         var proc = new Process('"${avs2pipemod}" ${mode} "${input}" | "${encoder}" ' + this.preset.video.option);
+        //var proc = new Process('"${encoder}" ' + this.preset.video.option);
 
         proc.prepare({
             avs2pipemod: this.path.avs2pipemod,
@@ -21,6 +22,7 @@ var nsAC = nsAC || {};
                 return "-y4mp";
             })(this),
             input: avs.path(),
+            //input: '"' + avs.path() + '"',
             encoder: this.preset.video.encoder,
             video: '-',
             videot: '-',

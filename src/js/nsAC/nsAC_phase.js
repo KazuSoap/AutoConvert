@@ -117,6 +117,9 @@ var nsAC = nsAC || {};
             if (this.params.onlytrim) break;
             aclib.log("> Other");
 
+            aclib.log(">> Generate Nero Chapter");
+            if (!this.genNeroChapter()) return false;
+
             if (this.params.caption2ass) {
                 aclib.log(">> Caption2Ass");
                 if (!this.caption2ass()) return false;
@@ -175,7 +178,7 @@ var nsAC = nsAC || {};
                 if (!this.encVideo()) return false;
                 switch (this.preset.muxer) {
                 case "lsmuxer":
-                    aclib.log(">> L-SMASH muxer/remuxer");
+                    aclib.log(">> L-SMASH muxer");
                     if (!this.lsmuxer()) return false;
                     break;
                 case "mp4box":
@@ -193,6 +196,10 @@ var nsAC = nsAC || {};
                         aclib.log(">> L-SMASH timelineeditor");
                         if (!this.timelineeditor()) return false;
                     }
+                }
+                if (this.preset.muxer == "lsmuxer") {
+                    aclib.log(">> L-SMASH remuxer");
+                    if (!this.lsremuxer()) return false;
                 }
                 break;
             case "general":

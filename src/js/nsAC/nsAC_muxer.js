@@ -4,7 +4,6 @@ var nsAC = nsAC || {};
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.lsmuxer = function() {
         var self = this;
-        var lsmuxer_mp4 = new File(this.options.temp + ".lsmuxer.mp4");
 
         function check(path) {
             var ftyp;
@@ -27,7 +26,7 @@ var nsAC = nsAC || {};
             var lsmuxer_source = new File(source);
             var lsmuxer_dest = new File(dest);
 
-            var proc = new Process('"${lsmuxer}" --isom-version 6 -i "${input}"?fps=30000/1001 -o "${output}"');
+            var proc = new Process('"${lsmuxer}" --isom-version 6 -i "${input}"?fps=60000/1001 -o "${output}"');
 
             proc.prepare({
                 lsmuxer: self.path.lsmuxer,
@@ -62,6 +61,42 @@ var nsAC = nsAC || {};
         if (!this.options.mux.video.every(every)) return false;
         if (!this.options.mux.audio.every(every)) return false;
 
+        return true;
+    };
+
+    // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.timelineeditor = function() {
+        var timelineeditor_mp4 = new File(this.options.temp + ".timelineeditor.mp4");
+
+        // Run process
+        var proc2 = new Process('"${timelineeditor}" --media-timescale 60000 --media-timebase 1001 --timecode "${timecode}" "${input}" "${output}"');
+
+        proc2.prepare({
+            timelineeditor: this.path.timelineeditor,
+            timecode: this.options.mux.timecode[0],
+            input: this.options.mux.video[0],
+            output: timelineeditor_mp4.path()
+        }, {window: this.settings.window, debug: this.options.debug});
+
+        if (!proc2.run()) {
+            aclib.log("Process failed.", 1);
+            return false;
+        }
+
+        // Check files
+        if (!timelineeditor_mp4.exists()) {
+            aclib.log("Can't add timecode.", 1);
+            return false;
+        }
+
+        this.options.mux.video[0] = timelineeditor_mp4.path();
+
+        return true;
+    };
+
+    // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.lsremuxer = function() {
+        var lsmuxer_mp4 = new File(this.options.temp + ".lsmuxer.mp4");
         var args = "";
 
         this.options.mux.video.forEach(function(value, index) {
@@ -73,12 +108,13 @@ var nsAC = nsAC || {};
         });
 
         // Run process
-        var proc = new Process('"${lsremuxer}" ${args} -o "${output}"');
+        var proc = new Process('"${lsremuxer}" --chapter "${chapter}" ${args} -o "${output}"');
 
         proc.prepare({
             lsremuxer: this.path.lsremuxer,
             args: args,
-            output: lsmuxer_mp4.path()
+            output: lsmuxer_mp4.path(),
+            chapter: this.options.mux.chapter[0]
         }, {window: this.settings.window, debug: this.options.debug});
 
         if (!proc.run()) {
@@ -88,14 +124,14 @@ var nsAC = nsAC || {};
 
         // Check files
         if (!lsmuxer_mp4.exists()) {
-            aclib.log("Can't mux mp4.", 1);
+            aclib.log("Can't remux mp4.", 1);
             return false;
         }
 
         this.options.move = lsmuxer_mp4.path();
 
         return true;
-    };
+    }
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.mp4box = function() {
@@ -186,62 +222,4 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
-    nsAC.AutoConvert.prototype.timelineeditor = function() {
-        var timelineeditor_mp4 = new File(this.options.temp + ".timelineeditor.mp4");
-
-        if (this.preset.muxer !== "lsmuxer") {
-            var mp4box_mp4 = new File(this.options.temp + ".timelineeditor.mp4box.mp4");
-            var args = "";
-            this.options.mux.video.forEach(function(value, index) {
-                args += ' -add "' + value + '"#video' + (index === 0 ? '' : ':disable');
-            });
-
-            // Run process
-            var proc = new Process('"${mp4box}" ${args} -new "${output}"');
-
-            proc.prepare({
-                mp4box: this.path.mp4box,
-                args: args,
-                output: mp4box_mp4.path()
-            }, {window: this.settings.window, debug: this.options.debug});
-
-            if (!proc.run()) {
-                aclib.log("Process failed.", 1);
-                return false;
-            }
-
-            // Check files
-            if (!mp4box_mp4.exists()) {
-                aclib.log("Can't mux mp4.", 1);
-                return false;
-            }
-        }
-
-        // Run process
-        var proc2 = new Process('"${timelineeditor}" --media-timescale 120000 --media-timebase 1001 --timecode "${timecode}" "${input}" "${output}"');
-
-        proc2.prepare({
-            timelineeditor: this.path.timelineeditor,
-            timecode: this.options.mux.timecode[0],
-            input: this.options.move,
-            output: timelineeditor_mp4.path()
-        }, {window: this.settings.window, debug: this.options.debug});
-
-        if (!proc2.run()) {
-            aclib.log("Process failed.", 1);
-            return false;
-        }
-
-        // Check files
-        if (!timelineeditor_mp4.exists()) {
-            aclib.log("Can't add timecode.", 1);
-            return false;
-        }
-
-        this.options.move = timelineeditor_mp4.path();
-
-        return true;
-    };
-
-   // -----------------------------------------------------------
 }());
