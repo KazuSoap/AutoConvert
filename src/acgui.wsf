@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job id="AutoConvert">
+    <script language="JScript">
+    <![CDATA[
+        (function() {
+            var WshShell = new ActiveXObject("WScript.Shell");
+            var fs = new ActiveXObject("Scripting.FileSystemObject");
+            WshShell.Exec(
+                fs.BuildPath(fs.GetSpecialFolder(1), "mshta") + ".exe "
+              + fs.getParentFolderName(WScript.ScriptFullName) + "\\acgui.hta"
+            );
+            WScript.Quit();
+        })();
+    ]]>
+    </script>
+</job>
