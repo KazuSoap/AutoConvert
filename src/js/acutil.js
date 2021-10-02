@@ -275,9 +275,10 @@
 
     AutoConvertUtility.prototype.showSettings = function() {
         this.log(" input  : " + formatline(this.args.input, 10));
+        this.log(" output : " + formatline(this.args.output, 10));
 
         if (!this.params.onlytrim) {
-            this.log(" output : " + formatline(this.args.output, 10));
+            // this.log(" output : " + formatline(this.args.output, 10));
             this.log(" avs    : " + formatline(this.args.avs, 10));
             this.log(" preset : " + formatline(this.args.preset, 10));
         }
@@ -978,9 +979,10 @@
         var args = "";
 
         args += ' -input "' + this.args.input + '"';
+        args += ' -output "' + this.args.output + '"';
 
         if (!this.params.onlytrim) {
-            args += ' -output "' + this.args.output + '"';
+            // args += ' -output "' + this.args.output + '"';
             args += ' -avs "' + new Folder(aclib.path()).childFolder("avs").childFile(this.args.avs + ".avs").path() + '"';
             // args += ' -preset "' + new Folder(aclib.path()).childFolder("preset").childFile(this.args.preset + ".json").path() + '"';
         }
