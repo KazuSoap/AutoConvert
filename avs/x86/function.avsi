@@ -18,7 +18,7 @@ function LWLibavAudioSource_(string source, int "stream_index", bool "av_sync") 
 }
 
 function MPEG2Source_(string source) {
-    LoadPlugin(Plugins + "MPEG2DecPlus64")
+    LoadPlugin(Plugins + "DGDecode.dll")
 
     clip = MPEG2Source(source)
     return clip
