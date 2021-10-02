@@ -7,33 +7,32 @@ var nsAC = nsAC || {};
         if (Object.keys(trim_obj).length === 1)  return trim_obj;
 
         var dur_ary = durations.split(/\r\n|\r|\n/);
-        var vfrflame = {num:0,idx:0};
-        var trim1_ary = trim_obj.trim2.map(function(trim_item){
-            var otrim_item = {start:0,end:0};
-            dur_ary.slice(vfrflame.idx).some(function(x,idx){
-                vfrflame.num += Number(x);
-                if ( vfrflame.idx + idx + 1 <= trim_item.start ) {
-                    otrim_item.start = vfrflame.num;
+        var trim1_obj = trim_obj.trim2.reduce(function(acc,trim_item,trim_idx){
+            acc.trim1.push({start:0,end:0});
+            dur_ary.slice(acc.idx).some(function(dur,idx){
+                acc.num += Number(dur);
+                if ( acc.idx + idx + 1 <= trim_item.start ) {
+                    acc.trim1[trim_idx].start = acc.num;
                 }
-                if (vfrflame.idx + idx + 1 <= trim_item.end) {
-                    otrim_item.end = vfrflame.num;
-                } else {
-                    vfrflame.idx += idx + 1;
+                if (acc.idx + idx + 1 > trim_item.end) {
+                    acc.trim1[trim_idx].end = acc.num - 1;
+                    acc.idx += idx + 1;
                     return true;
                 }
                 return false;
             });
-            return otrim_item;
-        });
+
+            return acc;
+        }, { num:0, idx:0, trim1:[] });
 
         if ( is_editTrim ) {
-            trim1_ary.forEach(function(trim_item,idx,ary){
+            trim1_obj.trim1.forEach(function(trim_item,idx,ary){
                 ary[idx].start = Math.floor(trim_item.start/2);
                 ary[idx].end = Math.floor(trim_item.end/2);
             })
         }
 
-        return {trim1:trim1_ary, trim2:trim_obj.trim2};
+        return {trim1:trim1_obj.trim1, trim2:trim_obj.trim2};
     }
 
     // -----------------------------------------------------------
@@ -42,26 +41,25 @@ var nsAC = nsAC || {};
         if (Object.keys(trim_obj).length === 2)  return trim_obj;
 
         var dur_ary = durations.split(/\r\n|\r|\n/);
-        var vfrflame = {num:0,idx:0};
-        var trim2_ary = trim_obj.trim1.map(function(trim_item){
-            var otrim_item = {start:0,end:0};
-            dur_ary.slice(vfrflame.idx).some(function(x,idx){
-                vfrflame.num += Number(x);
-                if(vfrflame.num <= trim_item.start *2){
-                    otrim_item.start = vfrflame.idx + idx + 1;
+        var trim2_obj = trim_obj.trim1.reduce(function(acc,trim_item,trim_idx){
+            acc.trim2.push({start:0,end:0});
+            dur_ary.slice(acc.idx).some(function(dur,idx){
+                acc.num += Number(dur);
+                if ( acc.num <= trim_item.start*2) {
+                    acc.trim2[trim_idx].start = acc.idx + idx + 1;
                 }
-                if(vfrflame.num <= trim_item.end *2){
-                    otrim_item.end = vfrflame.idx + idx + 1;
-                } else {
-                    vfrflame.idx += idx + 1;
+                if (acc.num - 1 > trim_item.end*2) {
+                    acc.trim2[trim_idx].end = acc.idx + idx + 1;
+                    acc.idx += idx + 1;
                     return true;
                 }
                 return false;
             });
-            return otrim_item;
-        });
 
-        return {trim1:trim_obj.trim1, trim2:trim2_ary};
+            return acc;
+        }, { num:0, idx:0, trim2:[] });
+
+        return {trim1:trim_obj.trim1, trim2:trim2_obj.trim2};
     }
 
     // -----------------------------------------------------------
@@ -122,25 +120,67 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
-    nsAC.timecodeTrim = function(durations, trim_obj) {
+    var is23 = function(dur_ary, offset, bound_end) {
+        return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+            Number(dur_ary[offset]  ) == 2
+         && Number(dur_ary[offset+1]) == 3
+        ) : (false);
+    }
+
+    var is32 = function(dur_ary, offset, bound_end) {
+        return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+            Number(dur_ary[offset]  ) == 3
+         && Number(dur_ary[offset+1]) == 2
+        ) : (false);
+    }
+
+    var is2224 = function(dur_ary, offset, bound_end) {
+        return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
+            Number(dur_ary[offset]  ) == 2
+         && Number(dur_ary[offset+1]) == 2
+         && Number(dur_ary[offset+2]) == 2
+         && Number(dur_ary[offset+3]) == 4
+        ) : (false);
+    }
+
+    var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
+        var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
+        tmcNchpt_acc.tmc += msec + "\r\n";
+        tmcNchpt_acc.elapsed += Number(duration);
+        return tmcNchpt_acc;
+    }
+
+    // -----------------------------------------------------------
+    nsAC.fixVfrTmcNchpt = function(durations, trim_obj, is120fps) {
         if (trim_obj["trim2"].length === 0)  return "";
 
         var dur_ary = durations.split(/\r\n|\r|\n/);
-        var elapsed = 0.0;
-        var fps_denominator = 1001.0;
-        var fps_numerator = 60000.0;
-        var tick = fps_denominator / fps_numerator;
-        var tmcode_ary = trim_obj["trim2"].reduce(function(acc,xobj) {
-            var tmctmp_ary = [];
-            for (var i = xobj.start; i < xobj.end+1 && i < dur_ary.length; ++i){
-                elapsed += dur_ary[i] * tick;
-                tmctmp_ary.push(Math.round(elapsed*1000));
-            }
-            return acc.concat(tmctmp_ary);
-        },[]);
-        tmcode_ary.pop();
+        var tmbase = 1001.0, tmscale = 120000.0;
 
-        return "# timecode format v2\r\n0\r\n" + tmcode_ary.join("\r\n");
+        var tmcNchpt_obj = trim_obj["trim2"].reduce(function(acc,xobj) {
+            var msec = Math.round(1000 * acc.elapsed * tmbase / tmscale);
+            acc.nchpt += nsAC.ms2neroChaptFmt(msec, ++acc.chpt_idx);
+
+            if (is120fps) {
+                for (var i = xobj.start; i < xobj.end+1;) {
+                    if ( is23(dur_ary, i, xobj.end) || is32(dur_ary, i, xobj.end) ) {
+                        for (var j=0; j < 2; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
+                    } else if ( is2224(dur_ary, i, xobj.end) ) {
+                        for (var j=0; j < 4; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
+                    } else {
+                        acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i++]*2);
+                    }
+                }
+            } else {
+                for (var i = xobj.start; i < xobj.end+1; ++i){
+                    acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i]*2);
+                }
+            }
+
+            return acc;
+        }, { elapsed:0.0, chpt_idx:0, tmc:"# timecode format v2\r\n", nchpt:"" });
+
+        return {tmc:tmcNchpt_obj.tmc, nchpt:tmcNchpt_obj.nchpt};
     }
 
     // -----------------------------------------------------------
@@ -177,17 +217,24 @@ var nsAC = nsAC || {};
         }
 
         var mod_tmc = new File(this.options.temp + ".timecode.txt");
-        tmcode = nsAC.timecodeTrim(durations, trim_obj);
-        if (tmcode === null) {
-            aclib.log("Failed Timecode Trim.", 1);
+        var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
+        var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, true);
+        if (tmcNchpt_obj.tmc === null || tmcNchpt_obj.nchpt === null) {
+            aclib.log("Failed fixVfrTmcNchpt()", 1);
             return false;
         }
 
-        if (!mod_tmc.write(tmcode, "Shift-JIS")) {
+        if (!mod_tmc.write(tmcNchpt_obj.tmc, "Shift-JIS")) {
             aclib.log("Can't write file. [" + mod_tmc.path() + "]", 1);
             return false;
         }
 
+        if (!nero_chapter.write(tmcNchpt_obj.nchpt, "Shift-JIS")) {
+            aclib.log("Can't write file. [" + nero_chapter.path() + "]", 1);
+            return false;
+        }
+
+        this.options.mux.chapter.push(nero_chapter.path());
         this.options.mux.timecode.push(mod_tmc.path());
 
         return true;
