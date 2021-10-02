@@ -511,6 +511,9 @@
             }
         }
 
+        aclib.log("----" + args.length + "----", 0);
+        aclib.log("----" + this.args.preset + "----",0);
+
         return true;
     };
 
@@ -557,23 +560,23 @@
         }
 
         // Load preset
-        if (!this.params.onlytrim) {
-            var file = new File(this.args.preset);
-            var json = file.read();
+        // if (!this.params.onlytrim) {
+        var file = new File(this.args.preset);
+        var json = file.read();
 
-            if (json === null) return false;
+        if (json === null) return false;
 
-            try {
-                json = JSON.parse(json);
-            } catch (e) {
-                aclib.log("Can't parse JSON.", 1);
-                return false;
-            }
-
-            this.preset = json;
-            this.preset.video.encoder = aclib.replace(this.preset.video.encoder, {path: aclib.path()});
-            this.preset.audio.encoder = aclib.replace(this.preset.audio.encoder, {path: aclib.path()});
+        try {
+            json = JSON.parse(json);
+        } catch (e) {
+            aclib.log("Can't parse JSON.", 1);
+            return false;
         }
+
+        this.preset = json;
+        this.preset.video.encoder = aclib.replace(this.preset.video.encoder, {path: aclib.path()});
+        this.preset.audio.encoder = aclib.replace(this.preset.audio.encoder, {path: aclib.path()});
+        // }
 
         // Replace path
         for (var key in this.path) {
@@ -1510,6 +1513,22 @@
                 return false;
             }
 
+            if ( this.preset.audio.type === "fakeaacwav" ) {
+                // Run process
+                var proc = new Process('"${encoder}" "${input}" "${output}"');
+
+                proc.prepare({
+                    encoder: this.preset.audio.encoder,
+                    input: files[0].path(),
+                    output: files[0].parent().childFile(files[0].base() + ".wav").path()
+                }, {window: this.settings.window, debug: this.options.debug});
+
+                if (!proc.run()) {
+                    aclib.log("Process failed. (aac to fakeaacwav)", 1);
+                    return false;
+                }
+            }
+
             var match = files[0].base().match(/DELAY (-*\d+)ms/);
 
             if (!match) {
@@ -1680,7 +1699,9 @@
         script_video = this.options.avs.video[0];
 
         this.options.avs.audio.forEach(function (value, index) {
-            var audio = this.preset.audio.type === "fakeaacwav" ? value.replace(/LWLibavAudioSource_/g, "AACFaw_") : value;
+            // var audio = this.preset.audio.type === "fakeaacwav" ? value.replace(/LWLibavAudioSource_/g, "AACFaw_") : value;
+            var audio = this.preset.audio.type === "fakeaacwav" ? value.replace(/LWLibavAudioSource_/g, "WavSource") : value;
+            audio = this.preset.audio.type === "fakeaacwav" ? audio.replace(/ms.aac/g, "ms.wav") : audio;
             var delay = this.preset.audio.type === "fakeaacwav" ? 0 : this.options.avs.delay[index];
             if (index === 0) {
                 script_audio = audio;

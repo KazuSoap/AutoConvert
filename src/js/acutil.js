@@ -982,8 +982,9 @@
         if (!this.params.onlytrim) {
             args += ' -output "' + this.args.output + '"';
             args += ' -avs "' + new Folder(aclib.path()).childFolder("avs").childFile(this.args.avs + ".avs").path() + '"';
-            args += ' -preset "' + new Folder(aclib.path()).childFolder("preset").childFile(this.args.preset + ".json").path() + '"';
+            // args += ' -preset "' + new Folder(aclib.path()).childFolder("preset").childFile(this.args.preset + ".json").path() + '"';
         }
+        args += ' -preset "' + new Folder(aclib.path()).childFolder("preset").childFile(this.args.preset + ".json").path() + '"';
 
         if (this.params.trim !== "none" || this.params.eraselogo) {
             args += ' -logo "' + new Folder(aclib.path()).childFolder("logo").childFile(this.args.logo).path() + '"';
