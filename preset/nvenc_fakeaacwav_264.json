@@ -1,7 +1,7 @@
 {
     "video": {
         "type": "specific",
-        "extension": "265",
+        "extension": "264",
         "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x64\\NVEncC64.exe",
         "option": "--avhw --y4m --vbrhq 0 --vbr-quality 25 --lookahead 32 -i ${video} -o ${output}"
     },
