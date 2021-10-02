@@ -142,7 +142,7 @@ var nsAC = nsAC || {};
             //    return false;
             // }
             this.params.caption2ass = false;
-            this.params.autovfr = false;
+            // this.params.autovfr = false;
         }
 
         switch (this.params.trim) {

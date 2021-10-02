@@ -11,10 +11,7 @@ var nsAC = nsAC || {};
             return false;
         }
 
-        var script_video = "", script_audio = "", script_delay = "";
-
-        script_video = this.options.avs.video[0];
-
+        var script_audio = "", script_delay = "";
         this.options.avs.audio.forEach(function (value, index) {
             //---------------------------------------------------------------------------
             // aacfaw.dll (AACをFAWとして読み込むプラグイン) を用いて avs 上で直接 aac を
@@ -44,11 +41,14 @@ var nsAC = nsAC || {};
         }, this);
 
         // Replace
+        var script_video = this.options.avs.video[0];
+        if (this.params.autovfr) {
+            script = script.replace(/__videotmp__/g, script_video.slice(0, -1) + ',fpsnum=60000,fpsden=1001)');
+        }
         script = script.replace(/__path__/g, aclib.path());
         script = script.replace(/__video__/g, script_video);
         script = script.replace(/__audio__/g, script_audio);
         script = script.replace(/__delay__/g, script_delay);
-        script = script.replace(/__kfmfilepath__/g,'"' + this.options.temp + '"');
 
         if (!avs.write(script, "Shift-JIS")) {
             aclib.log("Can't write file. [" + avs.path() + "]", 1);

@@ -72,9 +72,9 @@ var nsAC = nsAC || {};
 
             break;
         case 4:
-            aclib.log("> Trim");
-            aclib.log(">> Read Trim");
+            aclib.log("> Depend Trim");
 
+            aclib.log(">> Read Trim");
             if (!this.readTrim()) return false;
 
             switch (this.params.trim) {
@@ -99,6 +99,11 @@ var nsAC = nsAC || {};
                 break;
             }
 
+            if (this.params.autovfr) {
+                aclib.log(">> AutoVfr Preprocess");
+                if (!this.preprocKFM()) return false;
+            }
+
             if (this.params.edittrim) {
                 aclib.log(">> Edit Trim");
                 if (!this.editTrim()) return false;
@@ -110,7 +115,6 @@ var nsAC = nsAC || {};
             break;
         case 5:
             if (this.params.onlytrim) break;
-
             aclib.log("> Other");
 
             if (this.params.caption2ass) {
@@ -120,8 +124,7 @@ var nsAC = nsAC || {};
 
             if (this.params.autovfr) {
                 aclib.log(">> AutoVfr");
-                // if (!this.autovfr()) return false;
-                if (!this.preprocKFM()) return false;
+                if (!this.postprocKFM()) return false;
             }
 
             if (this.params.eraselogo) {
