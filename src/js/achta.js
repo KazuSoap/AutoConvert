@@ -233,7 +233,7 @@ $(function() {
 
             var ans = confirm("dragdrop.dllを登録して、ドラッグ&ドロップを有効にしますか?");
 
-            var builder = new DotNetBuilder({framework: 32});
+            var builder = new DotNetBuilder({framework: 64});
 
             if (!builder.prepare()) {
                 aclib.log("DotNetBuilderの初期化に失敗しました");
