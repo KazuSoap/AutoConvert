@@ -1,9 +1,9 @@
-function LWLibavVideoSource_(string source, int "stream_index") {
+function LWLibavVideoSource_(string source, int "stream_index", int "fpsnum", int "fpsden", string "format" ) {
     LoadPlugin(Plugins + "LSMASHSource.dll")
 
     stream_index = default(stream_index, -1)
 
-    clip = LWLibavVideoSource(source=source, stream_index=stream_index, repeat=true).AssumeFPS(30000, 1001)
+    clip = LWLibavVideoSource(source=source, stream_index=stream_index, repeat=true, fpsnum=fpsnum, fpsden=fpsden, format=format).AssumeFPS(30000, 1001)
     return clip
 }
 
@@ -18,7 +18,8 @@ function LWLibavAudioSource_(string source, int "stream_index", bool "av_sync") 
 }
 
 function MPEG2Source_(string source) {
-    LoadPlugin(Plugins + "DGDecode.dll")
+    #LoadPlugin(Plugins + "DGDecode.dll")
+    LoadPlugin(Plugins + "DGDecodeMPEG2DecPlus.dll")
 
     clip = MPEG2Source(source)
     return clip
@@ -39,7 +40,7 @@ function DGSourceIM_(string source) {
 }
 
 function AACFaw_(string source) {
-    LoadPlugin(Plugins + "aacfaw.aui")
+    LoadPlugin(Plugins + "aacfaw.dll")
 
     clip = AACFaw(source)
     return clip
