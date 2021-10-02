@@ -4,6 +4,23 @@
     <script language="JScript" src="lib/json2.js" />
     <script language="JScript" src="js/aclib.js" />
     <script language="JScript" src="js/ac.js" />
+    <script language="JScript" src="js/nsAC/nsAC_getArguments.js" />
+    <script language="JScript" src="js/nsAC/nsAC_settingsUtil.js" />
+    <script language="JScript" src="js/nsAC/nsAC_phase.js" />
+    <script language="JScript" src="js/nsAC/nsAC_preprocess.js" />
+    <script language="JScript" src="js/nsAC/nsAC_tsSourceReader.js" />
+    <script language="JScript" src="js/nsAC/nsAC_demuxer.js" />
+    <script language="JScript" src="js/nsAC/nsAC_avisynth.js" />
+    <script language="JScript" src="js/nsAC/nsAC_trimUtil.js" />
+    <script language="JScript" src="js/nsAC/nsAC_detectCM.js" />
+    <script language="JScript" src="js/nsAC/nsAC_caption2ass.js" />
+    <script language="JScript" src="js/nsAC/nsAC_autovfr.js" />
+    <script language="JScript" src="js/nsAC/nsAC_eraselogo.js" />
+    <script language="JScript" src="js/nsAC/nsAC_avspmod.js" />
+    <script language="JScript" src="js/nsAC/nsAC_encAudio.js" />
+    <script language="JScript" src="js/nsAC/nsAC_encVideo.js" />
+    <script language="JScript" src="js/nsAC/nsAC_muxer.js" />
+    <script language="JScript" src="js/nsAC/nsAC_postprocess.js" />
     <script language="JScript">
     <![CDATA[
         (function() {
