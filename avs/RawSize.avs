@@ -1,4 +1,5 @@
-SetMemoryMax(4096)
+#SetMemoryMax(4096)
+SetMemoryMax(16384)
 SetMemoryMax(2048, type=DEV_TYPE_CUDA)
 SetDeviceOpt(DEV_CUDA_PINNED_HOST) # CUDAデータ転送最適化
 
@@ -38,6 +39,9 @@ KFMDeint(mode=0, pass=3, preset="Slower", thswitch=-1, ucf=true, filepath=__kfmp
 
 # trim for video
 #__trim2__
+
+# Resize & Cropping
+# Spline64Resize(w,h,left,top,-right,-bottom)
 
 AssumeBFF()
 OnCUDA(2)
