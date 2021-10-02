@@ -1,6 +1,6 @@
 #SetMemoryMax(1024)
 
-global Plugins = "__path__\plugins\"
+global Plugins = "__path__\plugins64\"
 global Scripts = "__path__\avs\"
 
 Import(Scripts + "function.avsi")
