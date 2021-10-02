@@ -16,7 +16,7 @@
             WScript.Quit(shell.Run('cscript //nologo "' + WScript.ScriptFullName + '"' + args.join(), 1, true));
         } else {
             var path = WScript.ScriptFullName.split(WScript.ScriptName).join("");
-            var dnb = new DotNetBuilder({framework: 32});
+            var dnb = new DotNetBuilder({framework: 64});
             WScript.Echo("Prepare...")
             if (!dnb.prepare()) {
                 WScript.Echo("Failed.");
