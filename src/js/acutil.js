@@ -881,7 +881,7 @@
             //}
 
             if (this.params.caption2ass ||
-                this.params.autovfr ||
+                // this.params.autovfr ||
                 this.params.eraselogo) {
                 this.log("Enable onlytrim.");
 
@@ -890,10 +890,10 @@
                     this.params.caption2ass = false;
                 }
 
-                if (this.params.autovfr) {
-                    this.log("Turn off autovfr.");
-                    this.params.autovfr = false;
-                }
+                // if (this.params.autovfr) {
+                //     this.log("Turn off autovfr.");
+                //     this.params.autovfr = false;
+                // }
 
                 if (this.params.eraselogo) {
                     this.log("Turn off eraselogo.");
