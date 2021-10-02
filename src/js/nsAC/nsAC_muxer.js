@@ -27,7 +27,6 @@ var nsAC = nsAC || {};
             var lsmuxer_dest = new File(dest);
 
             var proc = new Process('"${lsmuxer}" --isom-version 6 -i "${input}"?fps=60000/1001 -o "${output}"');
-
             proc.prepare({
                 lsmuxer: self.path.lsmuxer,
                 input: lsmuxer_source.path(),
@@ -69,7 +68,7 @@ var nsAC = nsAC || {};
         var timelineeditor_mp4 = new File(this.options.temp + ".timelineeditor.mp4");
 
         // Run process
-        var proc2 = new Process('"${timelineeditor}" --media-timescale 60000 --media-timebase 1001 --timecode "${timecode}" "${input}" "${output}"');
+        var proc2 = new Process('"${timelineeditor}" --timecode "${timecode}" "${input}" "${output}"');
 
         proc2.prepare({
             timelineeditor: this.path.timelineeditor,

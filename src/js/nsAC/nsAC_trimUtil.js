@@ -9,7 +9,7 @@ var nsAC = nsAC || {};
         var trim_idx = 0;
 
         arr.forEach(function (value) {
-            if (/^ *#/.test(value) | !format.test(value)) return;
+            if (/^ *#/.test(value) || !format.test(value)) return;
 
             var trim_tmp = [];
             value.replace(format, function ($0, $1, $2, $3) {
@@ -83,12 +83,19 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
-    nsAC.ms2neroChaptFmt = function(msec, idx) {
+    nsAC.ms2hhmmss_sss = function(msec) {
         var date = new Date(msec);
         var hhmmss_sss = ( "00" + date.getUTCHours()       ).slice(-2) + ":"
                        + ( "00" + date.getUTCMinutes()     ).slice(-2) + ":"
                        + ( "00" + date.getUTCSeconds()     ).slice(-2) + "."
                        + ("000" + date.getUTCMilliseconds()).slice(-3);
+
+        return hhmmss_sss;
+    }
+
+    // -----------------------------------------------------------
+    nsAC.ms2neroChaptFmt = function(msec, idx) {
+        var hhmmss_sss = nsAC.ms2hhmmss_sss(msec);
         var chpt_idx = ("00" + idx).slice(-2);
         var ncfmt = "CHAPTER" + chpt_idx + "=" + hhmmss_sss + "\r\n"
                   + "CHAPTER" + chpt_idx + "NAME=Chapt" + chpt_idx + "\r\n";

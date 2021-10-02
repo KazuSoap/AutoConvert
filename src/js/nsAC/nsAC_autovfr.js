@@ -122,31 +122,28 @@ var nsAC = nsAC || {};
     // -----------------------------------------------------------
     var is23 = function(dur_ary, offset, bound_end) {
         return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-            Number(dur_ary[offset]  ) == 2
-         && Number(dur_ary[offset+1]) == 3
+            (dur_ary[offset] == 2) && (dur_ary[offset+1] == 3)
         ) : (false);
     }
 
     var is32 = function(dur_ary, offset, bound_end) {
         return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-            Number(dur_ary[offset]  ) == 3
-         && Number(dur_ary[offset+1]) == 2
+            (dur_ary[offset] == 3) && (dur_ary[offset+1] == 2)
         ) : (false);
     }
 
     var is2224 = function(dur_ary, offset, bound_end) {
         return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
-            Number(dur_ary[offset]  ) == 2
-         && Number(dur_ary[offset+1]) == 2
-         && Number(dur_ary[offset+2]) == 2
-         && Number(dur_ary[offset+3]) == 4
+            (dur_ary[offset] == 2) && (dur_ary[offset+1] == 2) && (dur_ary[offset+2] == 2) && (dur_ary[offset+3] == 4)
         ) : (false);
     }
 
     var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
+        tmcNchpt_acc.elapsed += duration;
+
         var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
         tmcNchpt_acc.tmc += msec + "\r\n";
-        tmcNchpt_acc.elapsed += Number(duration);
+        tmcNchpt_acc.msec_ary.push(msec)
         return tmcNchpt_acc;
     }
 
@@ -154,34 +151,115 @@ var nsAC = nsAC || {};
     nsAC.fixVfrTmcNchpt = function(durations, trim_obj, is120fps) {
         if (trim_obj["trim2"].length === 0)  return "";
 
-        var dur_ary = durations.split(/\r\n|\r|\n/);
         var tmbase = 1001.0, tmscale = 120000.0;
+        var dur_ary = durations.split(/\r\n|\r|\n/);
+        var trimed_obj = trim_obj["trim2"].reduce(function(acc,xobj,idx) {
+            acc.chpt_pos.push(acc.dur_ary.length);
+            acc.dur_ary = acc.dur_ary.concat(dur_ary.slice(xobj.start,xobj.end+1).map(Number));
+            return acc;
+        }, { dur_ary:[], chpt_pos:[] });
 
-        var tmcNchpt_obj = trim_obj["trim2"].reduce(function(acc,xobj) {
-            var msec = Math.round(1000 * acc.elapsed * tmbase / tmscale);
-            acc.nchpt += nsAC.ms2neroChaptFmt(msec, ++acc.chpt_idx);
-
-            if (is120fps) {
-                for (var i = xobj.start; i < xobj.end+1;) {
-                    if ( is23(dur_ary, i, xobj.end) || is32(dur_ary, i, xobj.end) ) {
-                        for (var j=0; j < 2; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
-                    } else if ( is2224(dur_ary, i, xobj.end) ) {
-                        for (var j=0; j < 4; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
-                    } else {
-                        acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i++]*2);
-                    }
-                }
-            } else {
-                for (var i = xobj.start; i < xobj.end+1; ++i){
-                    acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i]*2);
+        var tmcNchpt_obj = { tmc:"# timecode format v2\r\n0\r\n", msec_ary:[0], elapsed:0}
+        if (is120fps) {
+            for (var i=0, end=trimed_obj.dur_ary.length; i<end;) {
+                if ( is23(trimed_obj.dur_ary, i, end) || is32(trimed_obj.dur_ary, i, end) ) {
+                    for (var j=0; j < 2; ++i, ++j) tmcNchpt_obj = setTmcElps(tmcNchpt_obj, tmbase, tmscale, 5);
+                } else if ( is2224(trimed_obj.dur_ary, i, end) ) {
+                    for (var j=0; j < 4; ++i, ++j) tmcNchpt_obj = setTmcElps(tmcNchpt_obj, tmbase, tmscale, 5);
+                } else {
+                    tmcNchpt_obj = setTmcElps(tmcNchpt_obj, tmbase, tmscale, trimed_obj.dur_ary[i++]*2);
                 }
             }
+        } else {
+            for (var i=0, end=trimed_obj.dur_ary.length; i<end; ++i){
+                tmcNchpt_obj = setTmcElps(tmcNchpt_obj, tmbase, tmscale, trimed_obj.dur_ary[i]*2);
+            }
+        }
 
-            return acc;
-        }, { elapsed:0.0, chpt_idx:0, tmc:"# timecode format v2\r\n", nchpt:"" });
+        tmcNchpt_obj.tmc += "# total: "
+            + nsAC.ms2hhmmss_sss(tmcNchpt_obj.msec_ary.slice(-1)[0])
+            + " ("
+            + tmcNchpt_obj.msec_ary.slice(-1)[0]
+            + " msec)\r\n"
 
-        return {tmc:tmcNchpt_obj.tmc, nchpt:tmcNchpt_obj.nchpt};
+        var nchpt = "";
+
+        trimed_obj.chpt_pos.forEach(function(msec_idx, chpt_idx) {
+            nchpt += nsAC.ms2neroChaptFmt(tmcNchpt_obj.msec_ary[msec_idx], chpt_idx+1);
+        });
+
+        // aclib.log("elapsed: " + nsAC.ms2hhmmss_sss(tmcNchpt_obj.msec_ary.slice(-1)[0]), 0);
+
+        return {tmc:tmcNchpt_obj.tmc, nchpt:nchpt};
     }
+
+    // // -----------------------------------------------------------
+    // var is23 = function(dur_ary, offset, bound_end) {
+    //     return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+    //         Number(dur_ary[offset]  ) == 2
+    //      && Number(dur_ary[offset+1]) == 3
+    //     ) : (false);
+    // }
+
+    // var is32 = function(dur_ary, offset, bound_end) {
+    //     return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+    //         Number(dur_ary[offset]  ) == 3
+    //      && Number(dur_ary[offset+1]) == 2
+    //     ) : (false);
+    // }
+
+    // var is2224 = function(dur_ary, offset, bound_end) {
+    //     return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
+    //         Number(dur_ary[offset]  ) == 2
+    //      && Number(dur_ary[offset+1]) == 2
+    //      && Number(dur_ary[offset+2]) == 2
+    //      && Number(dur_ary[offset+3]) == 4
+    //     ) : (false);
+    // }
+
+    // var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
+    //     var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
+    //     tmcNchpt_acc.tmc += msec + "\r\n";
+    //     tmcNchpt_acc.elapsed += Number(duration);
+    //     return tmcNchpt_acc;
+    // }
+
+    // // -----------------------------------------------------------
+    // nsAC.fixVfrTmcNchpt = function(durations, trim_obj, is120fps) {
+    //     if (trim_obj["trim2"].length === 0)  return "";
+
+    //     var dur_ary = durations.split(/\r\n|\r|\n/);
+    //     var tmbase = 1001.0, tmscale = 120000.0;
+
+    //     var tmcNchpt_obj = trim_obj["trim2"].reduce(function(acc,xobj) {
+    //         var msec = Math.round(1000 * acc.elapsed * tmbase / tmscale);
+    //         acc.nchpt += nsAC.ms2neroChaptFmt(msec, ++acc.chpt_idx);
+
+    //         if (is120fps) {
+    //             for (var i = xobj.start; i < xobj.end+1;) {
+    //                 if ( is23(dur_ary, i, xobj.end) || is32(dur_ary, i, xobj.end) ) {
+    //                     for (var j=0; j < 2; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
+    //                 } else if ( is2224(dur_ary, i, xobj.end) ) {
+    //                     for (var j=0; j < 4; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
+    //                 } else {
+    //                     acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i++]*2);
+    //                 }
+    //             }
+    //         } else {
+    //             for (var i = xobj.start; i < xobj.end+1; ++i){
+    //                 acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i]*2);
+    //             }
+    //         }
+
+    //         return acc;
+    //     }, { elapsed:0.0, chpt_idx:0, tmc:"# timecode format v2\r\n", nchpt:"" });
+
+    //     var total_microsec = Math.round(1000000 * (tmcNchpt_obj.elapsed + Number(dur_ary.slice(-2)[0])*2) * tmbase / tmscale);
+    //     aclib.log("elapsed: " + nsAC.ms2hhmmss_sss(total_microsec/1000), 0);
+    //     tmcNchpt_obj.tmc += "# total: " + total_microsec/1000000 + " seconds\r\n"
+
+    //     return {tmc:tmcNchpt_obj.tmc, nchpt:tmcNchpt_obj.nchpt};
+    // }
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.postprocKFM = function() {
@@ -219,6 +297,7 @@ var nsAC = nsAC || {};
         var mod_tmc = new File(this.options.temp + ".timecode.txt");
         var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
         var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, true);
+        // var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, false);
         if (tmcNchpt_obj.tmc === null || tmcNchpt_obj.nchpt === null) {
             aclib.log("Failed fixVfrTmcNchpt()", 1);
             return false;
