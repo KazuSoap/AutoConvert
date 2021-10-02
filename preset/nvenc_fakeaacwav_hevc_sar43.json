@@ -3,7 +3,7 @@
         "type": "specific",
         "extension": "hevc",
         "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x64\\NVEncC64.exe",
-        "option": "--avhw --y4m -c hevc --profile main10 --vbrhq 0 --vbr-quality 25 --lookahead 32 -b 3 --sar 4:3 -i ${video} -o ${output}"
+        "option": "--y4m -c hevc --profile main10 --vbrhq 0 --vbr-quality 25 --lookahead 32 -b 3 --sar 4:3 -i ${video} -o ${output}"
     },
     "audio": {
         "type": "fakeaacwav",
