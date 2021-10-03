@@ -71,19 +71,19 @@
       <div id="settings" class="tab-page">
         <p class="path short"><label for="settings_input">入力</label><input type="text" id="settings_input" disabled="disabled" /><input type="button" value="..." id="settings_input_browse" disabled="disabled" /></p>
         <p class="path short"><label for="settings_output">出力</label><input type="text" id="settings_output" disabled="disabled" /><input type="button" value="..." id="settings_output_browse" disabled="disabled" /></p>
-        <p class="check"><input type="checkbox" id="settings_done" disabled="disabled" /><label for="settings_done">完了済みとしてマーク</label></p>
         <h2><span>パラメータ</span></h2>
         <p class="form third"><label for="settings_args_avs">avsファイル</label><select id="settings_args_avs" disabled="disabled"></select></p>
         <p class="form third"><label for="settings_args_preset">プリセット</label><select id="settings_args_preset" disabled="disabled"></select></p>
         <p class="form third"><label for="settings_args_logo">ロゴデータ</label><select id="settings_args_logo" disabled="disabled"></select></p>
-        <p class="check third"><input type="checkbox" id="settings_params_reset" disabled="disabled" /><label for="settings_params_reset">リセット</small></label></p>
+        <p class="check third"><input type="checkbox" id="settings_done" disabled="disabled" /><label for="settings_done">完了済みとしてマーク</label></p>
+        <p class="check third"><input type="checkbox" id="settings_params_reset" disabled="disabled" /><label for="settings_params_reset">リセット</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_clean" disabled="disabled" /><label for="settings_params_clean">クリーン</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_onlytrim" disabled="disabled" /><label for="settings_params_onlytrim">CMカットのみ</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_editavs" disabled="disabled" /><label for="settings_params_editavs">avsファイル編集</label></p>
         <h2><span>TS解析・抽出</span></h2>
         <p class="check third"><input type="checkbox" id="settings_params_tssplitter" disabled="disabled" /><label for="settings_params_tssplitter">TsSplitter</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_ffprobe" disabled="disabled" /><label for="settings_params_ffprobe">ffprobe</label></p>
-        <p class="check third"><input type="checkbox" id="settings_params_multi2decdos" disabled="disabled" /><label for="settings_params_multi2decdos">multi2decdos</label></p>
+        <p class="check third"><input type="checkbox" id="settings_params_multi2decdos" disabled="disabled" /><label for="settings_params_multi2decdos">Multi2DecDos</label></p>
         <h2><span>ソース読み込み</span></h2>
         <p class="check third"><input type="radio" id="settings_params_source_lssource" name="settings_params_source" value="lssource" disabled="disabled" /><label for="settings_params_source_lssource">L-SMASH Source</label></p>
         <p class="check third"><input type="radio" id="settings_params_source_dgindex" name="settings_params_source" value="dgindex" disabled="disabled" /><label for="settings_params_source_dgindex">DGIndex</label></p>
@@ -95,6 +95,9 @@
         <p class="check third"><input type="radio" id="settings_params_trim_none" name="settings_params_trim" value="none" disabled="disabled" /><label for="settings_params_trim_none">CMカットしない</label></p>
         <p class="check third"><input type="radio" id="settings_params_trim_joinlogoscp" name="settings_params_trim" value="joinlogoscp" disabled="disabled" /><label for="settings_params_trim_joinlogoscp">join_logo_scp</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_edittrim" disabled="disabled" /><label for="settings_params_edittrim">手動CMカット</label></p>
+        <h2><span>逆テレシネ・インターレース解除</span></h2>
+        <p class="check third"><input type="radio" id="settings_params_deint_kfm_24p" name="settings_params_deint" value="kfm_24p" disabled="disabled" /><label for="settings_params_deint_kfm_24p">KFM 24p</label></p>
+        <p class="check third"><input type="radio" id="settings_params_deint_kfm_vfr" name="settings_params_deint" value="kfm_vfr" disabled="disabled" /><label for="settings_params_deint_kfm_vfr">KFM VFR</label></p>
         <h2><span>その他</span></h2>
         <p class="check third"><input type="checkbox" id="settings_params_caption2ass" disabled="disabled" /><label for="settings_params_caption2ass">Caption2Ass</label></p>
         <p class="check third"><input type="checkbox" id="settings_params_autovfr" disabled="disabled" /><label for="settings_params_autovfr">AutoVfr</label></p>

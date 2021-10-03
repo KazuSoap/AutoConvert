@@ -31,6 +31,7 @@ var nsAC = nsAC || {};
             "reset": false,
             "clean": false,
             "onlytrim": false,
+            "editavs": false,
             "tssplitter": false,
             "ffprobe": false,
             "multi2decdos": false,
@@ -38,10 +39,10 @@ var nsAC = nsAC || {};
             "demuxer": "none",
             "trim": "none",
             "edittrim": false,
+            "deint": "kfm_24p",
             "caption2ass": false,
             "autovfr": false,
-            "eraselogo": false,
-            "editavs": false
+            "eraselogo": false
         };
 
         this.preset = {

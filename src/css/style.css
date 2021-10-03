@@ -343,7 +343,7 @@ input[type="radio"].indeterminate:disabled  + label:before {
   margin: 0 20px 10px;
 }
 
-.check.half, .check.third {
+.check.half, .check.third , .check.fourth1 , .check.fourth2 , .check.fifth {
   display: inline-block;
   margin: 0 0 10px 20px;
   vertical-align: top;
@@ -355,6 +355,18 @@ input[type="radio"].indeterminate:disabled  + label:before {
 
 .check.third {
   width: calc(100% / 3 - 30px);
+}
+
+.check.fourth1 {
+  width: calc(100% / 4 - 13px);
+}
+
+.check.fourth2 {
+  width: calc(100% / 4 + 3px);
+}
+
+.check.fifth {
+  width: calc(100% / 5 - 21px);
 }
 
 .form.check {

@@ -60,6 +60,8 @@
         <p class="path"><label for="ac_path_avspmod_avs">AvsPmod avs</label><input type="text" id="ac_path_avspmod_avs" /><input type="button" value="..." id="ac_path_avspmod_avs_browse" /></p>
         <h2><span>字幕</span></h2>
         <p class="path"><label for="ac_path_caption2ass">Caption2Ass</label><input type="text" id="ac_path_caption2ass" /><input type="button" value="..." id="ac_path_caption2ass_browse" /></p>
+        <h2><span>逆テレシネ・インターレース解除</span></h2>
+        <p class="path"><label for="ac_path_kfmdeint_avs">KFMDeint avs</label><input type="text" id="ac_path_kfmdeint_avs" /><input type="button" value="..." id="ac_path_kfmdeint_avs_browse" /></p>
         <h2><span>可変フレームレート</span></h2>
         <p class="path"><label for="ac_path_autovfr">AutoVfr</label><input type="text" id="ac_path_autovfr" /><input type="button" value="..." id="ac_path_autovfr_browse" /></p>
         <p class="path"><label for="ac_path_autovfr_avs">AutoVfr avs</label><input type="text" id="ac_path_autovfr_avs" /><input type="button" value="..." id="ac_path_autovfr_avs_browse" /></p>
@@ -110,7 +112,7 @@
         <p class="check half"><input type="checkbox" id="acutil_settings_programtxt" /><label for="acutil_settings_programtxt">program.txt使用<small>情報の取得に"ts.program.txt"を使用します</small></label></p>
         <p class="check half"><input type="checkbox" id="acutil_settings_rplsinfo" /><label for="acutil_settings_rplsinfo">rplsinfo使用<small>情報の取得にrplsinfoを使用します</small></label></p>
         <p class="check half"><input type="checkbox" id="acutil_settings_screname" /><label for="acutil_settings_screname">SCRename使用<small>情報の取得にSCRenameを使用します</small></label></p>
-        <p class="check half"><input type="checkbox" id="acutil_settings_checkdrop" /><label for="acutil_settings_checkdrop">ドロップの確認<small>"Multi2DecDos"を使用してTS fileのドロップを確認します</small></label></p>
+        <p class="check half"><input type="checkbox" id="acutil_settings_checkdrop" /><label for="acutil_settings_checkdrop">ドロップの確認<small>"ts.err"を使用してTS fileのドロップを確認します</small></label></p>
       </div>
       <div id="content_acutil_params" class="content" style="display: none;">
         <p class="form half"><label for="acutil_params_avs">avsファイル</label><select id="acutil_params_avs"></select></p>
@@ -122,7 +124,7 @@
         <h2><span>TS解析・抽出</span></h2>
         <p class="check third"><input type="checkbox" id="acutil_params_tssplitter" /><label for="acutil_params_tssplitter">TsSplitter</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_ffprobe" /><label for="acutil_params_ffprobe">ffprobe</label></p>
-        <p class="check third"><input type="checkbox" id="acutil_params_multi2decdos" /><label for="acutil_params_multi2decdos">multi2decdos</label></p>
+        <p class="check third"><input type="checkbox" id="acutil_params_multi2decdos" /><label for="acutil_params_multi2decdos">Multi2DecDos</label></p>
         <h2><span>ソース読み込み</span></h2>
         <p class="check third"><input type="radio" id="acutil_params_source_lssource" name="acutil_params_source" value="lssource" checked="checked" /><label for="acutil_params_source_lssource">L-SMASH Source</label></p>
         <p class="check third"><input type="radio" id="acutil_params_source_dgindex" name="acutil_params_source" value="dgindex" /><label for="acutil_params_source_dgindex">DGIndex</label></p>
@@ -134,6 +136,9 @@
         <p class="check third"><input type="radio" id="acutil_params_trim_none" name="acutil_params_trim" value="none" checked="checked" /><label for="acutil_params_trim_none">CMカットしない</label></p>
         <p class="check third"><input type="radio" id="acutil_params_trim_joinlogoscp" name="acutil_params_trim" value="joinlogoscp" /><label for="acutil_params_trim_joinlogoscp">join_logo_scp</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_edittrim" /><label for="acutil_params_edittrim">手動CMカット</label></p>
+        <h2><span>逆テレシネ・インターレース解除</span></h2>
+        <p class="check third"><input type="radio" id="acutil_params_deint_kfm_24p" name="acutil_params_deint" value="kfm_24p"  checked="checked" /><label for="acutil_params_deint_kfm_24p">KFM 24p</label></p>
+        <p class="check third"><input type="radio" id="acutil_params_deint_kfm_vfr" name="acutil_params_deint" value="kfm_vfr" /><label for="acutil_params_deint_kfm_vfr">KFM VFR</label></p>
         <h2><span>その他</span></h2>
         <p class="check third"><input type="checkbox" id="acutil_params_caption2ass" /><label for="acutil_params_caption2ass">Caption2Ass</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_autovfr" /><label for="acutil_params_autovfr">AutoVfr</label></p>
@@ -175,14 +180,14 @@
           <h2><span>パラメータ</span></h2>
           <p class="form check half"><input type="checkbox" id="config_avs_check" /><label for="config_avs_check">avsファイル</label><select id="config_avs" disabled="disabled"></select></p>
           <p class="form check half"><input type="checkbox" id="config_preset_check" /><label for="config_preset_check">プリセット</label><select id="config_preset" disabled="disabled"></select></p>
-          <p class="check third"><input type="checkbox" id="config_reset" class="indeterminate" /><label for="config_reset">リセット</small></label></p>
-          <p class="check third"><input type="checkbox" id="config_clean" class="indeterminate" /><label for="config_clean">クリーン</label></p>
-          <p class="check third"><input type="checkbox" id="config_onlytrim" class="indeterminate" /><label for="config_onlytrim">CMカットのみ</label></p>
-          <p class="check third"><input type="checkbox" id="config_editavs" class="indeterminate" /><label for="config_editavs">avsファイル編集</label></p>
+          <p class="check fifth"><input type="checkbox" id="config_reset" class="indeterminate" /><label for="config_reset">リセット</small></label></p>
+          <p class="check fifth"><input type="checkbox" id="config_clean" class="indeterminate" /><label for="config_clean">クリーン</label></p>
+          <p class="check fourth1"><input type="checkbox" id="config_onlytrim" class="indeterminate" /><label for="config_onlytrim">CMカットのみ</label></p>
+          <p class="check fourth2"><input type="checkbox" id="config_editavs" class="indeterminate" /><label for="config_editavs">avsファイル編集</label></p>
           <h2><span>TS解析・抽出</span></h2>
           <p class="check third"><input type="checkbox" id="config_tssplitter" class="indeterminate" /><label for="config_tssplitter">TsSplitter</label></p>
           <p class="check third"><input type="checkbox" id="config_ffprobe" class="indeterminate" /><label for="config_ffprobe">ffprobe</label></p>
-          <p class="check third"><input type="checkbox" id="config_multi2decdos" class="indeterminate" /><label for="config_multi2decdos">multi2decdos</label></p>
+          <p class="check third"><input type="checkbox" id="config_multi2decdos" class="indeterminate" /><label for="config_multi2decdos">Multi2DecDos</label></p>
           <h2><span>ソース読み込み</span></h2>
           <p class="check third"><input type="radio" id="config_source_lssource" name="config_source" value="lssource" /><label for="config_source_lssource">L-SMASH Source</label></p>
           <p class="check third"><input type="radio" id="config_source_dgindex" name="config_source" value="dgindex" /><label for="config_source_dgindex">DGIndex</label></p>
@@ -194,6 +199,9 @@
           <p class="check third"><input type="radio" id="config_trim_none" name="config_trim" value="none" /><label for="config_trim_none">CMカットしない</label></p>
           <p class="check third"><input type="radio" id="config_trim_joinlogoscp" name="config_trim" value="joinlogoscp" /><label for="config_trim_joinlogoscp">join_logo_scp</label></p>
           <p class="check third"><input type="checkbox" id="config_edittrim" class="indeterminate" /><label for="config_edittrim">手動CMカット</label></p>
+          <h2><span>逆テレシネ・インターレース解除</span></h2>
+          <p class="check third"><input type="radio" id="config_params_deint_kfm_24p" name="config_deint" value="kfm_24p" /><label for="config_deint_kfm_24p">KFM 24p</label></p>
+          <p class="check third"><input type="radio" id="config_params_deint_kfm_vfr" name="config_deint" value="kfm_vfr" /><label for="config_deint_kfm_vfr">KFM VFR</label></p>
           <h2><span>その他</span></h2>
           <p class="check third"><input type="checkbox" id="config_caption2ass" class="indeterminate" /><label for="config_caption2ass">Caption2Ass</label></p>
           <p class="check third"><input type="checkbox" id="config_autovfr" class="indeterminate" /><label for="config_autovfr">AutoVfr</label></p>

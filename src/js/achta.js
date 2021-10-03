@@ -27,6 +27,7 @@ $(function() {
                     avspmod: "file",
                     avspmod_avs: "file",
                     caption2ass: "file",
+                    kfmdeint_avs: "file",
                     autovfr: "file",
                     autovfr_avs: "file",
                     autovfr_ini: "file",
@@ -64,6 +65,7 @@ $(function() {
                     reset: "boolean",
                     clean: "boolean",
                     onlytrim: "boolean",
+                    editavs: "boolean",
                     tssplitter: "boolean",
                     ffprobe: "boolean",
                     multi2decdos: "boolean",
@@ -71,10 +73,10 @@ $(function() {
                     demuxer: "string",
                     trim: "string",
                     edittrim: "boolean",
+                    deint: "string",
                     caption2ass: "boolean",
                     autovfr: "boolean",
-                    eraselogo: "boolean",
-                    editavs: "boolean"
+                    eraselogo: "boolean"
                 },
                 macro: {
                     dir: "string",
