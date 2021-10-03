@@ -8,7 +8,7 @@
             var path = env.item("PATH");
             var fs = new ActiveXObject("Scripting.FileSystemObject");
 
-            env.item("PATH") = path + ";" + fs.getParentFolderName(WScript.ScriptFullName) + "\\..\\bin\\AviSynthPlus";
+            env.item("PATH") = path + ";" + fs.getParentFolderName(WScript.ScriptFullName) + "\\..\\bin\\AviSynthNeo";
             // WScript.Echo(env.item("PATH"));
             WshShell.Exec(
                 fs.BuildPath(fs.GetSpecialFolder(1), "mshta") + ".exe "

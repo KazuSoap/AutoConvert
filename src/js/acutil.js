@@ -394,7 +394,7 @@
         proc.prepare({
             rplsinfo: this.path.rplsinfo,
             input: this.args.input
-        }, {window: 0, stdout: true});
+        }, {window: 0, stdout: true, charset: "UTF-8"});
 
         var exec = proc.run();
 
@@ -428,7 +428,6 @@
         } else {
             this.options.info.genre = ["etc", "etc"];
         }
-
 
         if (this.options.debug)
             this.log("getInfoFromRplsinfo: " + JSON.stringify(this.options.info, null, "    "));

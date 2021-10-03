@@ -209,7 +209,8 @@
             this.options = {
                 window: 0,
                 stdout: false,
-                debug: false
+                debug: false,
+                charset: "Shift-JIS"
             };
         },
         prepare: function(args, options) {
@@ -225,7 +226,11 @@
                 this.command = this.command.replace(reg, args[key]);
             }
 
-            if (options) this.options = options;
+            if (options) {
+                for (var key in options) {
+                    this.options[key] = options[key];
+                }
+            }
         },
         run: function() {
             var list, stdout;
@@ -243,7 +248,10 @@
                 this.options.window, true);
 
             if (this.options.stdout) {
-                var read = stdout.read("Shift-JIS");
+                var read = stdout.read(this.options.charset);
+                // alert(this.options.encode + "\n--------------\n" +
+                //       this.command + "\n--------------\n" +
+                //       read + "\n--------------\n");
 
                 stdout.remove();
 
