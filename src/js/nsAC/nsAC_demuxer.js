@@ -108,38 +108,12 @@ var nsAC = nsAC || {};
 
         for (var i = 0; i < audio_id.length; i++) {
             var files = input.parent().findFiles(new RegExp(regexp_base + " PID " + audio_id[i].toString(16)));
-
             if (files.length !== 1) {
                 aclib.log("Can't find audio file.", 1);
                 return false;
             }
 
-            //---------------------------------------------------------------------------
-            // aacfaw.dll (AACをFAWとして読み込むプラグイン) を用いて avs 上で直接 aac を
-            // fakeaacwav に変換して読み込むする場合はコメントアウト
-            // fawcl.exe で aac を fakeaacwav に変換後 avs で読み込む場合はアンコメント
-            //---------------------------------------------------------------------------
-            // if ( this.preset.audio.type === "fakeaacwav" ) {
-            //     // Run process
-            //     var proc = new Process('"${encoder}" "${input}" "${output}"');
-
-            //     proc.prepare({
-            //         encoder: this.preset.audio.encoder,
-            //         input: files[0].path(),
-            //         output: files[0].parent().childFile(files[0].base() + ".wav").path()
-            //     }, {window: this.settings.window, debug: this.options.debug});
-
-            //     if (!proc.run()) {
-            //         aclib.log("Process failed. (aac to fakeaacwav)", 1);
-            //         return false;
-            //     }
-            // }
-            //---------------------------------------------------------------------------
-            // See also "nsAC_avisynth.js"
-            //---------------------------------------------------------------------------
-
             var match = files[0].base().match(/DELAY (-*\d+)ms/);
-
             if (!match) {
                 aclib.log("Can't get delay info.", 1);
                 return false;
@@ -289,6 +263,103 @@ var nsAC = nsAC || {};
         if (!output.write(str)) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
+        }
+
+        return true;
+    };
+
+    // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.fixDroppedAac = function() {
+        var input = new File(this.args.input);
+        var demuxer_output_path = input.base() + "." + this.params.demuxer
+        if (this.params.demuxer == "tsparser") {
+            demuxer_output_path += "_" + this.params.source
+        }
+        demuxer_output_path += ".json"
+
+        function fixAacByVlc(self, source) {
+            var fixed = new File(source);
+            var fixed_mp4 = fixed.parent().childFile(fixed.base() + ".mp4");
+            var orig = fixed.parent().childFile(fixed.base() + ".orig.aac");
+
+            // move file
+            if (orig.exists() && fixed.exists()) {
+                return true;
+            }
+
+            if (!fixed.move(orig.path())) {
+                aclib.log("Can't move file.", 1);
+                return false;
+            }
+
+            var proc = new Process('"${vlc}" -I dummy -vvv "${input}" --sout=#transcode{}:standard{access=file,mux=ts,dst="${output}"} vlc://quit');
+            proc.prepare({
+                vlc: self.path.vlc,
+                input: orig.path(),
+                output: fixed_mp4.path()
+            }, {window: self.settings.window, debug: self.options.debug});
+
+            if (!proc.run()) {
+                aclib.log("Process failed.", 1);
+                return false;
+            }
+
+            if (!fixed_mp4.exists()) {
+                aclib.log("Can't get fixed mp4.", 1);
+                return false;
+            }
+
+            var proc2 = new Process('"${ffmpeg}" -i "${input}" -vn -acodec copy "${output}"');
+            proc2.prepare({
+                ffmpeg: self.path.ffmpeg,
+                input: fixed_mp4.path(),
+                output: fixed.path()
+            }, {window: self.settings.window, stdout: true, debug: self.options.debug});
+
+            if (!proc2.run()) {
+                aclib.log("Process failed.", 1);
+                return false;
+            }
+
+            if (!fixed.exists()) {
+                aclib.log("Can't get fixed aac.", 1);
+                return false;
+            }
+
+            fixed_mp4.remove()
+
+            return true;
+        }
+
+        var demuxer_output = input.parent().childFile(demuxer_output_path);
+        var re = /.*PID\s*([0-9a-f]*)\s.* /g
+        if (!this.params.reset && demuxer_output.exists()) {
+            var output_out = demuxer_output.read();
+            if (output_out === null) {
+                aclib.log("Can't read file. [" + demuxer_output.path() + "]", 1);
+                return false;
+            }
+
+            var demuxer_output_obj;
+            try {
+                demuxer_output_obj = JSON.parse(output_out);
+            } catch (err) {
+                aclib.log("Can't parse JSON. [" + demuxer_output.path() + "]", 1);
+                return false;
+            }
+
+            var ret_val = demuxer_output_obj.audio.every(function(value) {
+                var pid = parseInt(value.replace(re,"$1"),16).toString(16)
+                if (pid in this.options.info.drop) {
+                    this.preset.muxer = "mp4box";
+                    return fixAacByVlc(this, value);
+                }
+
+                return true;
+            }, this);
+
+
+            return ret_val;
         }
 
         return true;

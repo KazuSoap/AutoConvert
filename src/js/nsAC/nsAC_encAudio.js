@@ -50,6 +50,13 @@ var nsAC = nsAC || {};
             this.options.mux.audio.push(fakeaacwav_ext.path());
         }
 
+        // var input = new File(this.args.input);
+        // var dropped_flag = input.parent().childFile(input.base() + ".dropped_flag.txt");
+        // if (dropped_flag.exists()) {
+        //     this.preset.muxer = "mp4box"
+        //     aclib.log("Change muxer: " + this.preset.muxer);
+        // }
+
         return true;
     };
 
