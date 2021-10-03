@@ -148,12 +148,13 @@ var nsAC = nsAC || {};
         });
 
         // Run process
-        var proc = new Process('"${mp4box}" ${args} -new "${output}"');
+        var proc = new Process('"${mp4box}" -chap "${chapter}" ${args} -new "${output}"');
 
         proc.prepare({
             mp4box: this.path.mp4box,
             args: args,
-            output: mp4box_mp4.path()
+            output: mp4box_mp4.path(),
+            chapter: this.options.mux.chapter[0]
         }, {window: this.settings.window, debug: this.options.debug});
 
         if (!proc.run()) {
