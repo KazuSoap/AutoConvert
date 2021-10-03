@@ -545,7 +545,7 @@
             number = info[2] === "" ? number : parseInt(info[2], 10);
             subtitle = info[3] === "" ? subtitle : info[3];
 
-            if (info[4] !== "" && info[5] !== "") {
+            if (info[4] !== "" && info[5] !== "" && info[4] != null && info[5] != null) {
                 start = new Date(parseInt(info[4].slice(0, 4), 10),
                                  parseInt(info[4].slice(4, 6), 10) - 1,
                                  parseInt(info[4].slice(6, 8), 10),
@@ -554,7 +554,7 @@
                                  parseInt(info[5].slice(4, 6), 10));
             }
 
-            if (info[6] !== "" && info[7] !== "") {
+            if (info[6] !== "" && info[7] !== "" && info[6] != null && info[7] != null) {
                 end = new Date(parseInt(info[6].slice(0, 4), 10),
                                parseInt(info[6].slice(4, 6), 10) - 1,
                                parseInt(info[6].slice(6, 8), 10),
