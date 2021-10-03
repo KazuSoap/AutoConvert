@@ -3,7 +3,7 @@
         "type": "specific",
         "extension": "264",
         "encoder": "${path}\\bin\\NVEncC\\NVEncC64.exe",
-        "option": "--avhw --y4m --vbrhq 0 --vbr-quality 25 --lookahead 32 -i ${video} -o ${output}"
+        "option": "--y4m --vbrhq 0 --vbr-quality 25 --lookahead 32 -i ${video} -o ${output}"
     },
     "audio": {
         "type": "fakeaacwav",
