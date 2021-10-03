@@ -2,13 +2,13 @@
     "video": {
         "type": "specific",
         "extension": "264",
-        "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x64\\NVEncC64.exe",
+        "encoder": "${path}\\bin\\NVEncC\\NVEncC64.exe",
         "option": "--avhw --y4m --vbrhq 0 --vbr-quality 25 --lookahead 32 --sar 4:3 -i ${video} -o ${output}"
     },
     "audio": {
         "type": "fakeaacwav",
         "extension": "aac",
-        "encoder": "${path}\\bin\\FakeAacWav\\fawcl.exe",
+        "encoder": "${path}\\bin\\FakeAacWav_x86\\fawcl.exe",
         "option": "${wav} ${output}"
     },
     "muxer": "lsmuxer"

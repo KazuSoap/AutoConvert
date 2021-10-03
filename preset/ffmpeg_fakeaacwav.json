@@ -8,7 +8,7 @@
     "audio": {
         "type": "fakeaacwav",
         "extension": "aac",
-        "encoder": "${path}\\bin\\FakeAacWav\\fawcl.exe",
+        "encoder": "${path}\\bin\\FakeAacWav_x86\\fawcl.exe",
         "option": "${wav} ${output}"
     },
     "muxer": "none"

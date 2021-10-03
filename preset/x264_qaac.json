@@ -8,7 +8,7 @@
     "audio": {
         "type": "normal",
         "extension": "m4a",
-        "encoder": "${path}\\bin\\qaac\\x86\\qaac.exe",
+        "encoder": "${path}\\bin\\qaac\\qaac64.exe",
         "option": "-V 127 ${wav} -o ${output}"
     },
     "muxer": "lsmuxer"

@@ -2,13 +2,13 @@
     "video": {
         "type": "specific",
         "extension": "264",
-        "encoder": "${path}\\bin\\NVEnc\\NVEncC\\x86\\NVEncC.exe",
+        "encoder": "${path}\\bin\\NVEncC\\NVEncC64.exe",
         "option": "--y4m --cqp 21:23:23 -i ${video} -o ${output}"
     },
     "audio": {
         "type": "normal",
         "extension": "m4a",
-        "encoder": "neroAacEnc.exeへのパス",
+        "encoder": "${path}\\bin\\NeroAACCodec_x86\\neroAacEnc.exe",
         "option": "-q 1 -if ${wav} -of ${output}"
     },
     "muxer": "lsmuxer"
