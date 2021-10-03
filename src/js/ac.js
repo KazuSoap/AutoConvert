@@ -33,6 +33,7 @@ var nsAC = nsAC || {};
             "onlytrim": false,
             "tssplitter": false,
             "ffprobe": false,
+            "multi2decdos": false,
             "source": "lssource",
             "demuxer": "none",
             "trim": "none",
@@ -64,7 +65,8 @@ var nsAC = nsAC || {};
             opt: "",
             info: {
                 video: [],
-                audio: []
+                audio: [],
+                drop: {}
             },
             avs: {
                 video: [],

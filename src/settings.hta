@@ -44,16 +44,13 @@
         <h2><span>TS解析・抽出</span></h2>
         <p class="path"><label for="ac_path_tssplitter">TsSplitter</label><input type="text" id="ac_path_tssplitter" /><input type="button" value="..." id="ac_path_tssplitter_browse" /></p>
         <p class="path"><label for="ac_path_ffprobe">ffprobe</label><input type="text" id="ac_path_ffprobe" /><input type="button" value="..." id="ac_path_ffprobe_browse" /></p>
+        <p class="path"><label for="ac_path_ffmpeg">ffmpeg</label><input type="text" id="ac_path_ffmpeg" /><input type="button" value="..." id="ac_path_ffmpeg_browse" /></p>
+        <p class="path"><label for="ac_path_multi2decdos">Multi2DecDos</label><input type="text" id="ac_path_multi2decdos" /><input type="button" value="..." id="ac_path_multi2decdos_browse" /></p>
+        <p class="path"><label for="ac_path_vlc">VideoLAN</label><input type="text" id="ac_path_vlc" /><input type="button" value="..." id="ac_path_vlc_browse" /></p>
         <p class="path"><label for="ac_path_dgindex">DGIndex</label><input type="text" id="ac_path_dgindex" /><input type="button" value="..." id="ac_path_dgindex_browse" /></p>
-        <p class="path"><label for="ac_path_dgindexnv">DGIndexNV</label><input type="text" id="ac_path_dgindexnv" /><input type="button" value="..." id="ac_path_dgindexnv_browse" /></p>
-        <p class="path"><label for="ac_path_dgindexim">DGIndexIM</label><input type="text" id="ac_path_dgindexim" /><input type="button" value="..." id="ac_path_dgindexim_browse" /></p>
         <p class="path"><label for="ac_path_tsparser">ts_parser</label><input type="text" id="ac_path_tsparser" /><input type="button" value="..." id="ac_path_tsparser_browse" /></p>
         <p class="path"><label for="ac_path_ts2aac">ts2aac</label><input type="text" id="ac_path_ts2aac" /><input type="button" value="..." id="ac_path_ts2aac_browse" /></p>
         <h2><span>CMカット</span></h2>
-        <p class="path"><label for="ac_path_comskip">Comskip</label><input type="text" id="ac_path_comskip" /><input type="button" value="..." id="ac_path_comskip_browse" /></p>
-        <p class="path"><label for="ac_path_comskip_ini">Comskip ini</label><input type="text" id="ac_path_comskip_ini" /><input type="button" value="..." id="ac_path_comskip_ini_browse" /></p>
-        <p class="path"><label for="ac_path_logoguillo">logoGuillo</label><input type="text" id="ac_path_logoguillo" /><input type="button" value="..." id="ac_path_logoguillo_browse" /></p>
-        <p class="path"><label for="ac_path_logoguillo_avs">logoGuillo avs</label><input type="text" id="ac_path_logoguillo_avs" /><input type="button" value="..." id="ac_path_logoguillo_avs_browse" /></p>
         <p class="path"><label for="ac_path_logoframe">logoframe</label><input type="text" id="ac_path_logoframe" /><input type="button" value="..." id="ac_path_logoframe_browse" /></p>
         <p class="path"><label for="ac_path_chapterexe">chapter_exe</label><input type="text" id="ac_path_chapterexe" /><input type="button" value="..." id="ac_path_chapterexe_browse" /></p>
         <p class="path"><label for="ac_path_joinlogoscp">join_logo_scp</label><input type="text" id="ac_path_joinlogoscp" /><input type="button" value="..." id="ac_path_joinlogoscp_browse" /></p>
@@ -77,10 +74,6 @@
       <div id="content_ac_command" class="content" style="display: none;">
         <p class="text"><label for="ac_command_tssplitter">TsSplitter</label><input type="text" id="ac_command_tssplitter" /></p>
         <p class="text"><label for="ac_command_dgindex">DGIndex</label><input type="text" id="ac_command_dgindex" /></p>
-        <p class="text"><label for="ac_command_dgindexnv">DGIndexNV</label><input type="text" id="ac_command_dgindexnv" /></p>
-        <p class="text"><label for="ac_command_dgindexim">DGIndexIM</label><input type="text" id="ac_command_dgindexim" /></p>
-        <p class="text"><label for="ac_command_comskip">Comskip</label><input type="text" id="ac_command_comskip" /></p>
-        <p class="text"><label for="ac_command_logoguillo">logoGuillo</label><input type="text" id="ac_command_logoguillo" /></p>
         <p class="text"><label for="ac_command_logoframe">logoframe</label><input type="text" id="ac_command_logoframe" /></p>
         <p class="text"><label for="ac_command_chapterexe">chapter_exe</label><input type="text" id="ac_command_chapterexe" /></p>
         <p class="text"><label for="ac_command_joinlogoscp">join_logo_scp</label><input type="text" id="ac_command_joinlogoscp" /></p>
@@ -117,7 +110,7 @@
         <p class="check half"><input type="checkbox" id="acutil_settings_programtxt" /><label for="acutil_settings_programtxt">program.txt使用<small>情報の取得に"ts.program.txt"を使用します</small></label></p>
         <p class="check half"><input type="checkbox" id="acutil_settings_rplsinfo" /><label for="acutil_settings_rplsinfo">rplsinfo使用<small>情報の取得にrplsinfoを使用します</small></label></p>
         <p class="check half"><input type="checkbox" id="acutil_settings_screname" /><label for="acutil_settings_screname">SCRename使用<small>情報の取得にSCRenameを使用します</small></label></p>
-        <p class="check half"><input type="checkbox" id="acutil_settings_checkdrop" /><label for="acutil_settings_checkdrop">ドロップの確認<small>"ts.err"を使用して映像と音声のドロップを確認します</small></label></p>
+        <p class="check half"><input type="checkbox" id="acutil_settings_checkdrop" /><label for="acutil_settings_checkdrop">ドロップの確認<small>"Multi2DecDos"を使用してTS fileのドロップを確認します</small></label></p>
       </div>
       <div id="content_acutil_params" class="content" style="display: none;">
         <p class="form half"><label for="acutil_params_avs">avsファイル</label><select id="acutil_params_avs"></select></p>
@@ -125,22 +118,20 @@
         <p class="check third"><input type="checkbox" id="acutil_params_reset" /><label for="acutil_params_reset">リセット</small></label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_clean" /><label for="acutil_params_clean">クリーン</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_onlytrim" /><label for="acutil_params_onlytrim">CMカットのみ</label></p>
+        <p class="check third"><input type="checkbox" id="acutil_params_editavs" /><label for="acutil_params_editavs">avsファイル編集</label></p>
+        <h2><span>TS解析・抽出</span></h2>
         <p class="check third"><input type="checkbox" id="acutil_params_tssplitter" /><label for="acutil_params_tssplitter">TsSplitter</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_ffprobe" /><label for="acutil_params_ffprobe">ffprobe</label></p>
-        <p class="check third"><input type="checkbox" id="acutil_params_editavs" /><label for="acutil_params_editavs">avsファイル編集</label></p>
+        <p class="check third"><input type="checkbox" id="acutil_params_multi2decdos" /><label for="acutil_params_multi2decdos">multi2decdos</label></p>
         <h2><span>ソース読み込み</span></h2>
         <p class="check third"><input type="radio" id="acutil_params_source_lssource" name="acutil_params_source" value="lssource" checked="checked" /><label for="acutil_params_source_lssource">L-SMASH Source</label></p>
         <p class="check third"><input type="radio" id="acutil_params_source_dgindex" name="acutil_params_source" value="dgindex" /><label for="acutil_params_source_dgindex">DGIndex</label></p>
-        <p class="check third"><input type="radio" id="acutil_params_source_dgindexnv" name="acutil_params_source" value="dgindexnv" /><label for="acutil_params_source_dgindexnv">DGIndexNV</label></p>
-        <p class="check third"><input type="radio" id="acutil_params_source_dgindexim" name="acutil_params_source" value="dgindexim" /><label for="acutil_params_source_dgindexim">DGIndexIM</label></p>
         <h2><span>Demuxer</span></h2>
         <p class="check third"><input type="radio" id="acutil_params_demuxer_none" name="acutil_params_demuxer" value="none" checked="checked" /><label for="acutil_params_demuxer_none">分離しない</label></p>
         <p class="check third"><input type="radio" id="acutil_params_demuxer_tsparser" name="acutil_params_demuxer" value="tsparser" /><label for="acutil_params_demuxer_tsparser">ts_parser</label></p>
         <p class="check third"><input type="radio" id="acutil_params_demuxer_ts2aac" name="acutil_params_demuxer" value="ts2aac" /><label for="acutil_params_demuxer_ts2aac">ts2aac</label></p>
         <h2><span>CMカット</span></h2>
         <p class="check third"><input type="radio" id="acutil_params_trim_none" name="acutil_params_trim" value="none" checked="checked" /><label for="acutil_params_trim_none">CMカットしない</label></p>
-        <p class="check third"><input type="radio" id="acutil_params_trim_comskip" name="acutil_params_trim" value="comskip" /><label for="acutil_params_trim_comskip">Comskip</label></p>
-        <p class="check third"><input type="radio" id="acutil_params_trim_logoguillo" name="acutil_params_trim" value="logoguillo" /><label for="acutil_params_trim_logoguillo">logoGuillo</label></p>
         <p class="check third"><input type="radio" id="acutil_params_trim_joinlogoscp" name="acutil_params_trim" value="joinlogoscp" /><label for="acutil_params_trim_joinlogoscp">join_logo_scp</label></p>
         <p class="check third"><input type="checkbox" id="acutil_params_edittrim" /><label for="acutil_params_edittrim">手動CMカット</label></p>
         <h2><span>その他</span></h2>
@@ -187,22 +178,20 @@
           <p class="check third"><input type="checkbox" id="config_reset" class="indeterminate" /><label for="config_reset">リセット</small></label></p>
           <p class="check third"><input type="checkbox" id="config_clean" class="indeterminate" /><label for="config_clean">クリーン</label></p>
           <p class="check third"><input type="checkbox" id="config_onlytrim" class="indeterminate" /><label for="config_onlytrim">CMカットのみ</label></p>
+          <p class="check third"><input type="checkbox" id="config_editavs" class="indeterminate" /><label for="config_editavs">avsファイル編集</label></p>
+          <h2><span>TS解析・抽出</span></h2>
           <p class="check third"><input type="checkbox" id="config_tssplitter" class="indeterminate" /><label for="config_tssplitter">TsSplitter</label></p>
           <p class="check third"><input type="checkbox" id="config_ffprobe" class="indeterminate" /><label for="config_ffprobe">ffprobe</label></p>
-          <p class="check third"><input type="checkbox" id="config_editavs" class="indeterminate" /><label for="config_editavs">avsファイル編集</label></p>
+          <p class="check third"><input type="checkbox" id="config_multi2decdos" class="indeterminate" /><label for="config_multi2decdos">multi2decdos</label></p>
           <h2><span>ソース読み込み</span></h2>
           <p class="check third"><input type="radio" id="config_source_lssource" name="config_source" value="lssource" /><label for="config_source_lssource">L-SMASH Source</label></p>
           <p class="check third"><input type="radio" id="config_source_dgindex" name="config_source" value="dgindex" /><label for="config_source_dgindex">DGIndex</label></p>
-          <p class="check third"><input type="radio" id="config_source_dgindexnv" name="config_source" value="dgindexnv" /><label for="config_source_dgindexnv">DGIndexNV</label></p>
-          <p class="check third"><input type="radio" id="config_source_dgindexim" name="config_source" value="dgindexim" /><label for="config_source_dgindexim">DGIndexIM</label></p>
           <h2><span>Demuxer</span></h2>
           <p class="check third"><input type="radio" id="config_demuxer_none" name="config_demuxer" value="none" /><label for="config_demuxer_none">分離しない</label></p>
           <p class="check third"><input type="radio" id="config_demuxer_tsparser" name="config_demuxer" value="tsparser" /><label for="config_demuxer_tsparser">ts_parser</label></p>
           <p class="check third"><input type="radio" id="config_demuxer_ts2aac" name="config_demuxer" value="ts2aac" /><label for="config_demuxer_ts2aac">ts2aac</label></p>
           <h2><span>CMカット</span></h2>
           <p class="check third"><input type="radio" id="config_trim_none" name="config_trim" value="none" /><label for="config_trim_none">CMカットしない</label></p>
-          <p class="check third"><input type="radio" id="config_trim_comskip" name="config_trim" value="comskip" /><label for="config_trim_comskip">Comskip</label></p>
-          <p class="check third"><input type="radio" id="config_trim_logoguillo" name="config_trim" value="logoguillo" /><label for="config_trim_logoguillo">logoGuillo</label></p>
           <p class="check third"><input type="radio" id="config_trim_joinlogoscp" name="config_trim" value="joinlogoscp" /><label for="config_trim_joinlogoscp">join_logo_scp</label></p>
           <p class="check third"><input type="checkbox" id="config_edittrim" class="indeterminate" /><label for="config_edittrim">手動CMカット</label></p>
           <h2><span>その他</span></h2>

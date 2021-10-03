@@ -827,36 +827,9 @@
                     this.params.demuxer = "none";
                 }
                 break;
-            case "dgindexnv":
-                if (this.params.demuxer !== "none") {
-                    this.log("Can't use demuxer with dgindexnv.", 1);
-                    this.log("Turn off demuxer.");
-                    this.params.demuxer = "none";
-                }
-                break;
-            case "dgindexim":
-                if (this.params.demuxer !== "none") {
-                    this.log("Can't use demuxer with dgindexim.", 1);
-                    this.log("Turn off demuxer.");
-                    this.params.demuxer = "none";
-                }
-                break;
         }
 
         switch (this.params.trim) {
-            case "comskip":
-                break;
-            case "logoguillo":
-                if (!logo_data.exists()) {
-                    this.log("LogoData doesn't exist. [" + logo_data.path() + "]");
-                    this.log("Turn off trim.");
-                    this.params.trim = "none";
-                } else if (!logo_param.exists()) {
-                    this.log("LogoParam doesn't exist. [" + logo_param.path() + "]");
-                    this.log("Turn off trim.");
-                    this.params.trim = "none";
-                }
-                break;
             case "joinlogoscp":
                 if (!logo_data.exists()) {
                     this.log("LogoData doesn't exist. [" + logo_data.path() + "]");
