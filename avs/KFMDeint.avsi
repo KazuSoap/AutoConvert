@@ -71,10 +71,6 @@ function KFMDeint(clip src, int "mode", int "pass", string "preset", int "source
         # QTGMC/KTGMCを呼び出す useFlagは 0:通常 1:前のフィールドだけを使って補間 2:後ろのフィールドだけを使って補間
         # useFlagはKTGMCのみ対応（QTGMCは無視される）
         # 動きベクトルなどは再利用するので0を最初に呼び出してから1,2を呼び出すこと
-        # xTGMC = function[preset, cuda, dev](clip c, int useFlag) {
-        #     prevGlobals = (useFlag == 0) ? "Replace" : "Reuse"
-        #     cuda ? c.KTGMC(Preset=preset, dev=dev, PrevGlobals=prevGlobals, useFlag=useFlag) : c.QTGMC(Preset=preset)
-        # }
         xTGMC = function[preset, sourceMatch, lossless, cuda, dev](clip c, int useFlag) {
             prevGlobals = (useFlag == 0) ? "Replace" : "Reuse"
             cuda ? c.KTGMC(Preset=preset, SourceMatch=sourceMatch, Lossless=lossless, dev=dev, PrevGlobals=prevGlobals, useFlag=useFlag) : c.QTGMC(Preset=preset)
@@ -149,7 +145,7 @@ function KFMDeint(clip src, int "mode", int "pass", string "preset", int "source
         mode = (pass >= 3) ? 2 : pass
         fmclip = super.KPreCycleAnalyze()
         fmclip = cuda ? fmclip.OnDEV() : fmclip.Prefetch(threads)
-        fmclip = fmclip.KFMCycleAnalyze(src, mode=mode, filepath=filepath).OnCPU(1)
+        fmclip = fmclip.KFMCycleAnalyze(src, mode=mode, filepath=filepath, debug=(out24) ? 1 : 0).OnCPU(1)
 
         if(pass == 1) {
             return fmclip
