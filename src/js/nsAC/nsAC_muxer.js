@@ -2,25 +2,26 @@ var nsAC = nsAC || {};
 
 (function() {
     // -----------------------------------------------------------
+    function check(path) {
+        var ftyp;
+        try {
+            var ado = new ActiveXObject("ADODB.Stream");
+            ado.Type = 2;
+            ado.Charset = "ascii";
+            ado.Open();
+            ado.LoadFromFile(path);
+            ado.Position = 4;
+            ftyp = ado.ReadText(4);
+            ado.Close();
+        } catch (err) {
+            return null;
+        }
+        return ftyp === "ftyp";
+    }
+
+    // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.lsmuxer = function() {
         var self = this;
-
-        function check(path) {
-            var ftyp;
-            try {
-                var ado = new ActiveXObject("ADODB.Stream");
-                ado.Type = 2;
-                ado.Charset = "ascii";
-                ado.Open();
-                ado.LoadFromFile(path);
-                ado.Position = 4;
-                ftyp = ado.ReadText(4);
-                ado.Close();
-            } catch (err) {
-                return null;
-            }
-            return ftyp === "ftyp";
-        }
 
         function mux(source, dest) {
             var lsmuxer_source = new File(source);
@@ -133,7 +134,54 @@ var nsAC = nsAC || {};
     }
 
     // -----------------------------------------------------------
-    nsAC.AutoConvert.prototype.mp4box = function() {
+    nsAC.AutoConvert.prototype.mp4box_mux = function() {
+        var self = this;
+
+        function mux(source, dest) {
+            var mp4box_source = new File(source);
+            var mp4box_dest = new File(dest);
+
+            // Run process
+            var proc = new Process('"${mp4box}" -fps 59.94 -add ${input} -new "${output}"');
+            proc.prepare({
+                mp4box: self.path.mp4box,
+                input: mp4box_source.path(),
+                output: mp4box_dest.path()
+            }, {window: self.settings.window, debug: self.options.debug});
+
+            if (!proc.run()) {
+                aclib.log("Process failed.", 1);
+                return false;
+            }
+
+            // Check files
+            if (!mp4box_dest.exists()) {
+                aclib.log("Can't mux mp4.", 1);
+                return false;
+            }
+
+            return true;
+        }
+
+        function every(value, index, array) {
+            if (check(value)) return true;
+
+            var source = new File(value);
+            var dest = source.parent().childFile(source.base() + ".mp4box_mux.mp4");
+
+            array[index] = dest.path();
+
+            return mux(source.path(), dest.path());
+        }
+
+        if (!this.options.mux.video.every(every)) return false;
+        if (!this.options.mux.audio.every(every)) return false;
+
+        return true;
+    };
+
+    // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.mp4box_remux = function() {
         var mp4box_mp4 = new File(this.options.temp + ".mp4box.mp4");
 
         var args = "";
