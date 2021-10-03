@@ -135,7 +135,6 @@ var nsAC = nsAC || {};
         if (Object.keys(this.options.avs.trim).length === 0) return true;
 
         var input = new File(this.args.input);
-        var avs = new File(this.options.temp + ".avs");
         var trim_json = input.parent().childFile(input.base() + ".trim_" + this.params.source + ".json");
         var trim = this.options.avs.trim;
 
@@ -148,33 +147,6 @@ var nsAC = nsAC || {};
 
         if (!this.params.onlytrim) {
             this.options.clean.push(input.parent().childFile(input.base() + ".trim").path());
-
-            // Read
-            var script = avs.read("Shift-JIS");
-            if (script === null) {
-                aclib.log("Can't read file. [" + avs.path() + "]", 1);
-                return false;
-            }
-
-            // Replace & Write
-            if (this.params.autovfr && Object.keys(this.options.avs.trim).length === 2) {
-                var kfmprefix = input.base() + ".kfm_" + this.params.source;
-                var procKFM_dur = input.parent().childFile(kfmprefix + ".duration.txt");
-                var durations = procKFM_dur.read("Shift-JIS");
-                if (durations === null) {
-                    aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
-                    return false;
-                }
-                trim = nsAC.fixCfrTrim(durations, trim, false);
-            }
-
-            script = nsAC.replaceTrim(trim, script);
-            if (!avs.write(script, "Shift-JIS")) {
-                aclib.log("Can't write file. [" + avs.path() + "]", 1);
-                return false;
-            }
-
-            this.options.avs.trim = trim;
         }
 
         return true;
