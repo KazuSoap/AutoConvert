@@ -69,6 +69,10 @@ var nsAC = nsAC || {};
         var procKFM_dat = input.parent().childFile(kfmprefix + ".result.dat");
         var procKFM_dur = input.parent().childFile(kfmprefix + ".duration.txt");
         var procKFM_tmc = input.parent().childFile(kfmprefix + ".timecode.txt");
+        if (this.params.deint === "kfm_24p") {
+            procKFM_dur = input.parent().childFile(kfmprefix + ".debug.txt");
+            procKFM_tmc = input.parent().childFile(kfmprefix + ".pattern.txt");
+        }
 
         if (!procKFM_tmc.exists()) {
             var template_avs = new File(this.path.kfmdeint_avs);
@@ -77,6 +81,10 @@ var nsAC = nsAC || {};
                 aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
                 return false;
             }
+
+            kfm_mode = (this.params.deint === "kfm_24p") ? 2 : 0
+            script = script.replace(/__mode__/g, kfm_mode);
+            script = script.replace(/__kfmprefix__/g,'"' + input.parent().path() + "\\" + kfmprefix + '"');
 
             script = script.replace(/__kfmprefix__/g,'"' + input.parent().path() + "\\" + kfmprefix + '"');
             script = script.replace(/__path__/g, aclib.path());

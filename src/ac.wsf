@@ -14,7 +14,7 @@
     <script language="JScript" src="js/nsAC/nsAC_trimUtil.js" />
     <script language="JScript" src="js/nsAC/nsAC_detectCM.js" />
     <script language="JScript" src="js/nsAC/nsAC_caption2ass.js" />
-    <script language="JScript" src="js/nsAC/nsAC_autovfr.js" />
+    <script language="JScript" src="js/nsAC/nsAC_kfmDeint.js" />
     <script language="JScript" src="js/nsAC/nsAC_eraselogo.js" />
     <script language="JScript" src="js/nsAC/nsAC_avspmod.js" />
     <script language="JScript" src="js/nsAC/nsAC_encAudio.js" />
