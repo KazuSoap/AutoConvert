@@ -27,8 +27,10 @@ var nsAC = nsAC || {};
 
             eraselogo_str = eraselogo_obj.map(function(value) {
                 value.logofile = this.args.logo + ".lgd";
-                return aclib.replace('EraseLOGO_("${logofile}", start=${start}, fadein=${fadein}, fadeout=${fadeout}, ' +
-                                     'fieldin=${fieldin}, fieldout=${fieldout}, end=${end}, interlaced=true)', value);
+                // return aclib.replace('EraseLOGO_("${logofile}", start=${start}, fadein=${fadein}, fadeout=${fadeout}, ' +
+                //                      'fieldin=${fieldin}, fieldout=${fieldout}, end=${end}, interlaced=true)', value);
+                return aclib.replace('ExtErsLOGO("${logofile}", start=${start}, fadein=${fadein}, fadeout=${fadeout}, ' +
+                                     'itype_s=${fieldin}, itype_e=${fieldout}, end=${end})', value);
             }, this).join("\r\n");
         } else {
             eraselogo_str = 'EraseLOGO_("' + this.args.logo + '.lgd", interlaced=true)';

@@ -7,11 +7,13 @@ global Plugins = "__path__\plugins64\"
 global Scripts = "__path__\avs\"
 
 Import(Scripts + "function.avsi")
+Import(Scripts + "ExtErsLOGO.avsi")
 LoadPlugin(Plugins + "AvsCUDA.dll")
 LoadPlugin(Plugins + "KFM.dll")
 LoadPlugin(Plugins + "KUtil.dll")
 LoadPlugin(Plugins + "KTGMC.dll")
 LoadPlugin(Plugins + "KNNEDI3.dll")
+LoadPlugin(Plugins + "delogo.dll")
 
 Import(Scripts + "function.avsi")
 Import(Scripts + "KFMDeint.avsi")
