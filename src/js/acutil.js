@@ -418,11 +418,17 @@
                                          parseInt(match[2], 10) * 60 * 1000 +
                                          parseInt(match[3], 10) * 1000);
 
-        match = info[6].match(/(.*?) \u3014(.*?)\u3015/);
         this.options.info.service = aclib.toHalf(info[3]);
         this.options.info.title = aclib.toHalf(info[4]);
         this.options.info.content = aclib.toHalf(info[5]);
-        this.options.info.genre = [match[1], match[2]];
+
+        match = info[6].match(/(.*?) \u3014(.*?)\u3015/);
+        if (match != null) {
+            this.options.info.genre = [match[1], match[2]];
+        } else {
+            this.options.info.genre = ["etc", "etc"];
+        }
+
 
         if (this.options.debug)
             this.log("getInfoFromRplsinfo: " + JSON.stringify(this.options.info, null, "    "));
