@@ -77,8 +77,11 @@ var nsAC = nsAC || {};
                 case "-ffprobe":
                     this.params.ffprobe = true;
                     break;
+                case "-multi2decdos":
+                    this.params.multi2decdos = true;
+                    break;
                 case "-source":
-                    if (!checkNextArgument(i, ["lssource", "dgindex", "dgindexnv", "dgindexim"])) return false;
+                    if (!checkNextArgument(i, ["lssource", "dgindex"])) return false;
                     this.params.source = args[++i];
                     break;
                 case "-demuxer":
@@ -86,7 +89,7 @@ var nsAC = nsAC || {};
                     this.params.demuxer = args[++i];
                     break;
                 case "-trim":
-                    if (!checkNextArgument(i, ["none", "comskip", "logoguillo", "joinlogoscp"])) return false;
+                    if (!checkNextArgument(i, ["none", "joinlogoscp"])) return false;
                     this.params.trim = args[++i];
                     break;
                 case "-edittrim":

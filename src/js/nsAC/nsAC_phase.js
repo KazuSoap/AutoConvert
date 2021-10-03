@@ -18,6 +18,11 @@ var nsAC = nsAC || {};
                 if (!this.ffprobe()) return false;
             }
 
+            if (this.params.multi2decdos) {
+                aclib.log(">> multi2decdos");
+                if (!this.multi2decdos()) return false;
+            }
+
             break;
         case 1:
             aclib.log("> Source");
@@ -31,14 +36,9 @@ var nsAC = nsAC || {};
                 aclib.log(">> DGIndex");
                 if (!this.dgindex()) return false;
                 break;
-            case "dgindexnv":
-                aclib.log(">> DGIndexNV");
-                if (!this.dgindexnv()) return false;
-                break;
-            case "dgindexim":
-                aclib.log(">> DGIndexIM");
-                if (!this.dgindexim()) return false;
-                break;
+            default:
+                aclib.log(">> Please Set Source Reader", 1);
+                return false;
             }
 
             break;
@@ -46,9 +46,6 @@ var nsAC = nsAC || {};
             aclib.log("> Demux");
 
             switch (this.params.demuxer) {
-            case "none":
-                aclib.log(">> None");
-                break;
             case "tsparser":
                 aclib.log(">> ts_parser");
                 if (!this.tsparser()) return false;
@@ -57,46 +54,30 @@ var nsAC = nsAC || {};
                 aclib.log(">> ts2aac");
                 if (!this.ts2aac()) return false;
                 break;
+            case "none":
+            default:
+                aclib.log(">> None");
+            }
+
+            if (Object.keys(this.options.info.drop).length > 0) {
+                if (this.params.demuxer == "tsparser" || this.params.demuxer == "ts2aac" ) {
+                    aclib.log(">> fixed dropped AAC");
+                    if (!this.fixDroppedAac()) return false;
+                }
             }
 
             break;
         case 3:
-            aclib.log("> Avisynth");
-
-            if (this.params.onlytrim) {
-                aclib.log(">> None");
-            } else {
-                aclib.log(">> Avisynth");
-                if (!this.avisynth()) return false;
-            }
-
-            break;
-        case 4:
             aclib.log("> Depend Trim");
 
             aclib.log(">> Read Trim");
             if (!this.readTrim()) return false;
 
-            switch (this.params.trim) {
-            case "none":
-                aclib.log(">> None");
-                if (this.params.onlytrim && !this.params.edittrim) {
-                    aclib.log(">> Check Output Video");
-                    if (!this.checkOutputVideo()) return false;
-                }
-                break;
-            case "comskip":
-                aclib.log(">> Comskip");
-                if (!this.comskip()) return false;
-                break;
-            case "logoguillo":
-                aclib.log(">> logoGuillo");
-                if (!this.logoguillo()) return false;
-                break;
-            case "joinlogoscp":
+            if (this.params.trim === "joinlogoscp") {
                 aclib.log(">> join_logo_scp");
                 if (!this.joinlogoscp()) return false;
-                break;
+            } else {
+                aclib.log(">> None");
             }
 
             if (this.params.autovfr) {
@@ -113,9 +94,13 @@ var nsAC = nsAC || {};
             if (!this.writeTrim()) return false;
 
             break;
-        case 5:
+        case 4:
             if (this.params.onlytrim) break;
-            aclib.log("> Other");
+
+            aclib.log("> Avisynth Preprocess");
+
+            aclib.log(">> Generate Avisynth Script");
+            if (!this.avisynth()) return false;
 
             aclib.log(">> Generate Nero Chapter");
             if (!this.genNeroChapter()) return false;
@@ -141,14 +126,10 @@ var nsAC = nsAC || {};
             }
 
             break;
-        case 6:
-            aclib.log("> Encode/Mux");
+        case 5:
+            if (this.params.onlytrim) break;
 
-            if (this.params.onlytrim) {
-                aclib.log(">> make Video Index");
-                if (!this.mkVindex()) return false;
-                break
-            };
+            aclib.log("> Encode/Mux");
 
             switch (this.preset.audio.type) {
             case "none":
@@ -183,7 +164,7 @@ var nsAC = nsAC || {};
                     break;
                 case "mp4box":
                     aclib.log(">> MP4Box");
-                    if (!this.mp4box()) return false;
+                    if (!this.mp4box_mux()) return false;
                     break;
                 case "mkvmerge":
                     aclib.log(">> mkvmerge");
@@ -191,16 +172,15 @@ var nsAC = nsAC || {};
                     break;
                 }
                 if (this.params.autovfr) {
-                    if (this.preset.muxer === "lsmuxer" ||
-                        this.preset.muxer === "mp4box") {
+                    if (this.preset.muxer === "lsmuxer" || this.preset.muxer === "mp4box") {
                         aclib.log(">> L-SMASH timelineeditor");
                         if (!this.timelineeditor()) return false;
                     }
                 }
-                if (this.preset.muxer == "lsmuxer") {
+                if (this.preset.muxer == "lsmuxer" || this.preset.muxer == "mp4box") {
                     if (this.params.caption2ass && this.options.mux.subtitle.length > 0) {
                         aclib.log(">> MP4Box");
-                        if (!this.mp4box()) return false;
+                        if (!this.mp4box_remux()) return false;
                     } else {
                         aclib.log(">> L-SMASH remuxer");
                         if (!this.lsremuxer()) return false;
@@ -214,7 +194,7 @@ var nsAC = nsAC || {};
             }
 
             break;
-        case 7:
+        case 6:
             aclib.log("> Postprocess");
 
             if (!this.params.onlytrim) {

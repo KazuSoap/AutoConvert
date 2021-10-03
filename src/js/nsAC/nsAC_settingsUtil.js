@@ -119,20 +119,6 @@ var nsAC = nsAC || {};
         case "dgindex":
             check.push(["DGIndex", new File(this.path.dgindex)]);
             break;
-        case "dgindexnv":
-            if (this.params.demuxer !== "none") {
-                aclib.log("Can't use demuxer with dgindexnv.", 1);
-                return false;
-            }
-            check.push(["DGIndexNV", new File(this.path.dgindexnv)]);
-            break;
-        case "dgindexim":
-            if (this.params.demuxer !== "none") {
-                aclib.log("Can't use demuxer with dgindexim.", 1);
-                return false;
-            }
-            check.push(["DGIndexIM", new File(this.path.dgindexim)]);
-            break;
         }
 
         // Trim
@@ -146,16 +132,6 @@ var nsAC = nsAC || {};
         }
 
         switch (this.params.trim) {
-        case "comskip":
-            check.push(["Comskip", new File(this.path.comskip)]);
-            check.push(["Comskip ini", new File(this.path.comskip_ini)]);
-            break;
-        case "logoguillo":
-            check.push(["logoGuillo", new File(this.path.logoguillo)]);
-            check.push(["logoguillo avs", new File(this.path.logoguillo_avs)]);
-            check.push(["LogoData", new File(this.args.logo + ".lgd")]);
-            check.push(["LogoParam", new File(this.args.logo + ".lgd.autoTune.param")]);
-            break;
         case "joinlogoscp":
             check.push(["logoframe", new File(this.path.logoframe)]);
             check.push(["chapter_exe", new File(this.path.chapterexe)]);
