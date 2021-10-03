@@ -1,0 +1,10 @@
+/*/
+!avs/
+!help/
+!others/
+!preset/
+!src/
+
+*.exe
+*.dll
+*.lgd
