@@ -1,5 +1,5 @@
 function LWLibavVideoSource_(string source, int "stream_index", int "fpsnum", int "fpsden", string "format" ) {
-    LoadPlugin(Plugins + "LSMASHSource.dll")
+    #LoadPlugin(Plugins + "LSMASHSource.dll")
 
     stream_index = default(stream_index, -1)
 
@@ -8,7 +8,7 @@ function LWLibavVideoSource_(string source, int "stream_index", int "fpsnum", in
 }
 
 function LWLibavAudioSource_(string source, int "stream_index", bool "av_sync") {
-    LoadPlugin(Plugins + "LSMASHSource.dll")
+    #LoadPlugin(Plugins + "LSMASHSource.dll")
 
     stream_index = default(stream_index, -1)
     av_sync = default(av_sync, false)
@@ -19,27 +19,27 @@ function LWLibavAudioSource_(string source, int "stream_index", bool "av_sync") 
 
 # function MPEG2Source_(string source) {
 #     #LoadPlugin(Plugins + "DGDecode.dll")
-#     LoadPlugin(Plugins + "MPEG2DecPlus.dll")
+#     #LoadPlugin(Plugins + "MPEG2DecPlus.dll")
 
 #     clip = MPEG2Source(source)
 #     return clip
 # }
 function MPEG2Source_(string source) {
-    LoadPlugin(Plugins + "D2VSource.dll")
+    #LoadPlugin(Plugins + "D2VSource.dll")
 
     clip = D2VSource(source)
     return clip
 }
 
 function AACFaw_(string source) {
-    LoadPlugin(Plugins + "aacfaw.dll")
+    #LoadPlugin(Plugins + "aacfaw.dll")
 
     clip = AACFaw(source)
     return clip
 }
 
 function TDeint_(clip clip, bool "bob") {
-    LoadPlugin(Plugins + "TDeint.dll")
+    #LoadPlugin(Plugins + "TDeint.dll")
 
     bob = default(bob, false)
 
@@ -48,7 +48,7 @@ function TDeint_(clip clip, bool "bob") {
 }
 
 function TomsMoComp_(clip clip, bool "bob") {
-    LoadPlugin(Plugins + "TomsMoComp.dll")
+    #LoadPlugin(Plugins + "TomsMoComp.dll")
 
     bob = default(bob, false)
 
@@ -59,9 +59,9 @@ function TomsMoComp_(clip clip, bool "bob") {
 }
 
 function TIVTC24P2(clip clip) {
-    LoadPlugin(Plugins + "nnedi3.dll")
-    LoadPlugin(Plugins + "TDeint.dll")
-    LoadPlugin(Plugins + "TIVTC.dll")
+    #LoadPlugin(Plugins + "nnedi3.dll")
+    #LoadPlugin(Plugins + "TDeint.dll")
+    #LoadPlugin(Plugins + "TIVTC.dll")
 
     parity = clip.GetParity() ? 1 : 0
     Interp = clip.nnedi3(field=parity)
@@ -73,8 +73,8 @@ function TIVTC24P2(clip clip) {
 }
 
 function ivtc_txt60mc(clip clip, int frame_ref, bool "srcbob", bool "draft") {
-    LoadPlugin(Plugins + "TDeint.dll")
-    LoadPlugin(Plugins + "mvtools2.dll")
+    #LoadPlugin(Plugins + "TDeint.dll")
+    #LoadPlugin(Plugins + "mvtools2.dll")
 
     srcbob    = Default(srcbob, false)
     draft     = Default(draft,  false)
@@ -102,7 +102,7 @@ function ivtc_txt60mc(clip clip, int frame_ref, bool "srcbob", bool "draft") {
 }
 
 function Its_(clip clip, string def, string tmc) {
-    LoadPlugin(Plugins + "Its.dll")
+    #LoadPlugin(Plugins + "Its.dll")
 
     clip
     clip = Its(def=def, output=tmc)
@@ -110,7 +110,7 @@ function Its_(clip clip, string def, string tmc) {
 }
 
 function EraseLOGO_(clip clip, string logofile, int "start", int "fadein", int "fadeout", int "fieldin", int "fieldout", int "end", bool "interlaced") {
-    LoadPlugin(Plugins + "delogo.dll")
+    #LoadPlugin(Plugins + "delogo.dll")
 
     start = default(start, 0)
     fadein = default(fadein, 0)

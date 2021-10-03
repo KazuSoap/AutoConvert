@@ -3,21 +3,8 @@ SetMemoryMax(16384)
 SetMemoryMax(2048, type=DEV_TYPE_CUDA)
 SetDeviceOpt(DEV_CUDA_PINNED_HOST) # CUDAデータ転送最適化
 
-global Plugins = "__path__\plugins64\"
-global Scripts = "__path__\avs\"
-
-Import(Scripts + "function.avsi")
-Import(Scripts + "ExtErsLOGO.avsi")
-LoadPlugin(Plugins + "AvsCUDA.dll")
-LoadPlugin(Plugins + "KFM.dll")
-LoadPlugin(Plugins + "KUtil.dll")
-LoadPlugin(Plugins + "KTGMC.dll")
-LoadPlugin(Plugins + "KNNEDI3.dll")
-LoadPlugin(Plugins + "delogo.dll")
-
-Import(Scripts + "function.avsi")
-Import(Scripts + "KFMDeint.avsi")
-Import(Scripts + "KTGMC.avsi")
+AddAutoloadDir("__path__\bin\AviSynthPlus\plugins64")
+AddAutoloadDir("__path__\plugins64")
 
 videotmp = __videotmp__
 audio = __audio__

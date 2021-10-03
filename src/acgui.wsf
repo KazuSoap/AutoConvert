@@ -4,7 +4,12 @@
     <![CDATA[
         (function() {
             var WshShell = new ActiveXObject("WScript.Shell");
+            var env = WshShell.Environment("PROCESS");
+            var path = env.item("PATH");
             var fs = new ActiveXObject("Scripting.FileSystemObject");
+
+            env.item("PATH") = path + ";" + fs.getParentFolderName(WScript.ScriptFullName) + "\\..\\bin\\AviSynthPlus";
+            // WScript.Echo(env.item("PATH"));
             WshShell.Exec(
                 fs.BuildPath(fs.GetSpecialFolder(1), "mshta") + ".exe "
               + fs.getParentFolderName(WScript.ScriptFullName) + "\\acgui.hta"
