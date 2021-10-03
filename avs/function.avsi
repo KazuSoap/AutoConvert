@@ -17,11 +17,17 @@ function LWLibavAudioSource_(string source, int "stream_index", bool "av_sync") 
     return clip
 }
 
-function MPEG2Source_(string source) {
-    #LoadPlugin(Plugins + "DGDecode.dll")
-    LoadPlugin(Plugins + "MPEG2DecPlus.dll")
+# function MPEG2Source_(string source) {
+#     #LoadPlugin(Plugins + "DGDecode.dll")
+#     LoadPlugin(Plugins + "MPEG2DecPlus.dll")
 
-    clip = MPEG2Source(source)
+#     clip = MPEG2Source(source)
+#     return clip
+# }
+function MPEG2Source_(string source) {
+    LoadPlugin(Plugins + "D2VSource.dll")
+
+    clip = D2VSource(source)
     return clip
 }
 
