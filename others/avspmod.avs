@@ -3,7 +3,7 @@ SetMemoryMax(16384)
 SetMemoryMax(2048, type=DEV_TYPE_CUDA)
 SetDeviceOpt(DEV_CUDA_PINNED_HOST) # CUDAデータ転送最適化
 
-AddAutoloadDir("__path__\bin\AviSynthPlus\plugins64")
+AddAutoloadDir("__path__\bin\AviSynthNeo\plugins64")
 AddAutoloadDir("__path__\plugins64")
 
 __video__
