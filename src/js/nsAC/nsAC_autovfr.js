@@ -108,44 +108,18 @@ var nsAC = nsAC || {};
         }
 
         var trim_obj = this.options.avs.trim;
+        if (Object.keys(trim_obj).length === 0) return true;
+
         var durations = procKFM_dur.read("Shift-JIS");
         if (durations === null) {
             aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
             return false;
         }
 
-        this.options.avs.trim = nsAC.getVfrTrim(durations, this.options.avs.trim);
+        this.options.avs.trim = nsAC.getVfrTrim(durations, trim_obj);
 
         return true;
     };
-
-    // -----------------------------------------------------------
-    var is23 = function(dur_ary, offset, bound_end) {
-        return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-            (dur_ary[offset] == 2) && (dur_ary[offset+1] == 3)
-        ) : (false);
-    }
-
-    var is32 = function(dur_ary, offset, bound_end) {
-        return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-            (dur_ary[offset] == 3) && (dur_ary[offset+1] == 2)
-        ) : (false);
-    }
-
-    var is2224 = function(dur_ary, offset, bound_end) {
-        return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
-            (dur_ary[offset] == 2) && (dur_ary[offset+1] == 2) && (dur_ary[offset+2] == 2) && (dur_ary[offset+3] == 4)
-        ) : (false);
-    }
-
-    var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
-        tmcNchpt_acc.elapsed += duration;
-
-        var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
-        tmcNchpt_acc.tmc += msec + "\r\n";
-        tmcNchpt_acc.msec_ary.push(msec)
-        return tmcNchpt_acc;
-    }
 
     // -----------------------------------------------------------
     nsAC.fixVfrTmcNchpt = function(durations, trim_obj, is120fps) {
@@ -153,14 +127,42 @@ var nsAC = nsAC || {};
 
         var tmbase = 1001.0, tmscale = 120000.0;
         var dur_ary = durations.split(/\r\n|\r|\n/);
-        var trimed_obj = trim_obj["trim2"].reduce(function(acc,xobj,idx) {
+        var trimed_obj = trim_obj["trim2"].reduce(function(acc,xobj) {
             acc.chpt_pos.push(acc.dur_ary.length);
             acc.dur_ary = acc.dur_ary.concat(dur_ary.slice(xobj.start,xobj.end+1).map(Number));
             return acc;
         }, { dur_ary:[], chpt_pos:[] });
 
         var tmcNchpt_obj = { tmc:"# timecode format v2\r\n0\r\n", msec_ary:[0], elapsed:0}
+
+        var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
+            tmcNchpt_acc.elapsed += duration;
+
+            var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
+            tmcNchpt_acc.tmc += msec + "\r\n";
+            tmcNchpt_acc.msec_ary.push(msec)
+            return tmcNchpt_acc;
+        }
+
         if (is120fps) {
+            var is23 = function(dur_ary, offset, bound_end) {
+                return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+                    (dur_ary[offset] == 2) && (dur_ary[offset+1] == 3)
+                ) : (false);
+            }
+
+            var is32 = function(dur_ary, offset, bound_end) {
+                return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
+                    (dur_ary[offset] == 3) && (dur_ary[offset+1] == 2)
+                ) : (false);
+            }
+
+            var is2224 = function(dur_ary, offset, bound_end) {
+                return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
+                    (dur_ary[offset] == 2) && (dur_ary[offset+1] == 2) && (dur_ary[offset+2] == 2) && (dur_ary[offset+3] == 4)
+                ) : (false);
+            }
+
             for (var i=0, end=trimed_obj.dur_ary.length; i<end;) {
                 if ( is23(trimed_obj.dur_ary, i, end) || is32(trimed_obj.dur_ary, i, end) ) {
                     for (var j=0; j < 2; ++i, ++j) tmcNchpt_obj = setTmcElps(tmcNchpt_obj, tmbase, tmscale, 5);
@@ -180,7 +182,7 @@ var nsAC = nsAC || {};
             + nsAC.ms2hhmmss_sss(tmcNchpt_obj.msec_ary.slice(-1)[0])
             + " ("
             + tmcNchpt_obj.msec_ary.slice(-1)[0]
-            + " msec)\r\n"
+            + " msec)\r\n";
 
         var nchpt = "";
 
@@ -193,73 +195,54 @@ var nsAC = nsAC || {};
         return {tmc:tmcNchpt_obj.tmc, nchpt:nchpt};
     }
 
-    // // -----------------------------------------------------------
-    // var is23 = function(dur_ary, offset, bound_end) {
-    //     return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-    //         Number(dur_ary[offset]  ) == 2
-    //      && Number(dur_ary[offset+1]) == 3
-    //     ) : (false);
-    // }
+    // -----------------------------------------------------------
+    nsAC.fixVfrTmcNchpt2 = function(timecode, trim_obj) {
+        if (trim_obj["trim2"].length === 0)  return "";
 
-    // var is32 = function(dur_ary, offset, bound_end) {
-    //     return (offset+1 < dur_ary.length && offset+1 <= bound_end) ? (
-    //         Number(dur_ary[offset]  ) == 3
-    //      && Number(dur_ary[offset+1]) == 2
-    //     ) : (false);
-    // }
+        var tmbase = 1001.0, tmscale = 120000.0;
+        var tmc_ary = timecode.split(/\r\n|\r|\n/).slice(1,-1).map(Number);
+        tmc_ary = tmc_ary.filter(function(x) { return !isNaN(x); });
 
-    // var is2224 = function(dur_ary, offset, bound_end) {
-    //     return (offset+3 < dur_ary.length && offset+3 <= bound_end) ? (
-    //         Number(dur_ary[offset]  ) == 2
-    //      && Number(dur_ary[offset+1]) == 2
-    //      && Number(dur_ary[offset+2]) == 2
-    //      && Number(dur_ary[offset+3]) == 4
-    //     ) : (false);
-    // }
+        var recoverSubMilisec = function(msec, timebase, timescale) {
+            var elapsed = Math.round(msec * (timescale/1000) / timebase);
+            return 1000 * elapsed * timebase / timescale;
+        }
 
-    // var setTmcElps = function(tmcNchpt_acc, timebase, timescale, duration) {
-    //     var msec = Math.round(1000 * tmcNchpt_acc.elapsed * timebase / timescale);
-    //     tmcNchpt_acc.tmc += msec + "\r\n";
-    //     tmcNchpt_acc.elapsed += Number(duration);
-    //     return tmcNchpt_acc;
-    // }
+        var prev_end = 0;
+        var trimed_obj = trim_obj["trim2"].reduce(function(acc,xobj,idx) {
+            var trim_start_time = recoverSubMilisec(tmc_ary[xobj.start], tmbase, tmscale);
+            var trim_end_time = 0;
+            if (xobj.end > tmc_ary.length -2) {
+                trim_end_time = recoverSubMilisec(2 * tmc_ary.slice(-1)[0] - tmc_ary.slice(-2)[0], tmbase, tmscale);
+                tmc_ary.push(Math.round(trim_end_time));
+            } else {
+                trim_end_time = recoverSubMilisec(tmc_ary[xobj.end + 1], tmbase, tmscale);
+            }
 
-    // // -----------------------------------------------------------
-    // nsAC.fixVfrTmcNchpt = function(durations, trim_obj, is120fps) {
-    //     if (trim_obj["trim2"].length === 0)  return "";
+            var gap = trim_start_time - prev_end;
+            prev_end = trim_end_time - gap;
 
-    //     var dur_ary = durations.split(/\r\n|\r|\n/);
-    //     var tmbase = 1001.0, tmscale = 120000.0;
+            tmc_subarray = tmc_ary.slice(xobj.start,xobj.end+2).map(function(x) {
+                return Math.round(recoverSubMilisec(x, tmbase, tmscale) - gap);
+            });
 
-    //     var tmcNchpt_obj = trim_obj["trim2"].reduce(function(acc,xobj) {
-    //         var msec = Math.round(1000 * acc.elapsed * tmbase / tmscale);
-    //         acc.nchpt += nsAC.ms2neroChaptFmt(msec, ++acc.chpt_idx);
+            acc.total = tmc_subarray.slice(-1)[0];
+            acc.nchpt += nsAC.ms2neroChaptFmt(tmc_subarray[0], idx+1);
+            acc.tmc += tmc_subarray.slice(1).join("\r\n") + "\r\n";
 
-    //         if (is120fps) {
-    //             for (var i = xobj.start; i < xobj.end+1;) {
-    //                 if ( is23(dur_ary, i, xobj.end) || is32(dur_ary, i, xobj.end) ) {
-    //                     for (var j=0; j < 2; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
-    //                 } else if ( is2224(dur_ary, i, xobj.end) ) {
-    //                     for (var j=0; j < 4; ++i, ++j) acc = setTmcElps(acc, tmbase, tmscale, 5);
-    //                 } else {
-    //                     acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i++]*2);
-    //                 }
-    //             }
-    //         } else {
-    //             for (var i = xobj.start; i < xobj.end+1; ++i){
-    //                 acc = setTmcElps(acc, tmbase, tmscale, dur_ary[i]*2);
-    //             }
-    //         }
+            return acc;
+        }, { tmc:"# timecode format v2\r\n0\r\n", nchpt:"", total:0 });
 
-    //         return acc;
-    //     }, { elapsed:0.0, chpt_idx:0, tmc:"# timecode format v2\r\n", nchpt:"" });
+        trimed_obj.tmc += "# total: "
+            + nsAC.ms2hhmmss_sss(trimed_obj.total)
+            + " ("
+            + trimed_obj.total
+            + " msec)\r\n";
 
-    //     var total_microsec = Math.round(1000000 * (tmcNchpt_obj.elapsed + Number(dur_ary.slice(-2)[0])*2) * tmbase / tmscale);
-    //     aclib.log("elapsed: " + nsAC.ms2hhmmss_sss(total_microsec/1000), 0);
-    //     tmcNchpt_obj.tmc += "# total: " + total_microsec/1000000 + " seconds\r\n"
+        // aclib.log("elapsed: " + nsAC.ms2hhmmss_sss(trimed_obj.total));
 
-    //     return {tmc:tmcNchpt_obj.tmc, nchpt:tmcNchpt_obj.nchpt};
-    // }
+        return {tmc:trimed_obj.tmc, nchpt:trimed_obj.nchpt};
+    }
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.postprocKFM = function() {
@@ -293,21 +276,27 @@ var nsAC = nsAC || {};
             aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
             return false;
         }
-
-        var mod_tmc = new File(this.options.temp + ".timecode.txt");
-        var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
         var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, true);
-        // var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, false);
+
+        // var timecode = procKFM_tmc.read("Shift-JIS");
+        // if (timecode === null) {
+        //     aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
+        //     return false;
+        // }
+        // var tmcNchpt_obj = nsAC.fixVfrTmcNchpt2(timecode, trim_obj);
+
         if (tmcNchpt_obj.tmc === null || tmcNchpt_obj.nchpt === null) {
             aclib.log("Failed fixVfrTmcNchpt()", 1);
             return false;
         }
 
+        var mod_tmc = new File(this.options.temp + ".timecode.txt");
         if (!mod_tmc.write(tmcNchpt_obj.tmc, "Shift-JIS")) {
             aclib.log("Can't write file. [" + mod_tmc.path() + "]", 1);
             return false;
         }
 
+        var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
         if (!nero_chapter.write(tmcNchpt_obj.nchpt, "Shift-JIS")) {
             aclib.log("Can't write file. [" + nero_chapter.path() + "]", 1);
             return false;
