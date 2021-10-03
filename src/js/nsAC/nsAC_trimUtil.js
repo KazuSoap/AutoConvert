@@ -107,7 +107,7 @@ var nsAC = nsAC || {};
     nsAC.AutoConvert.prototype.genNeroChapter = function() {
         var trim_obj = this.options.avs.trim;
         if (Object.keys(trim_obj).length === 0)  return true;
-        if (this.params.autovfr) return true;
+        if (this.params.deint === "kfm_vfr") return true;
 
         var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
         var tmbase = 1001.0, tmscale = 30000.0;

@@ -95,6 +95,10 @@ var nsAC = nsAC || {};
                 case "-edittrim":
                     this.params.edittrim = true;
                     break;
+                case "-deint":
+                    if (!checkNextArgument(i, ["kfm_24p", "kfm_vfr"])) return false;
+                    this.params.deint = args[++i];
+                    break;
                 case "-caption2ass":
                     this.params.caption2ass = true;
                     break;

@@ -228,7 +228,7 @@ var nsAC = nsAC || {};
         var args = "";
 
         this.options.mux.video.forEach(function(value, index) {
-            if (this.params.autovfr) {
+            if (this.params.deint === "kfm_vfr") {
                 args += ' --timecodes 0:"' + this.options.mux.timecode[index] + '"';
             }
             args += index === 0 ? ' --default-track 0' : '';

@@ -26,7 +26,7 @@ var nsAC = nsAC || {};
 
         // Replace
         var script_video = this.options.avs.video[0];
-        if (this.params.autovfr) {
+        if (this.params.deint === "kfm_vfr") {
             script = script.replace(/__videotmp__/g, script_video.slice(0, -1) + ').ChangeFPS(60000, 1001)');
         }
         script = script.replace(/__path__/g, aclib.path());
@@ -36,7 +36,7 @@ var nsAC = nsAC || {};
 
         var trim_obj = this.options.avs.trim;
         if (Object.keys(trim_obj).length > 0) {
-            if (this.params.autovfr && Object.keys(trim_obj).length === 2) {
+            if (this.params.deint === "kfm_vfr" && Object.keys(trim_obj).length === 2) {
                 var input = new File(this.args.input);
                 var procKFM_dur = input.parent().childFile(input.base() + ".kfm_" + this.params.source + ".duration.txt");
                 var durations = procKFM_dur.read("Shift-JIS");

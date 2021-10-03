@@ -80,8 +80,8 @@ var nsAC = nsAC || {};
                 aclib.log(">> None");
             }
 
-            if (this.params.autovfr) {
-                aclib.log(">> AutoVfr Preprocess");
+            if (this.params.deint === "kfm_24p" || this.params.deint === "kfm_vfr") {
+                aclib.log(">> KFMDeint Preprocess");
                 if (!this.preprocKFM()) return false;
             }
 
@@ -110,8 +110,8 @@ var nsAC = nsAC || {};
                 if (!this.caption2ass()) return false;
             }
 
-            if (this.params.autovfr) {
-                aclib.log(">> AutoVfr");
+            if (this.params.deint === "kfm_24p" || this.params.deint === "kfm_vfr") {
+                aclib.log(">> KFMDeint");
                 if (!this.postprocKFM()) return false;
             }
 
@@ -171,7 +171,7 @@ var nsAC = nsAC || {};
                     if (!this.mkvmerge()) return false;
                     break;
                 }
-                if (this.params.autovfr) {
+                if (this.params.deint === "kfm_24p" || this.params.deint === "kfm_vfr") {
                     if (this.preset.muxer === "lsmuxer" || this.preset.muxer === "mp4box") {
                         aclib.log(">> L-SMASH timelineeditor");
                         if (!this.timelineeditor()) return false;

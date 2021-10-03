@@ -29,7 +29,7 @@ var nsAC = nsAC || {};
         script = script.replace(/__video__/g, this.options.avs.video[0]);
         script = nsAC.replaceTrim(this.options.avs.trim, script);
 
-        if (this.params.autovfr) {
+        if (this.params.deint === "kfm_vfr") {
             var input = new File(this.args.input);
             var kfmprefix = input.base() + ".kfm_" + this.params.source;
             script = script.replace(/__kfmprefix__/g,'"' + input.parent().path() + "\\" + kfmprefix + '"');
@@ -60,7 +60,7 @@ var nsAC = nsAC || {};
             return false;
         }
 
-        if (this.params.autovfr && Object.keys(this.options.avs.trim).length !== 0) {
+        if (this.params.deint === "kfm_vfr" && Object.keys(this.options.avs.trim).length !== 0) {
             var procKFM_dur = input.parent().childFile(kfmprefix + ".duration.txt");
             var durations = procKFM_dur.read("Shift-JIS");
             if (durations === null) {

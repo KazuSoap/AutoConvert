@@ -71,7 +71,7 @@ var nsAC = nsAC || {};
         var procKFM_tmc = input.parent().childFile(kfmprefix + ".timecode.txt");
 
         if (!procKFM_tmc.exists()) {
-            var template_avs = new File(this.path.autovfr_avs);
+            var template_avs = new File(this.path.kfmdeint_avs);
             var script = template_avs.read("Shift-JIS");
             if (script === null) {
                 aclib.log("Can't read file. [" + template_avs.path() + "]", 1);

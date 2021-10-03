@@ -128,7 +128,7 @@ var nsAC = nsAC || {};
             //    return false;
             // }
             this.params.caption2ass = false;
-            // this.params.autovfr = false;
+            this.params.autovfr = false;
         }
 
         switch (this.params.trim) {
@@ -209,6 +209,11 @@ var nsAC = nsAC || {};
             }
 
             check.push(["Encoder", new File(this.preset.video.encoder)]);
+
+            // Deint
+            if (this.params.deint === "kfm_24p" || this.params.deint === "kfm_vfr") {
+                check.push(["KFMDeint avs", new File(this.path.kfmdeint_avs)]);
+            }
 
             // Other
             if (this.params.caption2ass) {
