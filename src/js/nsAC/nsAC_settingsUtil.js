@@ -204,10 +204,10 @@ var nsAC = nsAC || {};
                 //muxer
                 switch (this.preset.muxer) {
                 case "lsmuxer":
-                    if (this.params.caption2ass) {
-                        aclib.log("Can't use Caption2Ass with lsmuxer.", 1);
-                        return false;
-                    }
+                    // if (this.params.caption2ass) {
+                    //     aclib.log("Can't use Caption2Ass with lsmuxer.", 1);
+                    //     return false;
+                    // }
                     check.push(["L-SMASH muxer", new File(this.path.lsmuxer)]);
                     check.push(["L-SMASH remuxer", new File(this.path.lsremuxer)]);
                     break;

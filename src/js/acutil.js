@@ -941,11 +941,11 @@
                 return false;
             }
 
-            if (preset_obj.muxer === "lsmuxer" && this.params.caption2ass) {
-                this.log("Can't use Caption2Ass with lsmuxer.");
-                this.log("Turn off caption2ass.");
-                this.params.caption2ass = false;
-            }
+            // if (preset_obj.muxer === "lsmuxer" && this.params.caption2ass) {
+            //     this.log("Can't use Caption2Ass with lsmuxer.");
+            //     this.log("Turn off caption2ass.");
+            //     this.params.caption2ass = false;
+            // }
         }
 
         var folder = output, folder_arr = [];

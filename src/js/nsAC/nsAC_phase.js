@@ -198,8 +198,13 @@ var nsAC = nsAC || {};
                     }
                 }
                 if (this.preset.muxer == "lsmuxer") {
-                    aclib.log(">> L-SMASH remuxer");
-                    if (!this.lsremuxer()) return false;
+                    if (this.params.caption2ass && this.options.mux.subtitle.length > 0) {
+                        aclib.log(">> MP4Box");
+                        if (!this.mp4box()) return false;
+                    } else {
+                        aclib.log(">> L-SMASH remuxer");
+                        if (!this.lsremuxer()) return false;
+                    }
                 }
                 break;
             case "general":

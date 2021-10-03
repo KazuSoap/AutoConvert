@@ -73,7 +73,7 @@
             arr[i].replace(format, replace);
             break;
         }
-        
+
         return trim;
     };
     SrtTrim.prototype.zerofill = function(number, length, force) {
@@ -158,8 +158,8 @@
             return false;
         }
         input = input.replace(/\r\n|\r|\n/g, "\n").split("\n");
-        //input = input.split(/\r\n|\r|\n/);
-        
+        // input = input.split(/\r\n|\r|\n/);
+
         var srt = [];
         for (var i = 0; i < input.length; i++) {
             if (parseInt(input[i]) !== srt.length + 1) continue;
@@ -178,17 +178,18 @@
             obj.sub = this.options.exclude ? input[++i].replace(/\[\u5916:.+?\]/g, "") : input[++i];
             for (i++; i < input.length; i++) {
                 if (input[i] === "") break;
-                obj.sub += "\n" + (this.options.exclude ? input[i].replace(/\[\u5916:.+?\]/g, "") : input[i]);
+                // obj.sub += "\n" + (this.options.exclude ? input[i].replace(/\[\u5916:.+?\]/g, "") : input[i]);
+                obj.sub += "\r\n" + (this.options.exclude ? input[i].replace(/\[\u5916:.+?\]/g, "") : input[i]);
             }
             srt.push(obj);
         }
-        
+
         if (srt.length === 0) {
             this.log("No subtitle");
             return false;
         }
         this.temp.srt = srt;
-        
+
         return true;
     };
     SrtTrim.prototype.loadTrim = function() {
@@ -197,14 +198,14 @@
             this.log("Can't read avs");
             return false;
         }
-        
+
         var trim = this.getTrim(avs);
         if (trim.length === 0) {
             this.log("No trim");
             return false;
         }
         this.temp.trim = trim;
-        
+
         return true;
     };
     SrtTrim.prototype.trimSrt = function() {
@@ -212,7 +213,7 @@
         var oldSrt = this.temp.srt;
         var srt = [];
         var trim = this.temp.trim;
-        
+
         var offset = 0;
         for (var i = 0; i < trim.length; i++) {
             var start = parseInt(trim[i].start * 1000 * fps.den / fps.num);
@@ -220,7 +221,7 @@
             for (var j = 0; j < oldSrt.length; j++) {
                 if (oldSrt[j].end < start) continue;
                 if (oldSrt[j].start >= end) break;
-                
+
                 srt.push({
                     start: oldSrt[j].start < start ?
                            start - start + offset :
@@ -233,18 +234,18 @@
             }
             offset += end - start;
         }
-        
+
         if (srt.length === 0) {
             this.log("No subtitle");
             return false;
         }
         this.temp.srt = srt;
-        
+
         return true;
     };
     SrtTrim.prototype.saveSrt = function() {
         var srt = this.temp.srt;
-        
+
         var arr = [];
         for (var i = 0; i < srt.length; i++) {
             var start = new Date(srt[i].start);
@@ -261,15 +262,15 @@
             arr.push(srt[i].sub);
             arr.push("");
         }
-        
+
         if (!this.write(this.options.output, this.options.charset.output, arr.join("\r\n"))) {
             this.log("Can't write output");
             return false;
         }
         return true;
     };
-    
-    
+
+
     var args = [];
     var objArgs = WScript.Arguments;
     for (var i = 0; i < objArgs.length; i++) {
