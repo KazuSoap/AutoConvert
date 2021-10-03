@@ -33,7 +33,7 @@ var nsAC = nsAC || {};
 
         script = script.replace(/__input__/g, '"' + this.args.input + '"');
         script = script.replace(/__path__/g, aclib.path());
-        script = script.replace(/__video__/g, 'LWLibavVideoSource_("' + dest_ext.path() + '",fpsnum=60000,fpsden=1001,format="YUV420P8")');
+        script = script.replace(/__video__/g, 'LWLibavVideoSource_("' + dest_ext.path() + '",format="YUV420P8").ChangeFPS(60000, 1001)');
         script = script.replace(/__audio__/g, 'LWLibavAudioSource_("' + dest_ext.path() + '")');
 
         var checkOutputVideo_avs = new File(this.options.temp + ".avspmod.avs");

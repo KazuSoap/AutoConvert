@@ -43,7 +43,7 @@ var nsAC = nsAC || {};
         // Replace
         var script_video = this.options.avs.video[0];
         if (this.params.autovfr) {
-            script = script.replace(/__videotmp__/g, script_video.slice(0, -1) + ',fpsnum=60000,fpsden=1001)');
+            script = script.replace(/__videotmp__/g, script_video.slice(0, -1) + ').ChangeFPS(60000, 1001)');
         }
         script = script.replace(/__path__/g, aclib.path());
         script = script.replace(/__video__/g, script_video);
