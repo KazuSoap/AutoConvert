@@ -13,6 +13,36 @@ var nsAC = nsAC || {};
 
         return true;
     };
+    // nsAC.AutoConvert.prototype.editAvs = function() {
+    //     var avs = new File(this.options.temp + ".avs");
+
+    //     var script = avs.read("Shift-JIS");
+    //     if (script === null) {
+    //         aclib.log("Can't read file. [" + avs.path() + "]", 1);
+    //         return false;
+    //     }
+    //     script = script.replace(/AviSynthPlus/g, "AviSynthNeo");
+    //     if (!avs.write(script, "Shift-JIS")) {
+    //         aclib.log("Can't write file. [" + avs.path() + "]", 1);
+    //         return false;
+    //     }
+
+    //     var proc = new Process('"${avspmod}" "${input}"');
+    //     proc.prepare({
+    //         avspmod: this.path.avspmod,
+    //         input: avs.path()
+    //     }, {window: this.settings.window, debug: this.options.debug});
+
+    //     proc.run();
+
+    //     script = script.replace(/AviSynthNeo/g, "AviSynthPlus");
+    //     if (!avs.write(script, "Shift-JIS")) {
+    //         aclib.log("Can't write file. [" + avs.path() + "]", 1);
+    //         return false;
+    //     }
+
+    //     return true;
+    // };
 
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.editTrim = function() {
