@@ -29,7 +29,10 @@ var nsAC = nsAC || {};
         script = script.replace(/__video__/g, this.options.avs.video[0]);
         script = nsAC.replaceTrim(this.options.avs.trim, script);
 
-        if (this.params.deint === "kfm_vfr") {
+        if (this.params.deint === "kfm_24p" || this.params.deint === "kfm_vfr") {
+            kfm_mode = (this.params.deint === "kfm_24p") ? 2 : 0
+            script = script.replace(/__mode__/g, kfm_mode);
+
             var input = new File(this.args.input);
             var kfmprefix = input.base() + ".kfm_" + this.params.source;
             script = script.replace(/__kfmprefix__/g,'"' + input.parent().path() + "\\" + kfmprefix + '"');
