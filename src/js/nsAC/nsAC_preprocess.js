@@ -185,4 +185,84 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
+    nsAC.AutoConvert.prototype.multi2decdos = function() {
+        var input = new File(this.args.input);
+        var output = input.parent().childFile(input.base() + ".multi2decdos.json");
+
+        this.options.clean.push(output.path());
+
+        // Read
+        if (!this.params.reset && output.exists()) {
+            var output_out = output.read();
+            if (output_out === null) {
+                aclib.log("Can't read file. [" + output.path() + "]", 1);
+                return false;
+            }
+
+            var output_obj;
+            try {
+                output_obj = JSON.parse(output_out);
+            } catch (err) {
+                aclib.log("Can't parse JSON. [" + output.path() + "]", 1);
+                return false;
+            }
+
+            this.options.info.drop = output_obj
+
+            return true;
+        }
+
+        // Run process
+        var proc = new Process('"${multi2decdos}" /C /N "${input}"');
+
+        proc.prepare({
+            multi2decdos: this.path.multi2decdos,
+            input: input.path()
+        }, {window: this.settings.window, stdout: true, debug: this.options.debug});
+
+        ret = proc.run()
+        if (ret.exitcode != 0) {
+            aclib.log("Process failed.", 1);
+            return false;
+        }
+
+        var m2d_out = ret.stdout.split(/\r\n|\r|\n/);
+        var re1 = /^\[PID:\s*0x([0-9A-F]*)\].*Drop:\s*([0-9]).*/g;
+        var re2 = /^Total Drop Error :\s*([0-9]*).*/g;
+        for (var i = 0; i < m2d_out.length; i++) {
+            var pos1 = m2d_out[i].search(re1);
+            var pos2 = m2d_out[i].search(re2);
+
+            if (pos1 != -1) {
+                var pid = parseInt(m2d_out[i].replace(re1,"$1"),16).toString(16)
+                var drop_num = Number(m2d_out[i].replace(re1,"$2"))
+                if (drop_num > 0) {
+                    this.options.info.drop[pid] = drop_num;
+                    aclib.log("pid: " + pid + ", drop: " + drop_num);
+                }
+                continue;
+            }
+
+            if (pos2 != -1) {
+                var drop_num = Number(m2d_out[i].replace(re2,"$1"))
+                if (drop_num > 0) {
+                    this.options.info.drop.total = drop_num;
+                    aclib.log("Total Drop Error: " + drop_num);
+                }
+
+                break;
+            }
+        }
+
+        // Write
+        var str = JSON.stringify(this.options.info.drop);
+        if (!output.write(str)) {
+            aclib.log("Can't write file. [" + output.path() + "]", 1);
+            return false;
+        }
+
+        return true;
+    };
+
+    // -----------------------------------------------------------
 }());
