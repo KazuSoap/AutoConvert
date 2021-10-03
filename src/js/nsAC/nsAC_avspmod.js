@@ -15,45 +15,6 @@ var nsAC = nsAC || {};
     };
 
     // -----------------------------------------------------------
-    nsAC.AutoConvert.prototype.checkOutputVideo = function() {
-        var dest_ext = new File(this.args.output + ".mp4");
-        if (!dest_ext.exists()) {
-            aclib.log("File doesn't exist. [" + dest_ext.path() + "]");
-            aclib.log("Skip This Process");
-            return true;
-        }
-
-        var othersAvsDir = (new File(this.path.avspmod_avs)).parent();
-        var template_avs = othersAvsDir.childFile("checkOutputVideo.avs");
-        var script = template_avs.read("Shift-JIS");
-        if (script === null) {
-            aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
-            return false;
-        }
-
-        script = script.replace(/__input__/g, '"' + this.args.input + '"');
-        script = script.replace(/__path__/g, aclib.path());
-        script = script.replace(/__video__/g, 'LWLibavVideoSource_("' + dest_ext.path() + '",format="YUV420P8").ChangeFPS(60000, 1001)');
-        script = script.replace(/__audio__/g, 'LWLibavAudioSource_("' + dest_ext.path() + '")');
-
-        var checkOutputVideo_avs = new File(this.options.temp + ".avspmod.avs");
-        if (!checkOutputVideo_avs.write(script, "Shift-JIS")) {
-            aclib.log("Can't write file. [" + checkOutputVideo_avs.path() + "]", 1);
-            return false;
-        }
-
-        var proc = new Process('"${avspmod}" "${input}"');
-        proc.prepare({
-            avspmod: this.path.avspmod,
-            input: checkOutputVideo_avs.path()
-        }, {window: this.settings.window, debug: this.options.debug});
-
-        proc.run();
-
-        return true;
-    };
-
-    // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.editTrim = function() {
         var avspmod_avs = new File(this.options.temp + ".avspmod.avs");
 
