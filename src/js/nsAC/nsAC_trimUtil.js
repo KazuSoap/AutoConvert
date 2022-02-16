@@ -63,7 +63,7 @@ var nsAC = nsAC || {};
         // }
 
         // Read
-        var trim_out = trim_json.read();
+        var trim_out = trim_json.read("UTF-8");
         if (trim_out === null) {
             aclib.log("Can't read file. [" + trim_json.path() + "]", 1);
             return false;
@@ -120,7 +120,7 @@ var nsAC = nsAC || {};
             return acc;
         },{bound:0, str:"CHAPTER01=00:00:00.000\r\nCHAPTER01NAME=Chapt01\r\n"});
 
-        if (!nero_chapter.write(nchptr_obj.str, "Shift-JIS")) {
+        if (!nero_chapter.write(nchptr_obj.str, "UTF-8")) {
             aclib.log("Can't write file. [" + nero_chapter.path() + "]", 1);
             return false;
         }
@@ -140,7 +140,7 @@ var nsAC = nsAC || {};
 
         // Write
         var str = JSON.stringify(trim);
-        if (!trim_json.write(str)) {
+        if (!trim_json.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + trim_json.path() + "]", 1);
             return false;
         }

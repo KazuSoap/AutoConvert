@@ -10,7 +10,7 @@ var nsAC = nsAC || {};
         if (eraselogo_json.exists()) {
             var eraselogo_out;
 
-            eraselogo_out = eraselogo_json.read();
+            eraselogo_out = eraselogo_json.read("UTF-8");
 
             if (eraselogo_out === null) {
                 aclib.log("Can't read file. [" + eraselogo_json.path() + "]", 1);
@@ -37,7 +37,7 @@ var nsAC = nsAC || {};
         }
 
         // Read
-        var script = avs.read("Shift-JIS");
+        var script = avs.read("UTF-8");
 
         if (script === null) {
             aclib.log("Can't read file. [" + avs.path() + "]", 1);
@@ -47,7 +47,7 @@ var nsAC = nsAC || {};
         // Replace
         script = script.replace(/#__eraselogo__/g, eraselogo_str);
 
-        if (!avs.write(script, "Shift-JIS")) {
+        if (!avs.write(script, "UTF-8")) {
             aclib.log("Can't write file. [" + avs.path() + "]", 1);
             return false;
         }

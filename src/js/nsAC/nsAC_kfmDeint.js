@@ -76,7 +76,7 @@ var nsAC = nsAC || {};
 
         if (!procKFM_tmc.exists()) {
             var template_avs = new File(this.path.kfmdeint_avs);
-            var script = template_avs.read("Shift-JIS");
+            var script = template_avs.read("UTF-8");
             if (script === null) {
                 aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
                 return false;
@@ -95,10 +95,10 @@ var nsAC = nsAC || {};
             proc.prepare({
                 avs2pipemod: this.path.avs2pipemod,
                 input: preprocKFM_avs.path()
-            }, {window: this.settings.window, debug: this.options.debug});
+            }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
             for (var i = 1; i < 3; i++) {
-                if (!preprocKFM_avs.write(script.replace(/__times__/g, i), "Shift-JIS")) {
+                if (!preprocKFM_avs.write(script.replace(/__times__/g, i), "UTF-8")) {
                     aclib.log("Can't write file. [" + preprocKFM_avs.path() + "]", 1);
                     return false;
                 }
@@ -118,7 +118,7 @@ var nsAC = nsAC || {};
         var trim_obj = this.options.avs.trim;
         if (Object.keys(trim_obj).length === 0) return true;
 
-        var durations = procKFM_dur.read("Shift-JIS");
+        var durations = procKFM_dur.read("UTF-8");
         if (durations === null) {
             aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
             return false;
@@ -267,26 +267,26 @@ var nsAC = nsAC || {};
         }
 
         var avs = new File(this.options.temp + ".avs");
-        var script = avs.read("Shift-JIS");
+        var script = avs.read("UTF-8");
         if (script === null) {
             aclib.log("Can't read file. [" + avs.path() + "]", 1);
             return false;
         }
 
         script = script.replace(/__kfmprefix__/g,'"' + input.parent().path() + "\\" + kfmprefix + '"');
-        if (!avs.write(script, "Shift-JIS")) {
+        if (!avs.write(script, "UTF-8")) {
             aclib.log("Can't write file. [" + avs.path() + "]", 1);
             return false;
         }
 
-        var durations = procKFM_dur.read("Shift-JIS");
+        var durations = procKFM_dur.read("UTF-8");
         if (durations === null) {
             aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
             return false;
         }
         var tmcNchpt_obj = nsAC.fixVfrTmcNchpt(durations, trim_obj, true);
 
-        // var timecode = procKFM_tmc.read("Shift-JIS");
+        // var timecode = procKFM_tmc.read("UTF-8");
         // if (timecode === null) {
         //     aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
         //     return false;
@@ -299,13 +299,13 @@ var nsAC = nsAC || {};
         }
 
         var mod_tmc = new File(this.options.temp + ".timecode.txt");
-        if (!mod_tmc.write(tmcNchpt_obj.tmc, "Shift-JIS")) {
+        if (!mod_tmc.write(tmcNchpt_obj.tmc, "UTF-8")) {
             aclib.log("Can't write file. [" + mod_tmc.path() + "]", 1);
             return false;
         }
 
         var nero_chapter = new File(this.options.temp + ".nero_chapter.txt");
-        if (!nero_chapter.write(tmcNchpt_obj.nchpt, "Shift-JIS")) {
+        if (!nero_chapter.write(tmcNchpt_obj.nchpt, "UTF-8")) {
             aclib.log("Can't write file. [" + nero_chapter.path() + "]", 1);
             return false;
         }

@@ -36,7 +36,7 @@ var nsAC = nsAC || {};
         this.options.clean.push(input.parent().childFile(input.base() + ".log").path());
 
         if (!this.params.reset && output.exists()) {
-            var output_out = output.read();
+            var output_out = output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + output.path() + "]", 1);
                 return false;
@@ -91,7 +91,7 @@ var nsAC = nsAC || {};
             output: input.parent().childFile(input.base() + ".dgindex").path(),
             avs: fake_avs.path(),
             args: args
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -153,7 +153,7 @@ var nsAC = nsAC || {};
             delay: delay
         });
 
-        if (!output.write(str)) {
+        if (!output.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
         }

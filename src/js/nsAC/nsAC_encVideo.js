@@ -28,7 +28,7 @@ var nsAC = nsAC || {};
             videot: '-',
             videob: '-',
             output: '"' + encVideo_ext.path() + '"'
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -72,7 +72,7 @@ var nsAC = nsAC || {};
             videob: '-',
             audio: '"' + this.options.mux.audio[0] + '"',
             output: '"' + encMedia_ext.path() + '"'
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);

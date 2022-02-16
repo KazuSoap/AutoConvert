@@ -8,7 +8,7 @@ var nsAC = nsAC || {};
             caption2ass: this.path.caption2ass,
             input: this.args.input,
             output: caption2ass_srt.path().slice(0, -4)
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -27,7 +27,7 @@ var nsAC = nsAC || {};
             var trim = this.options.avs.trim
             var script = nsAC.replaceTrim(trim, "#__trim1__\n");
             var avs = new File(this.options.temp + "caption2ass.avs");
-            if (!avs.write(script)) {
+            if (!avs.write(script, "UTF-8")) {
                 aclib.log("Can't write file. [" + avs.path() + "]", 1);
                 return false;
             }

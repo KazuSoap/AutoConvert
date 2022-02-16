@@ -18,7 +18,7 @@ var nsAC = nsAC || {};
             joinlogoscp_cmd = new File(this.args.logo + ".joinlogoscp.txt");
         }
 
-        var script = template_avs.read("Shift-JIS");
+        var script = template_avs.read("UTF-8");
 
         if (script === null) {
             aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
@@ -45,7 +45,7 @@ var nsAC = nsAC || {};
             logo: this.args.logo + ".lgd",
             output: logoframe_txt.path(),
             args: this.command.logoframe
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -59,7 +59,7 @@ var nsAC = nsAC || {};
             input: joinlogoscp_avs.path(),
             output: chapterexe_txt.path(),
             args: this.command.chapterexe
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc2.run()) {
             aclib.log("Process failed.", 1);
@@ -75,7 +75,7 @@ var nsAC = nsAC || {};
             incmd: joinlogoscp_cmd.path(),
             output: output_avs.path(),
             args: this.command.joinlogoscp
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc3.run()) {
             aclib.log("Process failed.", 1);
@@ -83,7 +83,7 @@ var nsAC = nsAC || {};
         }
 
         // Read
-        var trim_script = output_avs.read("Shift-JIS");
+        var trim_script = output_avs.read("UTF-8");
         if (trim_script === null) {
             aclib.log("Can't read file. [" + output_avs.path() + "]", 1);
             return false;
@@ -102,7 +102,7 @@ var nsAC = nsAC || {};
         var eraselogo_arr = [];
         var obj = null;
         var reg = /^ *(\d+) *(S|E) *(\d+) *(ALL|TOP|BTM) *\d+ *\d+$/;
-        var logoframe_out = logoframe_txt.read();
+        var logoframe_out = logoframe_txt.read("UTF-8");
         if (logoframe_out === null) {
             aclib.log("Can't read file. [" + logoframe_txt.path() + "]", 1);
             return false;
@@ -133,7 +133,7 @@ var nsAC = nsAC || {};
 
         var str = JSON.stringify(eraselogo_arr);
 
-        if (!eraselogo_json.write(str)) {
+        if (!eraselogo_json.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + eraselogo_json.path() + "]", 1);
             return false;
         }

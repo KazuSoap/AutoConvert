@@ -4,7 +4,7 @@ var nsAC = nsAC || {};
     // -----------------------------------------------------------
     nsAC.AutoConvert.prototype.loadSettings = function() {
         var file = new File(aclib.path() + "\\settings\\ac.json");
-        var json = file.read();
+        var json = file.read("UTF-8");
 
         if (json === null) return false;
 
@@ -48,7 +48,7 @@ var nsAC = nsAC || {};
         // Load preset
         // if (!this.params.onlytrim) {
         var file = new File(this.args.preset);
-        var json = file.read();
+        var json = file.read("UTF-8");
 
         if (json === null) return false;
 

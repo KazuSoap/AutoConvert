@@ -28,7 +28,7 @@ var nsAC = nsAC || {};
                     level: level || 0
                 });
 
-                file.write(JSON.stringify(log));
+                file.write(JSON.stringify(log), "UTF-8");
             };
         }
 

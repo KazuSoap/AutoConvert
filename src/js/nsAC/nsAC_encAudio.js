@@ -10,7 +10,7 @@ var nsAC = nsAC || {};
             var fakeaacwav_wav = new File(this.options.temp + ".fakeaacwav_" + i + ".wav");
             var fakeaacwav_avs = new File(this.options.temp + ".fakeaacwav_" + i + ".avs");
 
-            var script = avs.read("Shift-JIS");
+            var script = avs.read("UTF-8");
 
             if (script === null) {
                 aclib.log("Can't read file. [" + avs.path() + "]", 1);
@@ -20,7 +20,7 @@ var nsAC = nsAC || {};
             // Replace
             script = script.replace(/__audioid__/g, i);
 
-            if (!fakeaacwav_avs.write(script, "Shift-JIS")) {
+            if (!fakeaacwav_avs.write(script, "UTF-8")) {
                 aclib.log("Can't write file. [" + fakeaacwav_avs.path() + "]", 1);
                 return false;
             }
@@ -34,7 +34,7 @@ var nsAC = nsAC || {};
                 encoder: this.preset.audio.encoder,
                 wav: '"' + fakeaacwav_wav.path() + '"',
                 output: '"' + fakeaacwav_ext.path() + '"'
-            }, {window: this.settings.window, debug: this.options.debug});
+            }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -68,7 +68,7 @@ var nsAC = nsAC || {};
             var encAudio_ext = new File(this.options.temp + ".encAudio_" + i + "." + this.preset.audio.extension);
             var encAudio_avs = new File(this.options.temp + ".encAudio_" + i + ".avs");
 
-            var script = avs.read("Shift-JIS");
+            var script = avs.read("UTF-8");
 
             if (script === null) {
                 aclib.log("Can't read file. [" + avs.path() + "]", 1);
@@ -78,7 +78,7 @@ var nsAC = nsAC || {};
             // Replace
             script = script.replace(/__audioid__/g, i);
 
-            if (!encAudio_avs.write(script, "Shift-JIS")) {
+            if (!encAudio_avs.write(script, "UTF-8")) {
                 aclib.log("Can't write file. [" + encAudio_avs.path() + "]", 1);
                 return false;
             }
@@ -92,7 +92,7 @@ var nsAC = nsAC || {};
                 encoder: this.preset.audio.encoder,
                 wav: '-',
                 output: '"' + encAudio_ext.path() + '"'
-            }, {window: this.settings.window, debug: this.options.debug});
+            }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -119,7 +119,7 @@ var nsAC = nsAC || {};
             var wav_wav = new File(this.options.temp + ".wav_" + i + ".wav");
             var wav_avs = new File(this.options.temp + ".wav_" + i + ".avs");
 
-            var script = avs.read("Shift-JIS");
+            var script = avs.read("UTF-8");
 
             if (script === null) {
                 aclib.log("Can't read file. [" + avs.path() + "]", 1);
@@ -129,7 +129,7 @@ var nsAC = nsAC || {};
             // Replace
             script = script.replace(/__audioid__/g, i);
 
-            if (!wav_avs.write(script, "Shift-JIS")) {
+            if (!wav_avs.write(script, "UTF-8")) {
                 aclib.log("Can't write file. [" + wav_avs.path() + "]", 1);
                 return false;
             }
@@ -141,7 +141,7 @@ var nsAC = nsAC || {};
                 avs2pipemod: this.path.avs2pipemod,
                 input: wav_avs.path(),
                 output: wav_wav.path()
-            }, {window: this.settings.window, debug: this.options.debug});
+            }, {window: this.settings.window, debug: this.options.debug, charset: "UTF-8"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);

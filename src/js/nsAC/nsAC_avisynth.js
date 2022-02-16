@@ -5,7 +5,7 @@ var nsAC = nsAC || {};
         var avs = new File(this.options.temp + ".avs");
         var template_avs = new File(this.args.avs);
 
-        var script = template_avs.read("Shift-JIS");
+        var script = template_avs.read("UTF-8");
         if (script === null) {
             aclib.log("Can't read file. [" + template_avs.path() + "]", 1);
             return false;
@@ -39,7 +39,7 @@ var nsAC = nsAC || {};
             if (this.params.deint === "kfm_vfr" && Object.keys(trim_obj).length === 2) {
                 var input = new File(this.args.input);
                 var procKFM_dur = input.parent().childFile(input.base() + ".kfm_" + this.params.source + ".duration.txt");
-                var durations = procKFM_dur.read("Shift-JIS");
+                var durations = procKFM_dur.read("UTF-8");
                 if (durations === null) {
                     aclib.log("Can't read file. [" + procKFM_dur.path() + "]", 1);
                     return false;
@@ -51,7 +51,7 @@ var nsAC = nsAC || {};
             this.options.avs.trim = trim_obj;
         }
 
-        if (!avs.write(script, "Shift-JIS")) {
+        if (!avs.write(script, "UTF-8")) {
             aclib.log("Can't write file. [" + avs.path() + "]", 1);
             return false;
         }

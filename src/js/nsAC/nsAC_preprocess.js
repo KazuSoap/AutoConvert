@@ -21,7 +21,7 @@ var nsAC = nsAC || {};
             settings: this.command.tssplitter,
             input: input.path(),
             args: this.command.tssplitter
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -49,7 +49,7 @@ var nsAC = nsAC || {};
 
         if (!this.params.reset && output.exists()) {
             var output_out;
-            output_out = output.read();
+            output_out = output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + output.path() + "]", 1);
                 return false;
@@ -77,7 +77,7 @@ var nsAC = nsAC || {};
             input: input.path(),
             args: "-show_packets -show_streams -print_format json",
             stdout: ffprobe_json.path()
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -172,7 +172,7 @@ var nsAC = nsAC || {};
             video: video,
             audio: audio
         });
-        if (!output.write(str)) {
+        if (!output.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
         }
@@ -193,7 +193,7 @@ var nsAC = nsAC || {};
 
         // Read
         if (!this.params.reset && output.exists()) {
-            var output_out = output.read();
+            var output_out = output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + output.path() + "]", 1);
                 return false;
@@ -218,7 +218,7 @@ var nsAC = nsAC || {};
         proc.prepare({
             multi2decdos: this.path.multi2decdos,
             input: input.path()
-        }, {window: this.settings.window, stdout: true, debug: this.options.debug});
+        }, {window: this.settings.window, stdout: true, debug: this.options.debug, charset: "Shift-JIS"});
 
         ret = proc.run()
         if (ret.exitcode != 0) {
@@ -256,7 +256,7 @@ var nsAC = nsAC || {};
 
         // Write
         var str = JSON.stringify(this.options.info.drop);
-        if (!output.write(str)) {
+        if (!output.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
         }

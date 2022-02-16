@@ -11,7 +11,7 @@ var nsAC = nsAC || {};
 
         if (!this.params.reset && output.exists()) {
             var output_out;
-            output_out = output.read();
+            output_out = output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + output.path() + "]", 1);
                 return false;
@@ -44,7 +44,7 @@ var nsAC = nsAC || {};
             delaytype: this.params.source === "lssource" ? 3 : 2,
             log: tsparser_txt.path(),
             input: input.path()
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -137,7 +137,7 @@ var nsAC = nsAC || {};
             delay: output_delay
         });
 
-        if (!output.write(str)) {
+        if (!output.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
         }
@@ -155,7 +155,7 @@ var nsAC = nsAC || {};
 
         if (!this.params.reset && output.exists()) {
             var output_out;
-            output_out = output.read();
+            output_out = output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + output.path() + "]", 1);
                 return false;
@@ -209,7 +209,7 @@ var nsAC = nsAC || {};
                 output: input.parent().childFile(input.base() + ".ts2aac").path(),
                 args: ts2aac_args,
                 stdout: ts2aac_txt.path()
-            }, {window: this.settings.window, debug: this.options.debug});
+            }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -260,7 +260,7 @@ var nsAC = nsAC || {};
             delay: output_delay
         });
 
-        if (!output.write(str)) {
+        if (!output.write(str, "UTF-8")) {
             aclib.log("Can't write file. [" + output.path() + "]", 1);
             return false;
         }
@@ -297,7 +297,7 @@ var nsAC = nsAC || {};
                 vlc: self.path.vlc,
                 input: orig.path(),
                 output: fixed_mp4.path()
-            }, {window: self.settings.window, debug: self.options.debug});
+            }, {window: self.settings.window, debug: self.options.debug, charset: "Shift-JIS"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -334,7 +334,7 @@ var nsAC = nsAC || {};
         var demuxer_output = input.parent().childFile(demuxer_output_path);
         var re = /.*PID\s*([0-9a-f]*)\s.* /g
         if (!this.params.reset && demuxer_output.exists()) {
-            var output_out = demuxer_output.read();
+            var output_out = demuxer_output.read("UTF-8");
             if (output_out === null) {
                 aclib.log("Can't read file. [" + demuxer_output.path() + "]", 1);
                 return false;

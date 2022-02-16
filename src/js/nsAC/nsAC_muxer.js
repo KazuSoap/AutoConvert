@@ -32,7 +32,7 @@ var nsAC = nsAC || {};
                 lsmuxer: self.path.lsmuxer,
                 input: lsmuxer_source.path(),
                 output: lsmuxer_dest.path()
-            }, {window: self.settings.window, debug: self.options.debug});
+            }, {window: self.settings.window, debug: self.options.debug, charset: "Shift-JIS"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -115,7 +115,7 @@ var nsAC = nsAC || {};
             args: args,
             output: lsmuxer_mp4.path(),
             chapter: this.options.mux.chapter[0]
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -147,7 +147,7 @@ var nsAC = nsAC || {};
                 mp4box: self.path.mp4box,
                 input: mp4box_source.path(),
                 output: mp4box_dest.path()
-            }, {window: self.settings.window, debug: self.options.debug});
+            }, {window: self.settings.window, debug: self.options.debug, charset: "Shift-JIS"});
 
             if (!proc.run()) {
                 aclib.log("Process failed.", 1);
@@ -203,7 +203,7 @@ var nsAC = nsAC || {};
             args: args,
             output: mp4box_mp4.path(),
             chapter: this.options.mux.chapter[0]
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
@@ -251,7 +251,7 @@ var nsAC = nsAC || {};
             mkvmerge: this.path.mkvmerge,
             output: mkvmerge_mkv.path(),
             args: args
-        }, {window: this.settings.window, debug: this.options.debug});
+        }, {window: this.settings.window, debug: this.options.debug, charset: "Shift-JIS"});
 
         if (!proc.run()) {
             aclib.log("Process failed.", 1);
